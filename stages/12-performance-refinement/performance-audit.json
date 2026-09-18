@@ -1,0 +1,261 @@
+{
+  "backend": "nvidia",
+  "before": {
+    "x": -1730,
+    "y": 350,
+    "z": -1000,
+    "heading": 0.1,
+    "pitch": -0.035,
+    "roll": 0,
+    "speed": 82,
+    "throttle": 0.73,
+    "time": 0,
+    "auto": true,
+    "paused": false,
+    "quality": "high",
+    "verticalSpeed": 0,
+    "drawCount": 4,
+    "viewMode": "cockpit",
+    "orbit": {
+      "azimuth": 0.8,
+      "elevation": 0.26,
+      "distance": 21,
+      "auto": false
+    },
+    "environment": {
+      "hour": 10,
+      "cycle": true,
+      "cycleSeconds": 240,
+      "weather": "sun",
+      "autoWeather": false,
+      "rain": 0,
+      "snow": 0,
+      "elapsed": 0,
+      "daylight": 1,
+      "fogDensity": 0.00003,
+      "wind": 0.7,
+      "reflectionUpdates": 2,
+      "pmremUpdates": 2,
+      "captureFace": -1
+    },
+    "ocean": {
+      "reflectionUpdates": 2,
+      "reflectionEvery": 3,
+      "resolutionScale": 0.42,
+      "baseResolutionScale": 0.42
+    },
+    "camera": [
+      -1730,
+      350,
+      -1000
+    ],
+    "triangles": 26592569
+  },
+  "day": {
+    "x": -1754.9202890317322,
+    "y": 344.42185406250337,
+    "z": -1249.3240174452828,
+    "heading": 0.09909379721362867,
+    "pitch": -0.013551052722796653,
+    "roll": -0.000331379456937781,
+    "speed": 84.41959410321311,
+    "throttle": 0.7423295981646281,
+    "time": 2.9999999999999942,
+    "auto": true,
+    "paused": false,
+    "quality": "high",
+    "verticalSpeed": -1.2702168018945388,
+    "drawCount": 184,
+    "viewMode": "cockpit",
+    "orbit": {
+      "azimuth": 0.8,
+      "elevation": 0.26,
+      "distance": 21,
+      "auto": false
+    },
+    "environment": {
+      "hour": 10.300000000000047,
+      "cycle": true,
+      "cycleSeconds": 240,
+      "weather": "sun",
+      "autoWeather": false,
+      "rain": 0,
+      "snow": 0,
+      "elapsed": 2.9999999999999942,
+      "daylight": 1,
+      "fogDensity": 0.00003,
+      "wind": 0.7,
+      "reflectionUpdates": 2,
+      "pmremUpdates": 2,
+      "captureFace": -1
+    },
+    "ocean": {
+      "reflectionUpdates": 62,
+      "reflectionEvery": 3,
+      "resolutionScale": 0.42,
+      "baseResolutionScale": 0.42
+    },
+    "camera": [
+      -1754.9202890317322,
+      344.22866294061436,
+      -1249.3240174452828
+    ],
+    "triangles": 26592183
+  },
+  "night": {
+    "x": -1759.10160800226,
+    "y": 343.8968507634935,
+    "z": -1291.3677398399152,
+    "heading": 0.09920255096515505,
+    "pitch": -0.011407072699926949,
+    "roll": 0.0028857483161997518,
+    "speed": 84.5740911352455,
+    "throttle": 0.7442716158570849,
+    "time": 3.4999999999999925,
+    "auto": true,
+    "paused": false,
+    "quality": "high",
+    "verticalSpeed": -1.0799844393493072,
+    "drawCount": 215,
+    "viewMode": "cockpit",
+    "orbit": {
+      "azimuth": 0.8,
+      "elevation": 0.26,
+      "distance": 21,
+      "auto": false
+    },
+    "environment": {
+      "hour": 0,
+      "cycle": false,
+      "cycleSeconds": 240,
+      "weather": "sun",
+      "autoWeather": false,
+      "rain": 0,
+      "snow": 0,
+      "elapsed": 3.4999999999999925,
+      "daylight": 0,
+      "fogDensity": 0.00003,
+      "wind": 0.7,
+      "reflectionUpdates": 3,
+      "pmremUpdates": 3,
+      "captureFace": -1
+    },
+    "ocean": {
+      "reflectionUpdates": 72,
+      "reflectionEvery": 3,
+      "resolutionScale": 0.3192,
+      "baseResolutionScale": 0.42
+    },
+    "camera": [
+      -1759.10160800226,
+      343.90105423861456,
+      -1291.3677398399152
+    ],
+    "triangles": 13332712
+  },
+  "orbit": {
+    "x": -1776.2165797131915,
+    "y": 342.57261396778705,
+    "z": -1460.085676443589,
+    "heading": 0.10465701883929447,
+    "pitch": -0.004801956751434542,
+    "roll": 0.03137864446060947,
+    "speed": 84.96182634582273,
+    "throttle": 0.7514590898190702,
+    "time": 5.499999999999986,
+    "auto": true,
+    "paused": false,
+    "quality": "high",
+    "verticalSpeed": -0.4818536052405931,
+    "drawCount": 337,
+    "viewMode": "external",
+    "orbit": {
+      "azimuth": 1.4981317007977277,
+      "elevation": 0.26,
+      "distance": 30,
+      "auto": true
+    },
+    "environment": {
+      "hour": 0,
+      "cycle": false,
+      "cycleSeconds": 240,
+      "weather": "sun",
+      "autoWeather": false,
+      "rain": 0,
+      "snow": 0,
+      "elapsed": 5.499999999999986,
+      "daylight": 0,
+      "fogDensity": 0.00003,
+      "wind": 0.7,
+      "reflectionUpdates": 3,
+      "pmremUpdates": 3,
+      "captureFace": -1
+    },
+    "ocean": {
+      "reflectionUpdates": 103,
+      "reflectionEvery": 4,
+      "resolutionScale": 0.3192,
+      "baseResolutionScale": 0.42
+    },
+    "camera": [
+      -1747.2397157972177,
+      350.1706465511079,
+      -1461.0130320658188
+    ],
+    "triangles": 25184619
+  },
+  "atmosphere": {
+    "x": -1943.284237353618,
+    "y": 336.0103487320922,
+    "z": -2297.2978093117736,
+    "heading": 0.31274325092871125,
+    "pitch": -0.02313689502140585,
+    "roll": 0.07962714756563477,
+    "speed": 86.21135144748604,
+    "throttle": 0.7635464949077616,
+    "time": 15.50000000000035,
+    "auto": true,
+    "paused": false,
+    "quality": "high",
+    "verticalSpeed": -1.8707915188682713,
+    "drawCount": 939,
+    "viewMode": "cockpit",
+    "orbit": {
+      "azimuth": 1.4981317007977277,
+      "elevation": 0.26,
+      "distance": 30,
+      "auto": true
+    },
+    "environment": {
+      "hour": 10,
+      "cycle": false,
+      "cycleSeconds": 240,
+      "weather": "sun",
+      "autoWeather": false,
+      "rain": 0,
+      "snow": 0,
+      "elapsed": 15.50000000000035,
+      "daylight": 1,
+      "fogDensity": 0.00003,
+      "wind": 0.7,
+      "reflectionUpdates": 5,
+      "pmremUpdates": 4,
+      "captureFace": -1
+    },
+    "ocean": {
+      "reflectionUpdates": 303,
+      "reflectionEvery": 3,
+      "resolutionScale": 0.42,
+      "baseResolutionScale": 0.42
+    },
+    "camera": [
+      -1943.284237353618,
+      336.1017618871627,
+      -2297.2978093117736
+    ],
+    "triangles": 13323076
+  },
+  "shadowAutoUpdate": false,
+  "shadowNeedsUpdateAtNight": false,
+  "errors": []
+}

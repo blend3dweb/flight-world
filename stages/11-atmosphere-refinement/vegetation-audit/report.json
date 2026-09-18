@@ -1,0 +1,57 @@
+{
+  "stats": {
+    "trees": 77780,
+    "variants": 4,
+    "tiles": 4,
+    "shrubs": 25927,
+    "grassPatches": 48,
+    "grassBlades": 142816,
+    "nearCapacity": 1536
+  },
+  "repeat": {
+    "changedPixels": 0,
+    "meanChannelDifference": 0
+  },
+  "motion": {
+    "changedPixels": 116425,
+    "meanChannelDifference": 1.9166083333333332
+  },
+  "near": {
+    "nearCount": 231,
+    "grassVisible": 5,
+    "detailMix": 1
+  },
+  "high": {
+    "nearVisible": false,
+    "nearCount": 0,
+    "grassVisible": 0,
+    "shrubsVisible": true
+  },
+  "reservedShrubs": 0,
+  "reservedGrass": 0,
+  "undergroundGrass": 0,
+  "triangles": [
+    {
+      "kind": 0,
+      "near": 856,
+      "far": 108
+    },
+    {
+      "kind": 1,
+      "near": 956,
+      "far": 128
+    },
+    {
+      "kind": 2,
+      "near": 856,
+      "far": 108
+    },
+    {
+      "kind": 3,
+      "near": 776,
+      "far": 108
+    }
+  ],
+  "backend": "nvidia",
+  "errors": []
+}

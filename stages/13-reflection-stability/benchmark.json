@@ -1,0 +1,746 @@
+{
+  "mode": "Visible Chrome, live application animation, 1920x1080, high quality",
+  "date": "2026-09-15T15:19:46.943Z",
+  "scenarios": [
+    {
+      "name": "city-day",
+      "frames": 542,
+      "averageFps": 90.1500282758391,
+      "medianMs": 12,
+      "p95Ms": 18.299999999999272,
+      "p99Ms": 24.399999999997817,
+      "trials": [
+        {
+          "frames": 528,
+          "averageFps": 87.91062419873128,
+          "medianMs": 12.099999999998545,
+          "p95Ms": 18.299999999999272,
+          "p99Ms": 24.299999999999272
+        },
+        {
+          "frames": 546,
+          "averageFps": 90.90757729641527,
+          "medianMs": 12,
+          "p95Ms": 18.299999999999272,
+          "p99Ms": 24.400000000001455
+        },
+        {
+          "frames": 542,
+          "averageFps": 90.1500282758391,
+          "medianMs": 12,
+          "p95Ms": 18.299999999999272,
+          "p99Ms": 24.399999999997817
+        }
+      ],
+      "state": {
+        "x": -2144.7490562025264,
+        "y": 300.8302583888711,
+        "z": -2946.7077538697636,
+        "heading": 0.09268536919636554,
+        "pitch": -0.027517540485563593,
+        "roll": -0.04806992821346776,
+        "speed": 85.19345952051604,
+        "throttle": 0.721213842754887,
+        "time": 28.294500000000365,
+        "auto": true,
+        "paused": false,
+        "quality": "high",
+        "verticalSpeed": -2.4627796083271036,
+        "drawCount": 2077,
+        "viewMode": "cockpit",
+        "orbit": {
+          "azimuth": 0.8,
+          "elevation": 0.26,
+          "distance": 21,
+          "auto": false
+        },
+        "environment": {
+          "hour": 10,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 23.294500000000163,
+          "daylight": 1,
+          "fogDensity": 0.00003,
+          "wind": 0.7,
+          "reflectionUpdates": 8,
+          "pmremUpdates": 5,
+          "captureFace": -1
+        },
+        "ocean": {
+          "reflectionUpdates": 723,
+          "reflectionEvery": 3,
+          "resolutionScale": 0.42,
+          "baseResolutionScale": 0.42,
+          "turning": false,
+          "angularDelta": 0.0005583034705070361,
+          "turnHold": 0
+        },
+        "camera": [
+          -2144.7490562025264,
+          300.9844479202285,
+          -2946.7077538697636
+        ],
+        "triangles": 26186709
+      }
+    },
+    {
+      "name": "night-orbit",
+      "frames": 460,
+      "averageFps": 76.58752622290294,
+      "medianMs": 12,
+      "p95Ms": 24.099999999998545,
+      "p99Ms": 42.30000000000291,
+      "trials": [
+        {
+          "frames": 460,
+          "averageFps": 76.58752622290294,
+          "medianMs": 12,
+          "p95Ms": 24.099999999998545,
+          "p99Ms": 102.79999999999563
+        },
+        {
+          "frames": 569,
+          "averageFps": 94.74174964201279,
+          "medianMs": 12,
+          "p95Ms": 18.299999999995634,
+          "p99Ms": 24.39999999999418
+        },
+        {
+          "frames": 388,
+          "averageFps": 64.46789067043284,
+          "medianMs": 12.200000000004366,
+          "p95Ms": 31.099999999998545,
+          "p99Ms": 42.30000000000291
+        }
+      ],
+      "state": {
+        "x": -2167.902658076603,
+        "y": 295.30280693640816,
+        "z": -3217.037971355867,
+        "heading": 0.08652356074022714,
+        "pitch": -0.013354692562929267,
+        "roll": 0.01566159270541653,
+        "speed": 84.14946932912981,
+        "throttle": 0.7091482940193496,
+        "time": 31.498400000000252,
+        "auto": true,
+        "paused": false,
+        "quality": "high",
+        "verticalSpeed": -1.2354189880347466,
+        "drawCount": 4401,
+        "viewMode": "external",
+        "orbit": {
+          "azimuth": 10.049686530209092,
+          "elevation": 0.26,
+          "distance": 30,
+          "auto": true
+        },
+        "environment": {
+          "hour": 0,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 26.4984000000001,
+          "daylight": 0,
+          "fogDensity": 0.00003,
+          "wind": 0.7,
+          "reflectionUpdates": 16,
+          "pmremUpdates": 9,
+          "captureFace": -1
+        },
+        "ocean": {
+          "reflectionUpdates": 1314,
+          "reflectionEvery": 4,
+          "resolutionScale": 0.3192,
+          "baseResolutionScale": 0.42,
+          "turning": false,
+          "angularDelta": 0.006509869203959529,
+          "turnHold": 0
+        },
+        "camera": [
+          -2186.8318944978064,
+          303.05220038547327,
+          -3238.997084256099
+        ],
+        "triangles": 25435621
+      }
+    },
+    {
+      "name": "rain-low-forest",
+      "frames": 546,
+      "averageFps": 90.9106045721708,
+      "medianMs": 12.099999999991269,
+      "p95Ms": 18.29999999998836,
+      "p99Ms": 19.5,
+      "trials": [
+        {
+          "frames": 451,
+          "averageFps": 75.0915750915751,
+          "medianMs": 12.10000000000582,
+          "p95Ms": 24.10000000000582,
+          "p99Ms": 54.60000000000582
+        },
+        {
+          "frames": 549,
+          "averageFps": 91.41011338850139,
+          "medianMs": 12,
+          "p95Ms": 18.19999999999709,
+          "p99Ms": 19.5
+        },
+        {
+          "frames": 546,
+          "averageFps": 90.9106045721708,
+          "medianMs": 12.099999999991269,
+          "p95Ms": 18.29999999998836,
+          "p99Ms": 18.59999999999127
+        }
+      ],
+      "state": {
+        "x": -3245.997290122319,
+        "y": 55,
+        "z": -3493.015619843121,
+        "heading": -0.014760574693469152,
+        "pitch": -0.01617535861201836,
+        "roll": 0.008004034491787741,
+        "speed": 84.3693867173188,
+        "throttle": 0.711430214118063,
+        "time": 30.840500000000212,
+        "auto": true,
+        "paused": false,
+        "quality": "high",
+        "verticalSpeed": -0.0000030903621741091786,
+        "drawCount": 6409,
+        "viewMode": "cockpit",
+        "orbit": {
+          "azimuth": 0.8,
+          "elevation": 0.26,
+          "distance": 21,
+          "auto": false
+        },
+        "environment": {
+          "hour": 12,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "rain",
+          "autoWeather": false,
+          "rain": 1,
+          "snow": 0,
+          "elapsed": 25.840500000000116,
+          "daylight": 1,
+          "fogDensity": 0.00023,
+          "wind": 2,
+          "reflectionUpdates": 25,
+          "pmremUpdates": 13,
+          "captureFace": -1
+        },
+        "ocean": {
+          "reflectionUpdates": 2115,
+          "reflectionEvery": 3,
+          "resolutionScale": 0.42,
+          "baseResolutionScale": 0.42,
+          "turning": false,
+          "angularDelta": 0.0001715754228697395,
+          "turnHold": 0
+        },
+        "camera": [
+          -3245.997290122319,
+          54.784936483311796,
+          -3493.015619843121
+        ],
+        "triangles": 25843121
+      }
+    },
+    {
+      "name": "airport-snow",
+      "frames": 471,
+      "averageFps": 78.42157842157843,
+      "medianMs": 12.19999999999709,
+      "p95Ms": 18.5,
+      "p99Ms": 24.30000000000291,
+      "trials": [
+        {
+          "frames": 466,
+          "averageFps": 77.59295336097358,
+          "medianMs": 12.19999999999709,
+          "p95Ms": 18.5,
+          "p99Ms": 24.30000000000291
+        },
+        {
+          "frames": 471,
+          "averageFps": 78.42157842157843,
+          "medianMs": 12.19999999999709,
+          "p95Ms": 18.80000000000291,
+          "p99Ms": 24.40000000000873
+        },
+        {
+          "frames": 557,
+          "averageFps": 92.55566633433034,
+          "medianMs": 12,
+          "p95Ms": 18.19999999999709,
+          "p99Ms": 18.89999999999418
+        }
+      ],
+      "state": {
+        "x": 2515.5530221034437,
+        "y": 144.8293429951206,
+        "z": -4319.155815275795,
+        "heading": -0.011953204745113178,
+        "pitch": -0.011524972513508262,
+        "roll": 0.0191485913425189,
+        "speed": 84.00263430758581,
+        "throttle": 0.7075968514857607,
+        "time": 31.968400000000067,
+        "auto": true,
+        "paused": false,
+        "quality": "high",
+        "verticalSpeed": -1.0781914590246418,
+        "drawCount": 8587,
+        "viewMode": "cockpit",
+        "orbit": {
+          "azimuth": 0.8,
+          "elevation": 0.26,
+          "distance": 21,
+          "auto": false
+        },
+        "environment": {
+          "hour": 12,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "snow",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 1,
+          "elapsed": 26.968400000000017,
+          "daylight": 1,
+          "fogDensity": 0.00029,
+          "wind": 1.25,
+          "reflectionUpdates": 33,
+          "pmremUpdates": 17,
+          "captureFace": -1
+        },
+        "ocean": {
+          "reflectionUpdates": 2891,
+          "reflectionEvery": 3,
+          "resolutionScale": 0.42,
+          "baseResolutionScale": 0.42,
+          "turning": false,
+          "angularDelta": 0.00014587453528719428,
+          "turnHold": 0
+        },
+        "camera": [
+          2515.5530221034437,
+          145.03895814035434,
+          -4319.155815275795
+        ],
+        "triangles": 24856779
+      }
+    }
+  ],
+  "errors": [],
+  "device": {
+    "vendor": "nvidia",
+    "architecture": "blackwell",
+    "width": 1920,
+    "height": 1080,
+    "quality": "high"
+  },
+  "soak": [
+    {
+      "state": {
+        "x": -2195.7953620472645,
+        "y": 293.1188328327555,
+        "z": -3513.715867797344,
+        "heading": 0.09963157424154974,
+        "pitch": -0.0027571012164642936,
+        "roll": 0.01815468449021381,
+        "speed": 83.12836852120387,
+        "throttle": 0.6993670136597994,
+        "time": 35.06250000000015,
+        "auto": true,
+        "paused": false,
+        "quality": "high",
+        "verticalSpeed": -0.2790702732306222,
+        "drawCount": 10859,
+        "viewMode": "cockpit",
+        "orbit": {
+          "azimuth": 0.8,
+          "elevation": 0.26,
+          "distance": 21,
+          "auto": false
+        },
+        "environment": {
+          "hour": 18.01666666666659,
+          "cycle": true,
+          "cycleSeconds": 90,
+          "weather": "sun",
+          "autoWeather": true,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 30.062500000000007,
+          "daylight": 0.3800845217330482,
+          "fogDensity": 0.00003,
+          "wind": 0.7,
+          "reflectionUpdates": 51,
+          "pmremUpdates": 21,
+          "captureFace": -1
+        },
+        "ocean": {
+          "reflectionUpdates": 3689,
+          "reflectionEvery": 3,
+          "resolutionScale": 0.35751251979069126,
+          "baseResolutionScale": 0.42,
+          "turning": false,
+          "angularDelta": 0.00006054566058398772,
+          "turnHold": 0
+        },
+        "camera": [
+          -2195.7953620472645,
+          293.18807716389557,
+          -3513.715867797344
+        ],
+        "triangles": 12970163
+      },
+      "memory": {
+        "attributes": 1178,
+        "attributesSize": 126218888,
+        "geometries": 402,
+        "indexAttributes": 330,
+        "indexAttributesSize": 19853436,
+        "indirectStorageAttributes": 0,
+        "indirectStorageAttributesSize": 0,
+        "programs": 414,
+        "programsSize": 2077371,
+        "readbackBuffers": 0,
+        "readbackBuffersSize": 0,
+        "renderTargets": 6,
+        "storageAttributes": 0,
+        "storageAttributesSize": 0,
+        "textures": 19,
+        "texturesSize": 57892003,
+        "uniformBuffers": 1501,
+        "uniformBuffersSize": 2631520,
+        "total": 208673218
+      },
+      "nearTrees": 0
+    },
+    {
+      "state": {
+        "x": -2655.7499056687443,
+        "y": 239.75626940711834,
+        "z": -5995.57139034471,
+        "heading": 0.07875394747653555,
+        "pitch": -0.001494050191736396,
+        "roll": 0.03054175354023015,
+        "speed": 85.78744007895375,
+        "throttle": 0.7649676991697267,
+        "time": 65.09180000000076,
+        "auto": true,
+        "paused": false,
+        "quality": "high",
+        "verticalSpeed": -0.14079616744718926,
+        "drawCount": 13743,
+        "viewMode": "cockpit",
+        "orbit": {
+          "azimuth": 0.8,
+          "elevation": 0.26,
+          "distance": 21,
+          "auto": false
+        },
+        "environment": {
+          "hour": 2.0244799999993295,
+          "cycle": true,
+          "cycleSeconds": 90,
+          "weather": "rain",
+          "autoWeather": true,
+          "rain": 0.9981457036851749,
+          "snow": 0,
+          "elapsed": 60.09180000000068,
+          "daylight": 0,
+          "fogDensity": 0.00022962914073703497,
+          "wind": 1.9975894147907274,
+          "reflectionUpdates": 67,
+          "pmremUpdates": 23,
+          "captureFace": -1
+        },
+        "ocean": {
+          "reflectionUpdates": 4661,
+          "reflectionEvery": 3,
+          "resolutionScale": 0.3192,
+          "baseResolutionScale": 0.42,
+          "turning": false,
+          "angularDelta": 0.00017267072102896232,
+          "turnHold": 0
+        },
+        "camera": [
+          -2655.7499056687443,
+          239.55641701392565,
+          -5995.57139034471
+        ],
+        "triangles": 12545504
+      },
+      "memory": {
+        "attributes": 1178,
+        "attributesSize": 126218888,
+        "geometries": 402,
+        "indexAttributes": 330,
+        "indexAttributesSize": 19853436,
+        "indirectStorageAttributes": 0,
+        "indirectStorageAttributesSize": 0,
+        "programs": 414,
+        "programsSize": 2077371,
+        "readbackBuffers": 0,
+        "readbackBuffersSize": 0,
+        "renderTargets": 6,
+        "storageAttributes": 0,
+        "storageAttributesSize": 0,
+        "textures": 19,
+        "texturesSize": 57104590,
+        "uniformBuffers": 1501,
+        "uniformBuffersSize": 2631520,
+        "total": 207885805
+      },
+      "nearTrees": 229
+    },
+    {
+      "state": {
+        "x": -3126.47603008768,
+        "y": 186.01169366119626,
+        "z": -8489.010423052818,
+        "heading": 0.07319716485481932,
+        "pitch": -0.0023371257156610177,
+        "roll": -0.061196144737678725,
+        "speed": 82.55044761391522,
+        "throttle": 0.6979978796692674,
+        "time": 95.10399999999825,
+        "auto": true,
+        "paused": false,
+        "quality": "high",
+        "verticalSpeed": -0.16748363901175384,
+        "drawCount": 15821,
+        "viewMode": "cockpit",
+        "orbit": {
+          "azimuth": 0.8,
+          "elevation": 0.26,
+          "distance": 21,
+          "auto": false
+        },
+        "environment": {
+          "hour": 10.027733333332636,
+          "cycle": true,
+          "cycleSeconds": 90,
+          "weather": "snow",
+          "autoWeather": true,
+          "rain": 0.9507539217970422,
+          "snow": 0.04924607132767756,
+          "elapsed": 90.10399999999856,
+          "daylight": 1,
+          "fogDensity": 0.00023295476290460462,
+          "wind": 1.9630654375663774,
+          "reflectionUpdates": 83,
+          "pmremUpdates": 25,
+          "captureFace": -1
+        },
+        "ocean": {
+          "reflectionUpdates": 5379,
+          "reflectionEvery": 3,
+          "resolutionScale": 0.42,
+          "baseResolutionScale": 0.42,
+          "turning": false,
+          "angularDelta": 0.0009589902529628053,
+          "turnHold": 0
+        },
+        "camera": [
+          -3126.47603008768,
+          186.26158415199924,
+          -8489.010423052818
+        ],
+        "triangles": 12317669
+      },
+      "memory": {
+        "attributes": 1178,
+        "attributesSize": 126218888,
+        "geometries": 402,
+        "indexAttributes": 330,
+        "indexAttributesSize": 19853436,
+        "indirectStorageAttributes": 0,
+        "indirectStorageAttributesSize": 0,
+        "programs": 414,
+        "programsSize": 2077371,
+        "readbackBuffers": 0,
+        "readbackBuffersSize": 0,
+        "renderTargets": 6,
+        "storageAttributes": 0,
+        "storageAttributesSize": 0,
+        "textures": 19,
+        "texturesSize": 59369284,
+        "uniformBuffers": 1501,
+        "uniformBuffersSize": 2631520,
+        "total": 210150499
+      },
+      "nearTrees": 209
+    },
+    {
+      "state": {
+        "x": -3597.014558508299,
+        "y": 131.95120166715267,
+        "z": -10992.606831934294,
+        "heading": 0.14478777253376032,
+        "pitch": -0.00520465754289862,
+        "roll": -0.17667080728398668,
+        "speed": 85.47148288383202,
+        "throttle": 0.7523477044770255,
+        "time": 125.12839999999477,
+        "auto": true,
+        "paused": false,
+        "quality": "high",
+        "verticalSpeed": -0.38239418253159424,
+        "drawCount": 17810,
+        "viewMode": "cockpit",
+        "orbit": {
+          "azimuth": 0.8,
+          "elevation": 0.26,
+          "distance": 21,
+          "auto": false
+        },
+        "environment": {
+          "hour": 18.034239999999222,
+          "cycle": true,
+          "cycleSeconds": 90,
+          "weather": "snow",
+          "autoWeather": true,
+          "rain": 0.0000035072907876238093,
+          "snow": 0.9999964927091873,
+          "elapsed": 120.12839999999508,
+          "daylight": 0.3659378190083755,
+          "fogDensity": 0.00028999978956254624,
+          "wind": 1.250002630468077,
+          "reflectionUpdates": 98,
+          "pmremUpdates": 27,
+          "captureFace": -1
+        },
+        "ocean": {
+          "reflectionUpdates": 6070,
+          "reflectionEvery": 3,
+          "resolutionScale": 0.35608653215604424,
+          "baseResolutionScale": 0.42,
+          "turning": false,
+          "angularDelta": 0.0004407869741414725,
+          "turnHold": 0
+        },
+        "camera": [
+          -3597.014558508299,
+          131.7458959166468,
+          -10992.606831934294
+        ],
+        "triangles": 12030004
+      },
+      "memory": {
+        "attributes": 1178,
+        "attributesSize": 126218888,
+        "geometries": 402,
+        "indexAttributes": 330,
+        "indexAttributesSize": 19853436,
+        "indirectStorageAttributes": 0,
+        "indirectStorageAttributesSize": 0,
+        "programs": 414,
+        "programsSize": 2077371,
+        "readbackBuffers": 0,
+        "readbackBuffersSize": 0,
+        "renderTargets": 6,
+        "storageAttributes": 0,
+        "storageAttributesSize": 0,
+        "textures": 19,
+        "texturesSize": 57864992,
+        "uniformBuffers": 1501,
+        "uniformBuffersSize": 2631520,
+        "total": 208646207
+      },
+      "nearTrees": 2
+    },
+    {
+      "state": {
+        "x": -4031.316373072502,
+        "y": 97.1167253816123,
+        "z": -13470.657484816826,
+        "heading": 0.25271568406477984,
+        "pitch": -0.009796811567658095,
+        "roll": -0.15052323114089863,
+        "speed": 83.50758222117298,
+        "throttle": 0.7219775844608138,
+        "time": 155.15239999999028,
+        "auto": true,
+        "paused": false,
+        "quality": "high",
+        "verticalSpeed": -0.7264731500300621,
+        "drawCount": 19776,
+        "viewMode": "cockpit",
+        "orbit": {
+          "azimuth": 0.8,
+          "elevation": 0.26,
+          "distance": 21,
+          "auto": false
+        },
+        "environment": {
+          "hour": 2.0406399999991636,
+          "cycle": true,
+          "cycleSeconds": 90,
+          "weather": "sun",
+          "autoWeather": true,
+          "rain": 1.2940403125552381e-11,
+          "snow": 0.0017991187082108614,
+          "elapsed": 150.15239999999065,
+          "daylight": 0,
+          "fogDensity": 0.000030467770866722907,
+          "wind": 0.7009895153063385,
+          "reflectionUpdates": 113,
+          "pmremUpdates": 29,
+          "captureFace": -1
+        },
+        "ocean": {
+          "reflectionUpdates": 6749,
+          "reflectionEvery": 3,
+          "resolutionScale": 0.3192,
+          "baseResolutionScale": 0.42,
+          "turning": false,
+          "angularDelta": 0.0004935623780426773,
+          "turnHold": 0
+        },
+        "camera": [
+          -4031.316373072502,
+          97.19712713289383,
+          -13470.657484816826
+        ],
+        "triangles": 11878989
+      },
+      "memory": {
+        "attributes": 1178,
+        "attributesSize": 126218888,
+        "geometries": 402,
+        "indexAttributes": 330,
+        "indexAttributesSize": 19853436,
+        "indirectStorageAttributes": 0,
+        "indirectStorageAttributesSize": 0,
+        "programs": 414,
+        "programsSize": 2077371,
+        "readbackBuffers": 0,
+        "readbackBuffersSize": 0,
+        "renderTargets": 6,
+        "storageAttributes": 0,
+        "storageAttributesSize": 0,
+        "textures": 19,
+        "texturesSize": 57104590,
+        "uniformBuffers": 1501,
+        "uniformBuffersSize": 2631520,
+        "total": 207885805
+      },
+      "nearTrees": 133
+    }
+  ]
+}

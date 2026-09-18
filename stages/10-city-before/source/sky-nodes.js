@@ -1,0 +1,33 @@
+import {wgslFn} from './vendor/tsl.js';
+export const hash2=wgslFn(`fn hash2(p:vec2f)->f32{var q=fract(vec3f(p.x,p.y,p.x)*.1031);q+=dot(q,q.yzx+33.33);return fract((q.x+q.y)*q.z);}`);
+export const noise2=wgslFn(`fn noise2(p:vec2f)->f32{let i=floor(p);let f=fract(p);let u=f*f*(3.-2.*f);return mix(mix(hash2(i),hash2(i+vec2f(1.,0.)),u.x),mix(hash2(i+vec2f(0.,1.)),hash2(i+vec2f(1.,1.)),u.x),u.y);}`,[hash2]);
+export const fbm=wgslFn(`fn fbm(p0:vec2f)->f32{var p=p0;var n=0.;var a=.52;for(var i=0;i<5;i++){n+=a*noise2(p);p=mat2x2f(.8,-.6,.6,.8)*p*2.07+vec2f(7.1,3.9);a*=.49;}return n;}`,[noise2]);
+export const skyNight=wgslFn(`fn skyNight(base:vec3f,d:vec3f,sun:vec3f,moon:vec3f,day:f32,storm:f32,origin:vec2f)->vec3f{
+ let night=1.-smoothstep(-.12,.13,sun.y);let twilight=exp(-abs(sun.y)*13.);
+ let horizon=exp(-max(d.y,0.)*5.);
+ var daytime=mix(vec3f(.055,.20,.43),vec3f(.48,.65,.73),horizon);
+ // Retain the analytic scattering colour without clipping the whole horizon to white.
+ daytime=mix(daytime,clamp(base*.025,vec3f(0.),vec3f(1.5)),.3);
+ var dark=mix(vec3f(.009,.019,.039),vec3f(.0014,.0032,.009),pow(max(d.y,0.),.4));
+ let cell=floor(d*1800.);let seed=hash2(cell.xy+cell.z*.53);
+ let star=step(.999,seed)*smoothstep(.02,.2,d.y);
+ dark+=vec3f(.08,.12,.18)*star*smoothstep(.12,.4,-sun.y);
+ let md=max(dot(d,moon),0.);dark+=vec3f(.75,.83,1.)*(smoothstep(.99978,.99985,md)*2.4+pow(md,260.)*.035);
+ var c=mix(daytime,dark,night);
+ let facing=pow(max(dot(normalize(d.xz),normalize(sun.xz)),0.),4.);
+ c+=(vec3f(.55,.10,.024)*facing+vec3f(.065,.012,.035))*twilight*horizon;
+ c+=vec3f(3.,2.3,1.4)*smoothstep(.99993,.99996,dot(d,sun))*day*(1.-storm);
+ c=mix(c,mix(vec3f(.009,.015,.025),vec3f(.25,.30,.34),day),storm*.67);
+ let p=d.xz/max(d.y,.035)*.70+origin;
+ let n=fbm(p+fbm(p*.42)*1.25);let thin=fbm(p*2.+12.7);
+ let cover=.28+storm*.68;
+ let raw=smoothstep(.70-cover*.32,.85-cover*.32,n+thin*.12);
+ let density=max(1.-exp(-raw*(2.2+storm*3.5)),storm*.45);
+ let shade=clamp(.5+(n-fbm(p+sun.xz*.4))*3.3,.06,1.);
+ let sunset=(1.-smoothstep(.03,.30,abs(sun.y)))*(1.-night);
+ let lit=mix(vec3f(1.15,1.18,1.16),vec3f(1.35,.59,.22),sunset*.8);
+ var cloud=mix(vec3f(.19,.24,.29),lit,shade);
+ cloud=mix(cloud,vec3f(.20,.24,.28)+shade*.22,storm*.76)*mix(.028,1.,day)+vec3f(.007,.011,.02)*(1.-day);
+ c=mix(c,cloud,density*smoothstep(.015,.10,d.y));
+ return max(c,vec3f(0.));
+}`,[fbm,hash2]);

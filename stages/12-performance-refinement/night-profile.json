@@ -1,0 +1,64 @@
+[
+  {
+    "name": "normal-orbit",
+    "fps": 62.31862489768581,
+    "median": 12.299999999999272,
+    "p95": 30.299999999999272,
+    "p99": 60.29999999999927,
+    "max": 103.10000000000218,
+    "over33": 15,
+    "over50": 5,
+    "state": {
+      "x": -1788.972559474239,
+      "y": 346.4176179387465,
+      "z": -1452.2505942290388,
+      "heading": 0.18182614902135166,
+      "pitch": -0.004195398903504738,
+      "roll": 0.14876232285963825,
+      "speed": 85.40083857328707,
+      "throttle": 0.7632001750823362,
+      "time": 10.405899999999988,
+      "auto": true,
+      "paused": false,
+      "quality": "high",
+      "verticalSpeed": -0.3138517355798805,
+      "drawCount": 345,
+      "viewMode": "external",
+      "orbit": {
+        "azimuth": 2.6870150806712347,
+        "elevation": 0.26,
+        "distance": 30,
+        "auto": true
+      },
+      "environment": {
+        "hour": 0,
+        "cycle": false,
+        "cycleSeconds": 240,
+        "weather": "sun",
+        "autoWeather": false,
+        "rain": 0,
+        "snow": 0,
+        "elapsed": 5.4059,
+        "daylight": 0,
+        "fogDensity": 0.00003,
+        "wind": 0.7,
+        "reflectionUpdates": 3,
+        "pmremUpdates": 2,
+        "captureFace": -1
+      },
+      "ocean": {
+        "reflectionUpdates": 87,
+        "reflectionEvery": 4,
+        "resolutionScale": 0.3192,
+        "baseResolutionScale": 0.42
+      },
+      "camera": [
+        -1781.162712709025,
+        354.1003705671537,
+        -1480.1705678027874
+      ],
+      "triangles": 24537863
+    },
+    "errors": []
+  }
+]

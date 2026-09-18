@@ -1,0 +1,27 @@
+{
+  "stage": "09-vegetation-refinement",
+  "completedAt": "2026-09-14T16:55:51.7650191Z",
+  "purpose": "vegetation refinement",
+  "videoCreated": false,
+  "sourceSha256": {
+    "aircraft.js": "01ef7b088beb5ac9245186bbc26037783dff504bb5b317d31b33a3258e90cd42",
+    "atmosphere.js": "9efd19d88500351b6f79f80cc432bcff328200040028a15f31b0e979b2758878",
+    "city-details.js": "937a7faa67e1a675e16ca5c71649980e1a62c49d47dadee041970600a20c7ddc",
+    "city-layout.js": "76d4acb91dd4d1d76b3ced4d5a772bac5ee3bb1bc82887b1da222b5ba737b530",
+    "city.js": "201d1d97f46b4bdbc28a95807e616b83e392b92626867cd7ab2b3ae2405aecef",
+    "flight.js": "f19493226d8f18df88a2378f93776d9a71157f98e57d798500273bcc079dff50",
+    "index.html": "b96f97639381620e0b86427fc133cb48b2a9d824f776b7027dfed388ba38508d",
+    "materials.js": "27f41172a1a36b12cea2fa10eaa3ec2ea5b38d1fb9ebfaef572b09a38c1e18a4",
+    "ocean.js": "b0027cf6b769de4846e0414483079c738fc9da64901a9b1078908e3b3bf2c2a2",
+    "package-lock.json": "8ac8975a33262a467a47f9e58ab74b100371d9b673f365f128f673d8595f6e1a",
+    "package.json": "89bf5a068e5c0a365fcebaafc0e16beb81f73b65586d4d3dd93ff51c58d1836f",
+    "precipitation.js": "67309369d6d398cd08e97f337050359edc86a6242ed48e79637e9c8326ef87a6",
+    "README.md": "a03e07760182df65e29d7fa6974d90fb76532885b0cf1d074b67902a909bade4",
+    "sky-nodes.js": "4e1120590534f04ed9e4fc97431f9c56cfae1a49132ea291d92a6d0c099f3bc4",
+    "urban-plan.js": "a11771f1ac8e3785c429ee058fbc9a854ecd77df7ca0f022e54ba5736afbf534",
+    "vegetation.js": "4ef2e116785a388f1f56380bcea7a980f8e6f3eab9a32d1f0a7c382a2c6c30d8",
+    "vendor\\SkyMesh.js": "6950416eec7d1fdfab218d6ae1f6f64c710e8c253f3faa8625681e970e586bc5",
+    "vendor\\three.module.js": "137d7cffc3e727fd1bf09bea325ee2740d9fa621373ec571b7b6e72d15d9de7e",
+    "vendor\\tsl.js": "54541c50746f90df1975f3c43eca6f8795ee54d9e50a93d1bd6c2f64c1bb4ec2"
+  }
+}

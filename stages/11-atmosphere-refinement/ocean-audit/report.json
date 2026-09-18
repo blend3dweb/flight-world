@@ -1,0 +1,20 @@
+{
+  "repeat": {
+    "meanChannelDifference": 0,
+    "changedPixels": 0
+  },
+  "gridCrossing": {
+    "meanChannelDifference": 0.2091327380952381,
+    "changedPixels": 216
+  },
+  "wind": {
+    "meanChannelDifference": 6.891045238095238,
+    "changedPixels": 206960
+  },
+  "motion": {
+    "meanChannelDifference": 0.5178011904761904,
+    "changedPixels": 489
+  },
+  "backend": "nvidia",
+  "errors": []
+}

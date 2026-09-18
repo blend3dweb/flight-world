@@ -1,0 +1,45 @@
+{
+  "geometry": {
+    "stats": {
+      "blocks": 30,
+      "buildings": 112,
+      "entrances": 112,
+      "benches": 126,
+      "palms": 330,
+      "cars": 105,
+      "crosswalks": 116,
+      "streetlights": 203,
+      "runways": 1,
+      "gates": 4
+    },
+    "roadOverlaps": 0,
+    "treesOnReservedLand": 0,
+    "wrongBases": 0,
+    "bridgeErrors": [],
+    "runwayErrors": [],
+    "accessErrors": [],
+    "extraCameras": 0,
+    "extraLights": 0,
+    "roofMap": false
+  },
+  "night": {
+    "env": {
+      "hour": 0,
+      "cycle": false,
+      "cycleSeconds": 240,
+      "weather": "sun",
+      "autoWeather": false,
+      "rain": 0,
+      "snow": 0,
+      "elapsed": 0,
+      "daylight": 0,
+      "fogDensity": 0.000032,
+      "wind": 0.7,
+      "reflectionUpdates": 4
+    },
+    "hour": 0,
+    "emissive": 1.8,
+    "runway": 4
+  },
+  "errors": []
+}

@@ -1,0 +1,13 @@
+const {chromium}=require('C:/Users/sva/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const out=path.join(__dirname,'stages','12-performance-refinement');
+(async()=>{const browser=await chromium.launch({channel:'chrome',headless:false,args:['--force-high-performance-gpu','--use-webgpu-power-preference=high-performance','--window-size=1940,1180']});try{
+ const allVariants=[{name:'normal-orbit',orbit:true},{name:'static-external'},{name:'sparse-reflection',orbit:true,reflection:true},{name:'no-shadows',orbit:true,shadows:true},{name:'sparse-reflection-no-shadows',orbit:true,reflection:true,shadows:true}],requested=process.argv[2],variants=requested?allVariants.filter(v=>v.name===requested):allVariants,results=[];
+ if(!variants.length)throw Error('Unknown profile variant.');
+ for(const variant of variants){const page=await browser.newPage({viewport:{width:1920,height:1080}}),errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});await page.goto('http://127.0.0.1:8765/webgpu/index.html?test=1');await page.waitForFunction(()=>window.flightReady,null,{timeout:120000});
+  await page.evaluate(v=>{flight.startFlight('city');flight.setEnvironment({hour:0,cycle:false,weather:'sun',autoWeather:false},{immediate:true});flight.setView('external');flight.setOrbit({auto:!!v.orbit,distance:30});const d=flight.inspect();if(v.reflection)d.water.configure({interval:100000});if(v.shadows){const light=d.scene.children.find(x=>x.isDirectionalLight&&x.castShadow);light.castShadow=false;}},variant);
+  const sample=await page.evaluate(async()=>{await new Promise(r=>setTimeout(r,5000));const times=[];await new Promise(resolve=>{const start=performance.now();let last=start;function tick(now){times.push(now-last);last=now;if(now-start<8000)requestAnimationFrame(tick);else resolve();}requestAnimationFrame(tick);});times.shift();const ordered=[...times].sort((a,b)=>a-b),pick=q=>ordered[Math.min(ordered.length-1,Math.floor(ordered.length*q))];return {fps:1000/(times.reduce((a,b)=>a+b,0)/times.length),median:pick(.5),p95:pick(.95),p99:pick(.99),max:ordered.at(-1),over33:times.filter(v=>v>33.4).length,over50:times.filter(v=>v>50).length,state:flight.getState()};});
+  results.push({name:variant.name,...sample,errors});console.log(JSON.stringify(results.at(-1)));await page.close();
+ }
+ assert.ok(results.every(r=>r.errors.length===0));fs.writeFileSync(path.join(out,'night-profile.json'),JSON.stringify(results,null,2));
+ }finally{await browser.close();}})().catch(e=>{console.error(e);process.exit(1)});

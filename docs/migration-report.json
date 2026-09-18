@@ -1,0 +1,11 @@
+{
+  "date": "2026-09-10T17:35:57.9040375+03:00",
+  "source": "C:\\Users\\sva\\Documents\\ano-rgt\\neural_server\\artifacts\\flight-deck",
+  "destination": "C:\\Users\\sva\\Documents\\altwebgl\\flight-world",
+  "method": "Same-volume Move-Item; SHA-256 verified before and after",
+  "verifiedFiles": 3165,
+  "verifiedBytes": 629914907.0,
+  "mismatches": [],
+  "sourceRemoved": true,
+  "newVideoCreated": false
+}

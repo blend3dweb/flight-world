@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+
+# Build and generated output
+dist/
+exports/
+tmp/
+
+# Local browser profile and caches
+.chrome-webgpu/
+.cache/
+
+# Environment files and local logs
+.env
+.env.*
+!.env.example
+*.log
+*.tmp
+*.temp
+
+# Generated videos and archives
+*.mp4
+*.webm
+*.mov
+*.avi
+*.mkv
+*.zip
+*.7z
+*.rar
+
+# Generated screenshots and review renders
+/*.png
+/stages/**/*.png
+/stages/**/*.jpg
+/stages/**/*.jpeg
+/webgpu/smoke.png
+
+# OS and editor metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo

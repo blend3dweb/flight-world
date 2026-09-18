@@ -1,0 +1,222 @@
+{
+  "backend": "nvidia",
+  "sun": {
+    "state": {
+      "hour": 10,
+      "cycle": false,
+      "cycleSeconds": 240,
+      "weather": "sun",
+      "autoWeather": false,
+      "rain": 0,
+      "snow": 0,
+      "elapsed": 0,
+      "daylight": 1,
+      "fogDensity": 0.00003,
+      "wind": 0.7,
+      "reflectionUpdates": 2,
+      "pmremUpdates": 2,
+      "captureFace": -1
+    },
+    "cloud": [
+      -0.27680000000000005,
+      -0.16
+    ],
+    "fog": "a8c7d5",
+    "fogDensity": 0.00003,
+    "exposure": 1.06,
+    "environmentIntensity": 0.52,
+    "rainVisible": false,
+    "snowVisible": false,
+    "wetness": 0
+  },
+  "rotated": {
+    "state": {
+      "hour": 10,
+      "cycle": false,
+      "cycleSeconds": 240,
+      "weather": "sun",
+      "autoWeather": false,
+      "rain": 0,
+      "snow": 0,
+      "elapsed": 0,
+      "daylight": 1,
+      "fogDensity": 0.00003,
+      "wind": 0.7,
+      "reflectionUpdates": 2,
+      "pmremUpdates": 2,
+      "captureFace": -1
+    },
+    "cloud": [
+      -0.27680000000000005,
+      -0.16
+    ],
+    "fog": "a8c7d5",
+    "fogDensity": 0.00003,
+    "exposure": 1.06,
+    "environmentIntensity": 0.52,
+    "rainVisible": false,
+    "snowVisible": false,
+    "wetness": 0
+  },
+  "translated": {
+    "state": {
+      "hour": 10,
+      "cycle": false,
+      "cycleSeconds": 240,
+      "weather": "sun",
+      "autoWeather": false,
+      "rain": 0,
+      "snow": 0,
+      "elapsed": 0,
+      "daylight": 1,
+      "fogDensity": 0.00003,
+      "wind": 0.7,
+      "reflectionUpdates": 2,
+      "pmremUpdates": 2,
+      "captureFace": 2
+    },
+    "cloud": [
+      -0.11680000000000001,
+      -0.08
+    ],
+    "fog": "a8c7d5",
+    "fogDensity": 0.00003,
+    "exposure": 1.06,
+    "environmentIntensity": 0.52,
+    "rainVisible": false,
+    "snowVisible": false,
+    "wetness": 0
+  },
+  "rain": {
+    "state": {
+      "hour": 10,
+      "cycle": false,
+      "cycleSeconds": 240,
+      "weather": "rain",
+      "autoWeather": false,
+      "rain": 1,
+      "snow": 0,
+      "elapsed": 0,
+      "daylight": 1,
+      "fogDensity": 0.00023,
+      "wind": 2,
+      "reflectionUpdates": 3,
+      "pmremUpdates": 3,
+      "captureFace": -1
+    },
+    "cloud": [
+      -0.11680000000000001,
+      -0.08
+    ],
+    "fog": "758b96",
+    "fogDensity": 0.00023,
+    "exposure": 1.06,
+    "environmentIntensity": 0.3744,
+    "rainVisible": true,
+    "snowVisible": false,
+    "wetness": 1
+  },
+  "snow": {
+    "state": {
+      "hour": 10,
+      "cycle": false,
+      "cycleSeconds": 240,
+      "weather": "snow",
+      "autoWeather": false,
+      "rain": 0,
+      "snow": 1,
+      "elapsed": 0,
+      "daylight": 1,
+      "fogDensity": 0.00029,
+      "wind": 1.25,
+      "reflectionUpdates": 4,
+      "pmremUpdates": 4,
+      "captureFace": -1
+    },
+    "cloud": [
+      -0.11680000000000001,
+      -0.08
+    ],
+    "fog": "b3c6ce",
+    "fogDensity": 0.00029,
+    "exposure": 0.9964,
+    "environmentIntensity": 0.40352000000000005,
+    "rainVisible": false,
+    "snowVisible": true,
+    "wetness": 0
+  },
+  "night": {
+    "state": {
+      "hour": 0,
+      "cycle": false,
+      "cycleSeconds": 240,
+      "weather": "sun",
+      "autoWeather": false,
+      "rain": 0,
+      "snow": 0,
+      "elapsed": 0,
+      "daylight": 0,
+      "fogDensity": 0.00003,
+      "wind": 0.7,
+      "reflectionUpdates": 5,
+      "pmremUpdates": 5,
+      "captureFace": -1
+    },
+    "cloud": [
+      -0.11680000000000001,
+      -0.08
+    ],
+    "fog": "0d1830",
+    "fogDensity": 0.00003,
+    "exposure": 0.92,
+    "environmentIntensity": 0.26,
+    "rainVisible": false,
+    "snowVisible": false,
+    "wetness": 0
+  },
+  "transition": {
+    "state": {
+      "hour": 0.06666666666666288,
+      "cycle": true,
+      "cycleSeconds": 90,
+      "weather": "rain",
+      "autoWeather": false,
+      "rain": 1,
+      "snow": 0,
+      "elapsed": 1,
+      "daylight": 0,
+      "fogDensity": 0.00023,
+      "wind": 2,
+      "reflectionUpdates": 6,
+      "pmremUpdates": 6,
+      "captureFace": 1
+    },
+    "cloud": [
+      -0.12152538125831783,
+      -0.07146678206898084
+    ],
+    "fog": "0d1830",
+    "fogDensity": 0.00023,
+    "exposure": 0.92,
+    "environmentIntensity": 0.1872,
+    "rainVisible": true,
+    "snowVisible": false,
+    "wetness": 1
+  },
+  "pause": {
+    "before": 1,
+    "after": 1
+  },
+  "precipitation": {
+    "rainVertices": 5200,
+    "rainSeeds": 5200,
+    "snowInstances": 1800,
+    "snowGeometry": "OctahedronGeometry",
+    "snowSizes": {
+      "count": 1800,
+      "min": 0.07006821781396866,
+      "max": 0.28987613320350647
+    }
+  },
+  "errors": []
+}

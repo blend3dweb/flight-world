@@ -1,0 +1,69 @@
+{
+  "windows": {
+    "counts": [
+      266816,
+      128392,
+      128392
+    ],
+    "ratio": 0.4812005277044855
+  },
+  "reflection": {
+    "changedWaterPixels": 51590,
+    "meanChannelDifference": 4.808927283653846
+  },
+  "atmosphere": {
+    "origin": [
+      -0.27680000000000005,
+      -0.16
+    ],
+    "rotated": [
+      -0.27680000000000005,
+      -0.16
+    ],
+    "firstWarm": {
+      "attributes": 558,
+      "attributesSize": 91279960,
+      "geometries": 192,
+      "indexAttributes": 125,
+      "indexAttributesSize": 19046376,
+      "indirectStorageAttributes": 0,
+      "indirectStorageAttributesSize": 0,
+      "programs": 295,
+      "programsSize": 1563282,
+      "readbackBuffers": 0,
+      "readbackBuffersSize": 0,
+      "renderTargets": 6,
+      "storageAttributes": 0,
+      "storageAttributesSize": 0,
+      "textures": 15,
+      "texturesSize": 39302064,
+      "uniformBuffers": 916,
+      "uniformBuffersSize": 2238112,
+      "total": 153429794
+    },
+    "last": {
+      "attributes": 558,
+      "attributesSize": 91279960,
+      "geometries": 192,
+      "indexAttributes": 125,
+      "indexAttributesSize": 19046376,
+      "indirectStorageAttributes": 0,
+      "indirectStorageAttributesSize": 0,
+      "programs": 295,
+      "programsSize": 1563282,
+      "readbackBuffers": 0,
+      "readbackBuffersSize": 0,
+      "renderTargets": 6,
+      "storageAttributes": 0,
+      "storageAttributesSize": 0,
+      "textures": 15,
+      "texturesSize": 39302064,
+      "uniformBuffers": 916,
+      "uniformBuffersSize": 2238112,
+      "total": 153429794
+    },
+    "rainInstances": 5200,
+    "snowInstances": 1800
+  },
+  "errors": []
+}

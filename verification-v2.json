@@ -1,0 +1,19 @@
+{
+  "passed": [
+    "mouse orbits without steering or stopping the aircraft",
+    "zoom changes camera distance",
+    "automatic orbit and flight advance together",
+    "cloud geometry stays fixed in world coordinates",
+    "no billboard sprites",
+    "roof material has no windows; walls keep windows",
+    "return to cockpit",
+    "portrait view fits"
+  ],
+  "errors": [],
+  "materials": {
+    "roofHasMap": false,
+    "wallHasMap": true,
+    "cloudsAreMesh": true,
+    "sprites": 0
+  }
+}

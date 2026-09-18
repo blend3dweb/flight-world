@@ -1,0 +1,210 @@
+{
+  "date": "2026-09-10T14:40:15.427Z",
+  "project": "C:\\Users\\sva\\Documents\\altwebgl\\flight-world",
+  "servedFlightSha256": "f30b965b1b7eae0052cf40ebb6cda548eb5cb989910d10a8aa9f972782e518ad",
+  "backend": {
+    "webgpu": true,
+    "vendor": "nvidia",
+    "revision": "186"
+  },
+  "shots": [
+    {
+      "name": "01-cockpit-day",
+      "hour": 10,
+      "weather": "sun",
+      "view": "cockpit",
+      "state": {
+        "x": -1800.9790222946344,
+        "y": 342.0711356502174,
+        "z": -1671.4584438757954,
+        "heading": 0.13271978795633804,
+        "pitch": -0.0014814011311405834,
+        "roll": 0.09455867636073652,
+        "speed": 85.25410450445722,
+        "throttle": 0.7586717048905349,
+        "time": 7.999999999999981,
+        "auto": true,
+        "paused": false,
+        "quality": "high",
+        "verticalSpeed": -0.13665804793178485,
+        "drawCount": 6,
+        "viewMode": "cockpit",
+        "orbit": {
+          "azimuth": 0.8,
+          "elevation": 0.26,
+          "distance": 21,
+          "auto": false
+        },
+        "environment": {
+          "hour": 10,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 7.999999999999981,
+          "daylight": 1,
+          "fogDensity": 0.000032,
+          "wind": 0.7,
+          "reflectionUpdates": 4
+        },
+        "camera": [
+          -1800.9790222946344,
+          342.3125500943547,
+          -1671.4584438757954
+        ],
+        "triangles": 20550803
+      }
+    },
+    {
+      "name": "02-external-night",
+      "hour": 0,
+      "weather": "sun",
+      "view": "external",
+      "state": {
+        "x": -1800.9790222946344,
+        "y": 342.0711356502174,
+        "z": -1671.4584438757954,
+        "heading": 0.13271978795633804,
+        "pitch": -0.0014814011311405834,
+        "roll": 0.09455867636073652,
+        "speed": 85.25410450445722,
+        "throttle": 0.7586717048905349,
+        "time": 7.999999999999981,
+        "auto": true,
+        "paused": false,
+        "quality": "high",
+        "verticalSpeed": -0.13665804793178485,
+        "drawCount": 12,
+        "viewMode": "external",
+        "orbit": {
+          "azimuth": 1.6,
+          "elevation": 0.18,
+          "distance": 30,
+          "auto": false
+        },
+        "environment": {
+          "hour": 0,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 7.999999999999981,
+          "daylight": 0,
+          "fogDensity": 0.000032,
+          "wind": 0.7,
+          "reflectionUpdates": 7
+        },
+        "camera": [
+          -1771.8498008498432,
+          347.68343729712944,
+          -1676.216807951335
+        ],
+        "triangles": 18815797
+      }
+    },
+    {
+      "name": "03-external-rain",
+      "hour": 12,
+      "weather": "rain",
+      "view": "external",
+      "state": {
+        "x": -1800.9790222946344,
+        "y": 342.0711356502174,
+        "z": -1671.4584438757954,
+        "heading": 0.13271978795633804,
+        "pitch": -0.0014814011311405834,
+        "roll": 0.09455867636073652,
+        "speed": 85.25410450445722,
+        "throttle": 0.7586717048905349,
+        "time": 7.999999999999981,
+        "auto": true,
+        "paused": false,
+        "quality": "high",
+        "verticalSpeed": -0.13665804793178485,
+        "drawCount": 18,
+        "viewMode": "external",
+        "orbit": {
+          "azimuth": 1.6,
+          "elevation": 0.18,
+          "distance": 30,
+          "auto": false
+        },
+        "environment": {
+          "hour": 12,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "rain",
+          "autoWeather": false,
+          "rain": 1,
+          "snow": 0,
+          "elapsed": 7.999999999999981,
+          "daylight": 1,
+          "fogDensity": 0.000212,
+          "wind": 2,
+          "reflectionUpdates": 10
+        },
+        "camera": [
+          -1771.8498008498432,
+          347.68343729712944,
+          -1676.216807951335
+        ],
+        "triangles": 18815797
+      }
+    },
+    {
+      "name": "04-cockpit-snow",
+      "hour": 12,
+      "weather": "snow",
+      "view": "cockpit",
+      "state": {
+        "x": -1800.9790222946344,
+        "y": 342.0711356502174,
+        "z": -1671.4584438757954,
+        "heading": 0.13271978795633804,
+        "pitch": -0.0014814011311405834,
+        "roll": 0.09455867636073652,
+        "speed": 85.25410450445722,
+        "throttle": 0.7586717048905349,
+        "time": 7.999999999999981,
+        "auto": true,
+        "paused": false,
+        "quality": "high",
+        "verticalSpeed": -0.13665804793178485,
+        "drawCount": 23,
+        "viewMode": "cockpit",
+        "orbit": {
+          "azimuth": 0.8,
+          "elevation": 0.26,
+          "distance": 21,
+          "auto": false
+        },
+        "environment": {
+          "hour": 12,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "snow",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 1,
+          "elapsed": 7.999999999999981,
+          "daylight": 1,
+          "fogDensity": 0.000322,
+          "wind": 1.25,
+          "reflectionUpdates": 13
+        },
+        "camera": [
+          -1800.9790222946344,
+          342.3125500943547,
+          -1671.4584438757954
+        ],
+        "triangles": 20565203
+      }
+    }
+  ],
+  "errors": [],
+  "videoCreated": false
+}

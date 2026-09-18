@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AERO — Полёт над архипелагом</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23121f26'/%3E%3Cpath d='M32 9 38 29 55 39 55 44 36 38 36 51 42 56 22 56 28 51 28 38 9 44 9 39 26 29Z' fill='%23dcf8be'/%3E%3C/svg%3E">
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#112f40;color:#eff6ec;font-family:Segoe UI,Arial,sans-serif}#flight{display:block;width:100%;height:100%;touch-action:none;outline:none}
+    #controls{position:fixed;bottom:23px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:2;padding:6px;border:1px solid #e5efd52b;border-radius:12px;background:#0a202edb;backdrop-filter:blur(18px);white-space:nowrap}
+    button{border:0;border-radius:7px;background:transparent;color:#d9e7e8;font:12px Segoe UI,sans-serif;cursor:pointer;padding:10px 13px;transition:background .2s}button:hover{background:#ffffff20}button[aria-pressed=true]{background:#d7efb5;color:#23362d}button:focus-visible{outline:2px solid #deffbb;outline-offset:2px}button:disabled{opacity:.4;cursor:default}button[hidden]{display:none}
+    #hint{position:fixed;top:100px;left:50%;transform:translateX(-50%);background:#09222bd9;border:1px solid #bed8cf30;border-radius:8px;padding:10px 16px;font-size:12px;opacity:0;transition:opacity .3s;pointer-events:none;text-align:center;max-width:90vw}#hint.show{opacity:1}
+    #loading{position:fixed;inset:0;display:grid;place-content:center;text-align:center;letter-spacing:4px;background:#112b39;z-index:4}#loading small{letter-spacing:1px;margin-top:20px;color:#acc9ce;font-size:12px}.render #controls,.render #hint{display:none}
+    #environment-panel{position:fixed;right:24px;top:94px;width:252px;padding:12px;background:#0a202ee8;border:1px solid #d8ebd633;border-radius:10px;backdrop-filter:blur(18px);font-size:12px;z-index:2}#environment-panel summary{cursor:pointer;color:#e0f0d5;user-select:none}#environment-panel summary span{float:right;font-family:Consolas,monospace}#environment-panel label{display:block;margin:15px 0 8px;color:#b9cdd0}#environment-panel input[type=range]{width:100%;accent-color:#d7efb5}#environment-panel select{background:#243b46;color:#ecf2e8;border:1px solid #58717a;border-radius:5px;padding:7px;width:100%}.weather-buttons{display:flex;gap:4px;margin-top:6px}.weather-buttons button{flex:1;padding:9px 5px}.environment-actions{display:flex;gap:4px;margin-top:10px}.environment-actions button{flex:1;padding:9px 5px;font-size:11px}.render #environment-panel{display:none}
+    @media(max-width:650px){#controls{bottom:12px;gap:0;padding:4px;width:calc(100vw - 16px);flex-wrap:wrap;justify-content:center}button{padding:10px 8px;font-size:11px}#record{display:none}}
+    @media(max-width:650px){#environment-panel{right:10px;top:126px;width:220px;padding:10px}}
+  </style>
+</head>
+<body>
+  <canvas id="flight" tabindex="0" aria-label="Полёт над архипелагом. Стрелки или WASD управляют самолётом. Пробел — пауза."></canvas>
+  <nav id="controls" aria-label="Управление полётом">
+    <button id="auto" aria-pressed="true" title="P — автопилот">Автопилот</button>
+    <button id="pause" aria-pressed="false" title="Пробел — пауза">Пауза</button>
+    <button id="cockpit" aria-pressed="true" title="C — кабина">Кабина</button>
+    <button id="view" aria-pressed="false" title="V — вид снаружи / из кабины">Снаружи</button>
+    <button id="orbit" aria-pressed="false" title="O — автоматический облёт самолёта" hidden>Облёт</button>
+    <button id="record" title="Записать 20 секунд полёта">● Запись</button>
+    <button id="reset" title="R — начать заново">↺</button>
+    <button id="fullscreen" title="Полный экран">⛶</button>
+  </nav>
+  <details id="environment-panel">
+    <summary>Небо и погода <span id="clock-label">10:00</span></summary>
+    <label for="flight-location">Начать пролёт</label>
+    <select id="flight-location"><option value="city">Город и набережная</option><option value="airport">Аэропорт</option><option value="islands">Острова</option></select>
+    <label for="time-of-day">Время суток</label>
+    <input id="time-of-day" type="range" min="0" max="23.99" step="0.05" value="10" aria-label="Время суток">
+    <label for="day-duration">Полные сутки за</label>
+    <select id="day-duration"><option value="90">1,5 минуты</option><option value="240" selected>4 минуты</option><option value="600">10 минут</option></select>
+    <div class="environment-actions"><button id="day-cycle" aria-pressed="true">Цикл дня и ночи</button></div>
+    <label>Погода</label>
+    <div class="weather-buttons"><button data-weather="sun" aria-pressed="true">☀ Солнце</button><button data-weather="rain" aria-pressed="false">Дождь</button><button data-weather="snow" aria-pressed="false">Снег</button></div>
+    <div class="environment-actions"><button id="auto-weather" aria-pressed="false">Автосмена погоды</button></div>
+  </details>
+  <div id="hint" role="status"></div>
+  <div id="loading">A E R O<small>Создаём острова. Готовим самолёт.</small></div>
+  <script type="importmap">{"imports":{"three/webgpu":"./node_modules/three/build/three.webgpu.js","three/tsl":"./node_modules/three/build/three.tsl.js","three":"./node_modules/three/build/three.webgpu.js"}}</script>
+  <script type="module" src="./flight.js"></script>
+</body>
+</html>

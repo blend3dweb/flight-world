@@ -1,0 +1,768 @@
+{
+  "stage": "01-baseline",
+  "date": "2026-09-10T13:29:14.101Z",
+  "shots": [
+    {
+      "name": "01-city-day",
+      "hour": 10,
+      "eye": [
+        -950,
+        720,
+        -670
+      ],
+      "target": [
+        -1980,
+        40,
+        -1880
+      ],
+      "state": {
+        "x": -1730,
+        "y": 350,
+        "z": -1000,
+        "heading": 0.1,
+        "pitch": -0.035,
+        "roll": 0,
+        "speed": 82,
+        "throttle": 0.73,
+        "time": 0,
+        "auto": true,
+        "paused": false,
+        "verticalSpeed": 0,
+        "drawCount": 75,
+        "viewMode": "cockpit",
+        "orbit": {
+          "azimuth": 0.8,
+          "elevation": 0.26,
+          "distance": 21,
+          "auto": false
+        },
+        "environment": {
+          "hour": 10,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 0,
+          "daylight": 1,
+          "fogDensity": 0.000032,
+          "wind": 0.7,
+          "reflectionUpdates": 21
+        },
+        "camera": [
+          -950,
+          720,
+          -670
+        ],
+        "triangles": 2864249
+      }
+    },
+    {
+      "name": "02-city-sunset",
+      "hour": 18.1,
+      "eye": [
+        -950,
+        720,
+        -670
+      ],
+      "target": [
+        -1980,
+        40,
+        -1880
+      ],
+      "state": {
+        "x": -1730,
+        "y": 350,
+        "z": -1000,
+        "heading": 0.1,
+        "pitch": -0.035,
+        "roll": 0,
+        "speed": 82,
+        "throttle": 0.73,
+        "time": 0,
+        "auto": true,
+        "paused": false,
+        "verticalSpeed": 0,
+        "drawCount": 77,
+        "viewMode": "cockpit",
+        "orbit": {
+          "azimuth": 0.8,
+          "elevation": 0.26,
+          "distance": 21,
+          "auto": false
+        },
+        "environment": {
+          "hour": 18.1,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 0,
+          "daylight": 0.31400003123742515,
+          "fogDensity": 0.000032,
+          "wind": 0.7,
+          "reflectionUpdates": 24
+        },
+        "camera": [
+          -950,
+          720,
+          -670
+        ],
+        "triangles": 2864249
+      }
+    },
+    {
+      "name": "03-city-night",
+      "hour": 0,
+      "eye": [
+        -1950,
+        135,
+        -1360
+      ],
+      "target": [
+        -2100,
+        80,
+        -2060
+      ],
+      "state": {
+        "x": -1730,
+        "y": 350,
+        "z": -1000,
+        "heading": 0.1,
+        "pitch": -0.035,
+        "roll": 0,
+        "speed": 82,
+        "throttle": 0.73,
+        "time": 0,
+        "auto": true,
+        "paused": false,
+        "verticalSpeed": 0,
+        "drawCount": 79,
+        "viewMode": "cockpit",
+        "orbit": {
+          "azimuth": 0.8,
+          "elevation": 0.26,
+          "distance": 21,
+          "auto": false
+        },
+        "environment": {
+          "hour": 0,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 0,
+          "daylight": 0,
+          "fogDensity": 0.000032,
+          "wind": 0.7,
+          "reflectionUpdates": 27
+        },
+        "camera": [
+          -1950,
+          135,
+          -1360
+        ],
+        "triangles": 3292222
+      }
+    },
+    {
+      "name": "04-rain",
+      "hour": 12,
+      "weather": "rain",
+      "eye": [
+        -1940,
+        145,
+        -1390
+      ],
+      "target": [
+        -2050,
+        50,
+        -1950
+      ],
+      "state": {
+        "x": -1730,
+        "y": 350,
+        "z": -1000,
+        "heading": 0.1,
+        "pitch": -0.035,
+        "roll": 0,
+        "speed": 82,
+        "throttle": 0.73,
+        "time": 0,
+        "auto": true,
+        "paused": false,
+        "verticalSpeed": 0,
+        "drawCount": 81,
+        "viewMode": "cockpit",
+        "orbit": {
+          "azimuth": 0.8,
+          "elevation": 0.26,
+          "distance": 21,
+          "auto": false
+        },
+        "environment": {
+          "hour": 12,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "rain",
+          "autoWeather": false,
+          "rain": 1,
+          "snow": 0,
+          "elapsed": 0,
+          "daylight": 1,
+          "fogDensity": 0.000212,
+          "wind": 2,
+          "reflectionUpdates": 30
+        },
+        "camera": [
+          -1940,
+          145,
+          -1390
+        ],
+        "triangles": 3292270
+      }
+    },
+    {
+      "name": "05-snow",
+      "hour": 12,
+      "weather": "snow",
+      "eye": [
+        -1940,
+        145,
+        -1390
+      ],
+      "target": [
+        -2050,
+        50,
+        -1950
+      ],
+      "state": {
+        "x": -1730,
+        "y": 350,
+        "z": -1000,
+        "heading": 0.1,
+        "pitch": -0.035,
+        "roll": 0,
+        "speed": 82,
+        "throttle": 0.73,
+        "time": 0,
+        "auto": true,
+        "paused": false,
+        "verticalSpeed": 0,
+        "drawCount": 83,
+        "viewMode": "cockpit",
+        "orbit": {
+          "azimuth": 0.8,
+          "elevation": 0.26,
+          "distance": 21,
+          "auto": false
+        },
+        "environment": {
+          "hour": 12,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "snow",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 1,
+          "elapsed": 0,
+          "daylight": 1,
+          "fogDensity": 0.000322,
+          "wind": 1.25,
+          "reflectionUpdates": 33
+        },
+        "camera": [
+          -1940,
+          145,
+          -1390
+        ],
+        "triangles": 3292270
+      }
+    },
+    {
+      "name": "06-bay-low",
+      "hour": 10,
+      "eye": [
+        -1850,
+        9,
+        -1130
+      ],
+      "target": [
+        -2040,
+        48,
+        -1950
+      ],
+      "state": {
+        "x": -1730,
+        "y": 350,
+        "z": -1000,
+        "heading": 0.1,
+        "pitch": -0.035,
+        "roll": 0,
+        "speed": 82,
+        "throttle": 0.73,
+        "time": 0,
+        "auto": true,
+        "paused": false,
+        "verticalSpeed": 0,
+        "drawCount": 85,
+        "viewMode": "cockpit",
+        "orbit": {
+          "azimuth": 0.8,
+          "elevation": 0.26,
+          "distance": 21,
+          "auto": false
+        },
+        "environment": {
+          "hour": 10,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 0,
+          "daylight": 1,
+          "fogDensity": 0.000032,
+          "wind": 0.7,
+          "reflectionUpdates": 36
+        },
+        "camera": [
+          -1850,
+          9,
+          -1130
+        ],
+        "triangles": 3292308
+      }
+    },
+    {
+      "name": "07-bay-night",
+      "hour": 0,
+      "eye": [
+        -1850,
+        9,
+        -1130
+      ],
+      "target": [
+        -2040,
+        48,
+        -1950
+      ],
+      "state": {
+        "x": -1730,
+        "y": 350,
+        "z": -1000,
+        "heading": 0.1,
+        "pitch": -0.035,
+        "roll": 0,
+        "speed": 82,
+        "throttle": 0.73,
+        "time": 0,
+        "auto": true,
+        "paused": false,
+        "verticalSpeed": 0,
+        "drawCount": 87,
+        "viewMode": "cockpit",
+        "orbit": {
+          "azimuth": 0.8,
+          "elevation": 0.26,
+          "distance": 21,
+          "auto": false
+        },
+        "environment": {
+          "hour": 0,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 0,
+          "daylight": 0,
+          "fogDensity": 0.000032,
+          "wind": 0.7,
+          "reflectionUpdates": 39
+        },
+        "camera": [
+          -1850,
+          9,
+          -1130
+        ],
+        "triangles": 3292308
+      }
+    },
+    {
+      "name": "08-vegetation-near",
+      "hour": 10,
+      "vegetation": true,
+      "eye": [
+        -3217.902294192463,
+        42.44837847856377,
+        -1931.1758603854105
+      ],
+      "target": [
+        -3262.902294192463,
+        32.44837847856377,
+        -1976.1758603854105
+      ],
+      "state": {
+        "x": -1730,
+        "y": 350,
+        "z": -1000,
+        "heading": 0.1,
+        "pitch": -0.035,
+        "roll": 0,
+        "speed": 82,
+        "throttle": 0.73,
+        "time": 0,
+        "auto": true,
+        "paused": false,
+        "verticalSpeed": 0,
+        "drawCount": 89,
+        "viewMode": "cockpit",
+        "orbit": {
+          "azimuth": 0.8,
+          "elevation": 0.26,
+          "distance": 21,
+          "auto": false
+        },
+        "environment": {
+          "hour": 10,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 0,
+          "daylight": 1,
+          "fogDensity": 0.000032,
+          "wind": 0.7,
+          "reflectionUpdates": 42
+        },
+        "camera": [
+          -3217.902294192463,
+          42.44837847856377,
+          -1931.1758603854105
+        ],
+        "triangles": 2616495
+      }
+    },
+    {
+      "name": "09-airport",
+      "hour": 10,
+      "eye": [
+        3500,
+        670,
+        -1890
+      ],
+      "target": [
+        2450,
+        28,
+        -3240
+      ],
+      "state": {
+        "x": -1730,
+        "y": 350,
+        "z": -1000,
+        "heading": 0.1,
+        "pitch": -0.035,
+        "roll": 0,
+        "speed": 82,
+        "throttle": 0.73,
+        "time": 0,
+        "auto": true,
+        "paused": false,
+        "verticalSpeed": 0,
+        "drawCount": 91,
+        "viewMode": "cockpit",
+        "orbit": {
+          "azimuth": 0.8,
+          "elevation": 0.26,
+          "distance": 21,
+          "auto": false
+        },
+        "environment": {
+          "hour": 10,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 0,
+          "daylight": 1,
+          "fogDensity": 0.000032,
+          "wind": 0.7,
+          "reflectionUpdates": 45
+        },
+        "camera": [
+          3500,
+          670,
+          -1890
+        ],
+        "triangles": 3302120
+      }
+    },
+    {
+      "name": "10-cockpit",
+      "hour": 10,
+      "view": "cockpit",
+      "state": {
+        "x": -1730,
+        "y": 350,
+        "z": -1000,
+        "heading": 0.1,
+        "pitch": -0.035,
+        "roll": 0,
+        "speed": 82,
+        "throttle": 0.73,
+        "time": 0,
+        "auto": true,
+        "paused": false,
+        "verticalSpeed": 0,
+        "drawCount": 95,
+        "viewMode": "cockpit",
+        "orbit": {
+          "azimuth": 0.8,
+          "elevation": 0.26,
+          "distance": 21,
+          "auto": false
+        },
+        "environment": {
+          "hour": 10,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 0,
+          "daylight": 1,
+          "fogDensity": 0.000032,
+          "wind": 0.7,
+          "reflectionUpdates": 47
+        },
+        "camera": [
+          -1730,
+          350,
+          -1000
+        ],
+        "triangles": 3296934
+      }
+    },
+    {
+      "name": "11-aircraft-front",
+      "hour": 10,
+      "view": "external",
+      "azimuth": 3.8,
+      "state": {
+        "x": -1730,
+        "y": 350,
+        "z": -1000,
+        "heading": 0.1,
+        "pitch": -0.035,
+        "roll": 0,
+        "speed": 82,
+        "throttle": 0.73,
+        "time": 0,
+        "auto": true,
+        "paused": false,
+        "verticalSpeed": 0,
+        "drawCount": 100,
+        "viewMode": "external",
+        "orbit": {
+          "azimuth": 3.8,
+          "elevation": 0.18,
+          "distance": 30,
+          "auto": false
+        },
+        "environment": {
+          "hour": 10,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 0,
+          "daylight": 1,
+          "fogDensity": 0.000032,
+          "wind": 0.7,
+          "reflectionUpdates": 49
+        },
+        "camera": [
+          -1750.2996319347878,
+          355.3708872027747,
+          -1021.4261175663537
+        ],
+        "triangles": 2348519
+      }
+    },
+    {
+      "name": "12-aircraft-side",
+      "hour": 18,
+      "view": "external",
+      "azimuth": 1.6,
+      "state": {
+        "x": -1730,
+        "y": 350,
+        "z": -1000,
+        "heading": 0.1,
+        "pitch": -0.035,
+        "roll": 0,
+        "speed": 82,
+        "throttle": 0.73,
+        "time": 0,
+        "auto": true,
+        "paused": false,
+        "verticalSpeed": 0,
+        "drawCount": 105,
+        "viewMode": "external",
+        "orbit": {
+          "azimuth": 1.6,
+          "elevation": 0.18,
+          "distance": 30,
+          "auto": false
+        },
+        "environment": {
+          "hour": 18,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 0,
+          "daylight": 0.39358600583090414,
+          "fogDensity": 0.000032,
+          "wind": 0.7,
+          "reflectionUpdates": 51
+        },
+        "camera": [
+          -1700.7307049262922,
+          355.3708872027747,
+          -1003.8028852918939
+        ],
+        "triangles": 2423949
+      }
+    },
+    {
+      "name": "13-forest-above",
+      "hour": 10,
+      "eye": [
+        -3750,
+        1050,
+        -5700
+      ],
+      "target": [
+        -3650,
+        100,
+        -6900
+      ],
+      "state": {
+        "x": -1730,
+        "y": 350,
+        "z": -1000,
+        "heading": 0.1,
+        "pitch": -0.035,
+        "roll": 0,
+        "speed": 82,
+        "throttle": 0.73,
+        "time": 0,
+        "auto": true,
+        "paused": false,
+        "verticalSpeed": 0,
+        "drawCount": 107,
+        "viewMode": "cockpit",
+        "orbit": {
+          "azimuth": 0.8,
+          "elevation": 0.26,
+          "distance": 21,
+          "auto": false
+        },
+        "environment": {
+          "hour": 10,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 0,
+          "daylight": 1,
+          "fogDensity": 0.000032,
+          "wind": 0.7,
+          "reflectionUpdates": 54
+        },
+        "camera": [
+          -3750,
+          1050,
+          -5700
+        ],
+        "triangles": 2442278
+      }
+    }
+  ],
+  "checks": [
+    "pause",
+    "manual bank",
+    "external camera",
+    "orbit during flight",
+    "midnight wrap",
+    "rain",
+    "snow",
+    "window density",
+    "roof material",
+    "forest exclusion",
+    "runway",
+    "entrances",
+    "mobile viewport"
+  ],
+  "errors": [],
+  "warnings": [],
+  "backend": {
+    "webgpu": false,
+    "revision": "180",
+    "adapter": null
+  },
+  "geometry": {
+    "buildings": 112,
+    "entrances": 112,
+    "windowDensity": 0.275,
+    "roofMap": false,
+    "reservedTrees": 0,
+    "runwayHeight": 28,
+    "stats": {
+      "blocks": 30,
+      "buildings": 112,
+      "entrances": 112,
+      "benches": 163,
+      "palms": 481,
+      "cars": 92,
+      "crosswalks": 148,
+      "streetlights": 286,
+      "runways": 1,
+      "gates": 4,
+      "architecture": {
+        "stepped": 18,
+        "terraced": 18,
+        "round": 19,
+        "gable": 19,
+        "courtyard": 19,
+        "twin": 19
+      }
+    }
+  },
+  "frameTiming": {
+    "mode": "headless RAF diagnostic, not desktop FPS guarantee",
+    "medianMs": 29.099999994039536,
+    "p95Ms": 37.29999998211861,
+    "samples": 120
+  }
+}

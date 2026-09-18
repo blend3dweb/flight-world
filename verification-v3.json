@@ -1,0 +1,26 @@
+{
+  "passed": [
+    "day and night change rendered ocean brightness",
+    "midnight wraps safely",
+    "pause freezes daylight cycle",
+    "rain and snow appear; manual weather works on pause",
+    "weather fades back to clear",
+    "ocean pixels respond to actual reflection map",
+    "sky and ocean use the same HDR cubemap",
+    "roofs still have no windows",
+    "reflection resources reused",
+    "automatic weather cycles through rain and snow"
+  ],
+  "dayLuminance": 90.94563888888915,
+  "nightLuminance": 2.465194444444492,
+  "reflection": {
+    "meanChannelDelta": 58.04136111111111,
+    "sameSkyMap": true,
+    "roofHasWindows": false
+  },
+  "resources": {
+    "before": 8,
+    "after": 8
+  },
+  "errors": []
+}

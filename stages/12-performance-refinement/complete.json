@@ -1,0 +1,27 @@
+{
+  "stage": "12-performance-refinement",
+  "completedAt": "2026-09-15T14:56:34.6329812Z",
+  "purpose": "WebGPU frame pacing and performance refinement",
+  "videoCreated": false,
+  "sourceSha256": {
+    "aircraft.js": "01ef7b088beb5ac9245186bbc26037783dff504bb5b317d31b33a3258e90cd42",
+    "atmosphere.js": "36a70654877a685122da67fce5bdada5dd613b210fd059fcb6e977a60c587e3f",
+    "city-details.js": "937a7faa67e1a675e16ca5c71649980e1a62c49d47dadee041970600a20c7ddc",
+    "city-layout.js": "76d4acb91dd4d1d76b3ced4d5a772bac5ee3bb1bc82887b1da222b5ba737b530",
+    "city.js": "bfe52198be28f37e196bf28aef660fe2dc0887a8209ca235df4d93ee24056b23",
+    "flight.js": "907e60b9fd662be081e3797e5aa22f079988b471c0ec074f3676d493b56135b3",
+    "index.html": "b96f97639381620e0b86427fc133cb48b2a9d824f776b7027dfed388ba38508d",
+    "materials.js": "27f41172a1a36b12cea2fa10eaa3ec2ea5b38d1fb9ebfaef572b09a38c1e18a4",
+    "ocean.js": "f46ca9462a1d24d15f39f8a0b3d237198e985f31ad42f5a3f70cc9d62a68c751",
+    "package-lock.json": "8ac8975a33262a467a47f9e58ab74b100371d9b673f365f128f673d8595f6e1a",
+    "package.json": "89bf5a068e5c0a365fcebaafc0e16beb81f73b65586d4d3dd93ff51c58d1836f",
+    "precipitation.js": "6dcde368f517fe4eb8ef276436ed43d3eda8d19b8ff398b584feb69fd0a0b120",
+    "README.md": "0213fdb7423b935a76cd9e78d7c54d0ba784f2270d479960252a9629573c2563",
+    "sky-nodes.js": "a9e10521db9444c61fe22e0772ab86e67414e5085fcfaffe9eb3199e0e3ffd5a",
+    "urban-plan.js": "a11771f1ac8e3785c429ee058fbc9a854ecd77df7ca0f022e54ba5736afbf534",
+    "vegetation.js": "57a66c1635f426d7d5111dba338a4fb5d4adc253a25a0f2602d1cb19a6e3f3f4",
+    "vendor\\SkyMesh.js": "6950416eec7d1fdfab218d6ae1f6f64c710e8c253f3faa8625681e970e586bc5",
+    "vendor\\three.module.js": "137d7cffc3e727fd1bf09bea325ee2740d9fa621373ec571b7b6e72d15d9de7e",
+    "vendor\\tsl.js": "54541c50746f90df1975f3c43eca6f8795ee54d9e50a93d1bd6c2f64c1bb4ec2"
+  }
+}

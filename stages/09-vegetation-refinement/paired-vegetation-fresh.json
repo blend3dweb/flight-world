@@ -1,0 +1,69 @@
+{
+  "date": "2026-09-14T16:46:31.588Z",
+  "mode": "Visible Chrome, NVIDIA, 1920x1080 high, low forest orbit, 8s warmup plus 30 presented frames + 8s measurement, alternating A/B order, fresh browser for each sample",
+  "samples": [
+    {
+      "round": 1,
+      "variant": "before",
+      "frames": 579,
+      "averageFps": 72.26479618581662,
+      "medianMs": 12.19999999999709,
+      "p95Ms": 24.19999999999709
+    },
+    {
+      "round": 1,
+      "variant": "after",
+      "frames": 500,
+      "averageFps": 62.49921875976552,
+      "medianMs": 12.200000000000728,
+      "p95Ms": 24.299999999999272
+    },
+    {
+      "round": 2,
+      "variant": "after",
+      "frames": 498,
+      "averageFps": 62.25389086817925,
+      "medianMs": 12.200000000000728,
+      "p95Ms": 24.299999999999272
+    },
+    {
+      "round": 2,
+      "variant": "before",
+      "frames": 565,
+      "averageFps": 70.51746087216993,
+      "medianMs": 12.19999999999709,
+      "p95Ms": 18.400000000001455
+    },
+    {
+      "round": 3,
+      "variant": "before",
+      "frames": 370,
+      "averageFps": 46.18015251931452,
+      "medianMs": 18.599999999998545,
+      "p95Ms": 30.30000000000291
+    },
+    {
+      "round": 3,
+      "variant": "after",
+      "frames": 496,
+      "averageFps": 61.99922500968738,
+      "medianMs": 12.200000000000728,
+      "p95Ms": 30.299999999999272
+    }
+  ],
+  "summary": {
+    "before": {
+      "averageFps": 70.51746087216993,
+      "medianMs": 12.19999999999709,
+      "p95Ms": 24.19999999999709
+    },
+    "after": {
+      "averageFps": 62.25389086817925,
+      "medianMs": 12.200000000000728,
+      "p95Ms": 24.299999999999272
+    },
+    "fpsChangePercent": -11.718473555039676,
+    "p95ChangePercent": 0.4132231405049369
+  },
+  "errors": []
+}

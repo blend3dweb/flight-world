@@ -1,0 +1,509 @@
+{
+  "stage": "13-reflection-stability",
+  "date": "2026-09-15T15:17:18.264Z",
+  "before": {
+    "adapter": "nvidia",
+    "samples": [
+      {
+        "frame": 1,
+        "updates": 3,
+        "delta": 0,
+        "turning": null,
+        "angularDelta": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 2,
+        "updates": 4,
+        "delta": 1,
+        "turning": null,
+        "angularDelta": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 3,
+        "updates": 4,
+        "delta": 0,
+        "turning": null,
+        "angularDelta": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 4,
+        "updates": 4,
+        "delta": 0,
+        "turning": null,
+        "angularDelta": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 5,
+        "updates": 5,
+        "delta": 1,
+        "turning": null,
+        "angularDelta": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 6,
+        "updates": 5,
+        "delta": 0,
+        "turning": null,
+        "angularDelta": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 7,
+        "updates": 5,
+        "delta": 0,
+        "turning": null,
+        "angularDelta": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 8,
+        "updates": 6,
+        "delta": 1,
+        "turning": null,
+        "angularDelta": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 9,
+        "updates": 6,
+        "delta": 0,
+        "turning": null,
+        "angularDelta": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 10,
+        "updates": 6,
+        "delta": 0,
+        "turning": null,
+        "angularDelta": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 11,
+        "updates": 7,
+        "delta": 1,
+        "turning": null,
+        "angularDelta": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 12,
+        "updates": 7,
+        "delta": 0,
+        "turning": null,
+        "angularDelta": null,
+        "resolutionScale": 0.42
+      }
+    ],
+    "settling": [
+      {
+        "frame": 1,
+        "updates": 7,
+        "delta": 0,
+        "turning": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 2,
+        "updates": 8,
+        "delta": 1,
+        "turning": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 3,
+        "updates": 8,
+        "delta": 0,
+        "turning": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 4,
+        "updates": 8,
+        "delta": 0,
+        "turning": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 5,
+        "updates": 9,
+        "delta": 1,
+        "turning": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 6,
+        "updates": 9,
+        "delta": 0,
+        "turning": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 7,
+        "updates": 9,
+        "delta": 0,
+        "turning": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 8,
+        "updates": 10,
+        "delta": 1,
+        "turning": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 9,
+        "updates": 10,
+        "delta": 0,
+        "turning": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 10,
+        "updates": 10,
+        "delta": 0,
+        "turning": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 11,
+        "updates": 11,
+        "delta": 1,
+        "turning": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 12,
+        "updates": 11,
+        "delta": 0,
+        "turning": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 13,
+        "updates": 11,
+        "delta": 0,
+        "turning": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 14,
+        "updates": 12,
+        "delta": 1,
+        "turning": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 15,
+        "updates": 12,
+        "delta": 0,
+        "turning": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 16,
+        "updates": 12,
+        "delta": 0,
+        "turning": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 17,
+        "updates": 13,
+        "delta": 1,
+        "turning": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 18,
+        "updates": 13,
+        "delta": 0,
+        "turning": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 19,
+        "updates": 13,
+        "delta": 0,
+        "turning": null,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 20,
+        "updates": 14,
+        "delta": 1,
+        "turning": null,
+        "resolutionScale": 0.42
+      }
+    ],
+    "performance": {
+      "frames": 326,
+      "averageFps": 65.120552925431,
+      "p95Ms": 24.399999999997817,
+      "reflectionUpdates": 109,
+      "resolutionScale": 0.42,
+      "turning": null
+    },
+    "errors": []
+  },
+  "after": {
+    "adapter": "nvidia",
+    "samples": [
+      {
+        "frame": 1,
+        "updates": 6,
+        "delta": 1,
+        "turning": true,
+        "angularDelta": 0.0517411238729232,
+        "resolutionScale": 0.2772
+      },
+      {
+        "frame": 2,
+        "updates": 7,
+        "delta": 1,
+        "turning": true,
+        "angularDelta": 0.046785468006502795,
+        "resolutionScale": 0.2772
+      },
+      {
+        "frame": 3,
+        "updates": 8,
+        "delta": 1,
+        "turning": true,
+        "angularDelta": 0.037491482202607854,
+        "resolutionScale": 0.2772
+      },
+      {
+        "frame": 4,
+        "updates": 9,
+        "delta": 1,
+        "turning": true,
+        "angularDelta": 0.025246029214542692,
+        "resolutionScale": 0.2772
+      },
+      {
+        "frame": 5,
+        "updates": 10,
+        "delta": 1,
+        "turning": true,
+        "angularDelta": 0.013719032276598602,
+        "resolutionScale": 0.2772
+      },
+      {
+        "frame": 6,
+        "updates": 11,
+        "delta": 1,
+        "turning": true,
+        "angularDelta": 0.015360281323559613,
+        "resolutionScale": 0.2772
+      },
+      {
+        "frame": 7,
+        "updates": 12,
+        "delta": 1,
+        "turning": true,
+        "angularDelta": 0.027598019239140778,
+        "resolutionScale": 0.2772
+      },
+      {
+        "frame": 8,
+        "updates": 13,
+        "delta": 1,
+        "turning": true,
+        "angularDelta": 0.03946223105241835,
+        "resolutionScale": 0.2772
+      },
+      {
+        "frame": 9,
+        "updates": 14,
+        "delta": 1,
+        "turning": true,
+        "angularDelta": 0.04804037176326094,
+        "resolutionScale": 0.2772
+      },
+      {
+        "frame": 10,
+        "updates": 15,
+        "delta": 1,
+        "turning": true,
+        "angularDelta": 0.052118920949689146,
+        "resolutionScale": 0.2772
+      },
+      {
+        "frame": 11,
+        "updates": 16,
+        "delta": 1,
+        "turning": true,
+        "angularDelta": 0.05119660045352119,
+        "resolutionScale": 0.2772
+      },
+      {
+        "frame": 12,
+        "updates": 17,
+        "delta": 1,
+        "turning": true,
+        "angularDelta": 0.045384180611374524,
+        "resolutionScale": 0.2772
+      }
+    ],
+    "settling": [
+      {
+        "frame": 1,
+        "updates": 18,
+        "delta": 1,
+        "turning": true,
+        "resolutionScale": 0.2772
+      },
+      {
+        "frame": 2,
+        "updates": 19,
+        "delta": 1,
+        "turning": true,
+        "resolutionScale": 0.2772
+      },
+      {
+        "frame": 3,
+        "updates": 20,
+        "delta": 1,
+        "turning": true,
+        "resolutionScale": 0.2772
+      },
+      {
+        "frame": 4,
+        "updates": 21,
+        "delta": 1,
+        "turning": true,
+        "resolutionScale": 0.2772
+      },
+      {
+        "frame": 5,
+        "updates": 22,
+        "delta": 1,
+        "turning": true,
+        "resolutionScale": 0.2772
+      },
+      {
+        "frame": 6,
+        "updates": 23,
+        "delta": 1,
+        "turning": true,
+        "resolutionScale": 0.2772
+      },
+      {
+        "frame": 7,
+        "updates": 24,
+        "delta": 1,
+        "turning": true,
+        "resolutionScale": 0.2772
+      },
+      {
+        "frame": 8,
+        "updates": 24,
+        "delta": 0,
+        "turning": false,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 9,
+        "updates": 24,
+        "delta": 0,
+        "turning": false,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 10,
+        "updates": 25,
+        "delta": 1,
+        "turning": false,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 11,
+        "updates": 25,
+        "delta": 0,
+        "turning": false,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 12,
+        "updates": 25,
+        "delta": 0,
+        "turning": false,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 13,
+        "updates": 26,
+        "delta": 1,
+        "turning": false,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 14,
+        "updates": 26,
+        "delta": 0,
+        "turning": false,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 15,
+        "updates": 26,
+        "delta": 0,
+        "turning": false,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 16,
+        "updates": 27,
+        "delta": 1,
+        "turning": false,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 17,
+        "updates": 27,
+        "delta": 0,
+        "turning": false,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 18,
+        "updates": 27,
+        "delta": 0,
+        "turning": false,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 19,
+        "updates": 28,
+        "delta": 1,
+        "turning": false,
+        "resolutionScale": 0.42
+      },
+      {
+        "frame": 20,
+        "updates": 28,
+        "delta": 0,
+        "turning": false,
+        "resolutionScale": 0.42
+      }
+    ],
+    "performance": {
+      "frames": 389,
+      "averageFps": 77.70054330457012,
+      "p95Ms": 18.200000000000728,
+      "reflectionUpdates": 390,
+      "resolutionScale": 0.2772,
+      "turning": true
+    },
+    "errors": []
+  },
+  "errors": []
+}
