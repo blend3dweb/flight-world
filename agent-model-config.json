@@ -73,6 +73,12 @@
     "minimumConfidenceForAutomaticDispatch": 0.65,
     "codexReviewsEveryFinding": true,
     "allowModelOnlyPass": false,
+    "developmentCycle": {
+      "codexReviewRequired": true,
+      "approvedFileListRequired": true,
+      "changedFileHashRequired": true,
+      "automaticSourceEdits": false
+    },
     "sensorDeltaGate": {
       "enabled": true,
       "meanLuminanceThreshold": 10,

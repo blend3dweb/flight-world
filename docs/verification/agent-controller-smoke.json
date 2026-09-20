@@ -1,16 +1,16 @@
 {
-  "checkedAt": "2026-09-20T14:59:25.959Z",
+  "checkedAt": "2026-09-20T15:28:07.834Z",
   "protocol": "0.2.0",
   "apiHost": "127.0.0.1",
   "baseline": {
-    "id": "2b1c1cfb-b517-4f18-b2f0-21f1f47ef79e",
+    "id": "b6cd14aa-e1a8-4e41-a318-0e089385bd5d",
     "status": "complete",
     "waypoints": [
       {
         "id": "city-overview",
         "center": {
           "id": 89,
-          "uuid": "a5f2c1e5-523d-4a39-9f80-b4ae03f0a480",
+          "uuid": "d84392e3-e01f-4476-9a89-6dc7be79d560",
           "name": "Irregular sidewalk block",
           "type": "Mesh",
           "semantic": "airport",
@@ -30,7 +30,7 @@
             "height": 180,
             "meanLuminance": 134.47,
             "luminanceStdDev": 51.95,
-            "bytes": 10371
+            "bytes": 10350
           },
           "depth": {
             "mimeType": "image/png",
@@ -38,15 +38,15 @@
             "height": 180,
             "meanLuminance": 8.25,
             "luminanceStdDev": 17.84,
-            "bytes": 10845
+            "bytes": 10860
           },
           "normal": {
             "mimeType": "image/png",
             "width": 320,
             "height": 180,
             "meanLuminance": 152.32,
-            "luminanceStdDev": 94.45,
-            "bytes": 44772
+            "luminanceStdDev": 94.44,
+            "bytes": 44781
           },
           "objectId": {
             "mimeType": "image/png",
@@ -54,7 +54,7 @@
             "height": 180,
             "meanLuminance": 3.88,
             "luminanceStdDev": 10.5,
-            "bytes": 16035
+            "bytes": 16038
           }
         }
       },
@@ -62,16 +62,16 @@
         "id": "bridge",
         "center": {
           "id": 5,
-          "uuid": "052a4032-d215-498a-9c75-ec69419623d7",
+          "uuid": "ac72a9ba-ee52-4cbd-9087-d21c11b3a9d7",
           "name": "Ocean — geometric waves and city reflection",
           "type": "Mesh",
           "semantic": "ocean",
           "module": "ocean.js",
           "visible": true,
           "position": [
-            -1731.417,
+            -1730.41,
             0,
-            -1014.127
+            -1004.084
           ],
           "vertices": 37249
         },
@@ -80,9 +80,9 @@
             "mimeType": "image/jpeg",
             "width": 320,
             "height": 180,
-            "meanLuminance": 41.2,
-            "luminanceStdDev": 23.74,
-            "bytes": 5349
+            "meanLuminance": 23.14,
+            "luminanceStdDev": 11.11,
+            "bytes": 3438
           },
           "depth": {
             "mimeType": "image/png",
@@ -90,7 +90,7 @@
             "height": 180,
             "meanLuminance": 6.5,
             "luminanceStdDev": 14.3,
-            "bytes": 9579
+            "bytes": 9603
           },
           "normal": {
             "mimeType": "image/png",
@@ -98,7 +98,7 @@
             "height": 180,
             "meanLuminance": 157.88,
             "luminanceStdDev": 95.25,
-            "bytes": 25869
+            "bytes": 25866
           },
           "objectId": {
             "mimeType": "image/png",
@@ -106,15 +106,15 @@
             "height": 180,
             "meanLuminance": 1.28,
             "luminanceStdDev": 3.81,
-            "bytes": 9189
+            "bytes": 9195
           }
         }
       }
     ]
   },
   "recheck": {
-    "id": "5021e693-e6b4-4384-b0c9-cdea911dabd8",
-    "baselineId": "2b1c1cfb-b517-4f18-b2f0-21f1f47ef79e",
+    "id": "84e114f3-a00b-4d5f-8a4a-5b761b1c2cae",
+    "baselineId": "b6cd14aa-e1a8-4e41-a318-0e089385bd5d",
     "status": "complete",
     "comparison": [
       {
@@ -122,7 +122,7 @@
         "baselineFound": true,
         "centerSemanticChanged": false,
         "centerModuleChanged": false,
-        "rgbMeanDelta": -4.17,
+        "rgbMeanDelta": 0,
         "depthMeanDelta": 0
       },
       {
@@ -130,20 +130,20 @@
         "baselineFound": true,
         "centerSemanticChanged": false,
         "centerModuleChanged": false,
-        "rgbMeanDelta": -18.1,
+        "rgbMeanDelta": 18.07,
         "depthMeanDelta": 0
       }
     ]
   },
   "fullRoute": {
-    "id": "3f9c2d8f-409a-438b-bd2e-2b4d827dc488",
+    "id": "c0ca029c-adf6-4b3c-a5c1-509089b6ec23",
     "status": "complete",
     "waypoints": [
       {
         "id": "city-overview",
         "center": {
           "id": 89,
-          "uuid": "a5f2c1e5-523d-4a39-9f80-b4ae03f0a480",
+          "uuid": "d84392e3-e01f-4476-9a89-6dc7be79d560",
           "name": "Irregular sidewalk block",
           "type": "Mesh",
           "semantic": "airport",
@@ -164,7 +164,7 @@
           "autoWeather": false,
           "rain": 0,
           "snow": 0,
-          "elapsed": 0.17279999999999926,
+          "elapsed": 0.05,
           "daylight": 1,
           "fogDensity": 0.00003,
           "wind": 0.7,
@@ -177,9 +177,9 @@
             "mimeType": "image/jpeg",
             "width": 320,
             "height": 180,
-            "meanLuminance": 134.46,
-            "luminanceStdDev": 51.96,
-            "bytes": 10371
+            "meanLuminance": 130.31,
+            "luminanceStdDev": 53.61,
+            "bytes": 10191
           },
           "depth": {
             "mimeType": "image/png",
@@ -187,15 +187,15 @@
             "height": 180,
             "meanLuminance": 8.25,
             "luminanceStdDev": 17.84,
-            "bytes": 10830
+            "bytes": 10857
           },
           "normal": {
             "mimeType": "image/png",
             "width": 320,
             "height": 180,
-            "meanLuminance": 152.29,
-            "luminanceStdDev": 94.47,
-            "bytes": 44781
+            "meanLuminance": 152.31,
+            "luminanceStdDev": 94.46,
+            "bytes": 44793
           },
           "objectId": {
             "mimeType": "image/png",
@@ -203,7 +203,7 @@
             "height": 180,
             "meanLuminance": 3.88,
             "luminanceStdDev": 10.5,
-            "bytes": 16035
+            "bytes": 16038
           }
         }
       },
@@ -211,7 +211,7 @@
         "id": "city-night",
         "center": {
           "id": 193,
-          "uuid": "5b03af3e-10c1-4b4e-9eab-9ebd8d727de7",
+          "uuid": "07e7eb32-f9a8-4e84-b5f8-6dd5ae5400d2",
           "name": "Roads",
           "type": "Mesh",
           "semantic": "airport",
@@ -233,7 +233,7 @@
           "autoWeather": false,
           "rain": 0,
           "snow": 0,
-          "elapsed": 0.17279999999999926,
+          "elapsed": 0.05,
           "daylight": 0,
           "fogDensity": 0.00003,
           "wind": 0.7,
@@ -248,14 +248,14 @@
             "height": 180,
             "meanLuminance": 45.28,
             "luminanceStdDev": 30.32,
-            "bytes": 11124
+            "bytes": 11130
           },
           "depth": {
             "mimeType": "image/png",
             "width": 320,
             "height": 180,
             "meanLuminance": 5.54,
-            "luminanceStdDev": 16.2,
+            "luminanceStdDev": 16.21,
             "bytes": 9618
           },
           "normal": {
@@ -264,7 +264,7 @@
             "height": 180,
             "meanLuminance": 135.28,
             "luminanceStdDev": 92.92,
-            "bytes": 40743
+            "bytes": 40758
           },
           "objectId": {
             "mimeType": "image/png",
@@ -272,7 +272,7 @@
             "height": 180,
             "meanLuminance": 13.39,
             "luminanceStdDev": 19.05,
-            "bytes": 22614
+            "bytes": 22617
           }
         }
       },
@@ -280,16 +280,16 @@
         "id": "bridge-rain",
         "center": {
           "id": 5,
-          "uuid": "052a4032-d215-498a-9c75-ec69419623d7",
+          "uuid": "ac72a9ba-ee52-4cbd-9087-d21c11b3a9d7",
           "name": "Ocean — geometric waves and city reflection",
           "type": "Mesh",
           "semantic": "ocean",
           "module": "ocean.js",
           "visible": true,
           "position": [
-            -1731.417,
+            -1730.41,
             0,
-            -1014.127
+            -1004.084
           ],
           "vertices": 37249
         },
@@ -301,7 +301,7 @@
           "autoWeather": false,
           "rain": 1,
           "snow": 0,
-          "elapsed": 0.17279999999999926,
+          "elapsed": 0.05,
           "daylight": 0.5585715971917644,
           "fogDensity": 0.00023,
           "wind": 2,
@@ -314,9 +314,9 @@
             "mimeType": "image/jpeg",
             "width": 320,
             "height": 180,
-            "meanLuminance": 84.84,
-            "luminanceStdDev": 27.97,
-            "bytes": 6435
+            "meanLuminance": 88.86,
+            "luminanceStdDev": 26.69,
+            "bytes": 6486
           },
           "depth": {
             "mimeType": "image/png",
@@ -324,7 +324,7 @@
             "height": 180,
             "meanLuminance": 6.5,
             "luminanceStdDev": 14.3,
-            "bytes": 9579
+            "bytes": 9603
           },
           "normal": {
             "mimeType": "image/png",
@@ -332,7 +332,7 @@
             "height": 180,
             "meanLuminance": 157.88,
             "luminanceStdDev": 95.25,
-            "bytes": 25869
+            "bytes": 25866
           },
           "objectId": {
             "mimeType": "image/png",
@@ -340,7 +340,7 @@
             "height": 180,
             "meanLuminance": 1.28,
             "luminanceStdDev": 3.81,
-            "bytes": 9189
+            "bytes": 9195
           }
         }
       },
@@ -348,7 +348,7 @@
         "id": "airport",
         "center": {
           "id": 298,
-          "uuid": "a571be8a-325a-495d-9075-21b3bcfd8473",
+          "uuid": "5925bd69-4759-4c4e-b90f-a157d4f92775",
           "name": "Apron",
           "type": "Mesh",
           "semantic": "airport",
@@ -370,7 +370,7 @@
           "autoWeather": false,
           "rain": 0,
           "snow": 0,
-          "elapsed": 0.17279999999999926,
+          "elapsed": 0.05,
           "daylight": 1,
           "fogDensity": 0.00003,
           "wind": 0.7,
@@ -383,9 +383,9 @@
             "mimeType": "image/jpeg",
             "width": 320,
             "height": 180,
-            "meanLuminance": 123.83,
-            "luminanceStdDev": 44.27,
-            "bytes": 8850
+            "meanLuminance": 122.89,
+            "luminanceStdDev": 44.13,
+            "bytes": 8841
           },
           "depth": {
             "mimeType": "image/png",
@@ -393,15 +393,15 @@
             "height": 180,
             "meanLuminance": 10.73,
             "luminanceStdDev": 23.64,
-            "bytes": 11961
+            "bytes": 11964
           },
           "normal": {
             "mimeType": "image/png",
             "width": 320,
             "height": 180,
-            "meanLuminance": 174.84,
+            "meanLuminance": 174.83,
             "luminanceStdDev": 81.01,
-            "bytes": 49410
+            "bytes": 49389
           },
           "objectId": {
             "mimeType": "image/png",
@@ -417,7 +417,7 @@
         "id": "islands-snow",
         "center": {
           "id": 25,
-          "uuid": "2d2f5c00-bf68-4c57-865c-6c103c376858",
+          "uuid": "2fbc45ac-93d4-4850-a5ac-9a0c2a98be69",
           "name": "Forest distant 3",
           "type": "Mesh",
           "semantic": "vegetation",
@@ -439,7 +439,7 @@
           "autoWeather": false,
           "rain": 0,
           "snow": 1,
-          "elapsed": 0.17279999999999926,
+          "elapsed": 0.05,
           "daylight": 1,
           "fogDensity": 0.00029,
           "wind": 1.25,
@@ -452,9 +452,9 @@
             "mimeType": "image/jpeg",
             "width": 320,
             "height": 180,
-            "meanLuminance": 148.05,
+            "meanLuminance": 148.03,
             "luminanceStdDev": 34.28,
-            "bytes": 4542
+            "bytes": 4530
           },
           "depth": {
             "mimeType": "image/png",
@@ -462,15 +462,15 @@
             "height": 180,
             "meanLuminance": 13.62,
             "luminanceStdDev": 26.65,
-            "bytes": 12261
+            "bytes": 12255
           },
           "normal": {
             "mimeType": "image/png",
             "width": 320,
             "height": 180,
-            "meanLuminance": 162.49,
-            "luminanceStdDev": 92.69,
-            "bytes": 28437
+            "meanLuminance": 162.5,
+            "luminanceStdDev": 92.68,
+            "bytes": 28434
           },
           "objectId": {
             "mimeType": "image/png",
@@ -486,7 +486,7 @@
         "id": "ocean-sunset",
         "center": {
           "id": 6,
-          "uuid": "cb8441bb-03ad-4dad-a235-a388a7a1825c",
+          "uuid": "5752a028-0e83-4d96-bb68-9057425b554c",
           "name": "Mesh",
           "type": "Mesh",
           "semantic": "world",
@@ -507,7 +507,7 @@
           "autoWeather": false,
           "rain": 0,
           "snow": 0,
-          "elapsed": 0.17279999999999926,
+          "elapsed": 0.05,
           "daylight": 0.005208356581893034,
           "fogDensity": 0.00003,
           "wind": 0.7,
@@ -520,9 +520,9 @@
             "mimeType": "image/jpeg",
             "width": 320,
             "height": 180,
-            "meanLuminance": 52.88,
-            "luminanceStdDev": 30.04,
-            "bytes": 5775
+            "meanLuminance": 31.5,
+            "luminanceStdDev": 14.74,
+            "bytes": 3867
           },
           "depth": {
             "mimeType": "image/png",
@@ -538,7 +538,7 @@
             "height": 180,
             "meanLuminance": 119.72,
             "luminanceStdDev": 107.98,
-            "bytes": 15099
+            "bytes": 15096
           },
           "objectId": {
             "mimeType": "image/png",
@@ -546,7 +546,7 @@
             "height": 180,
             "meanLuminance": 1.05,
             "luminanceStdDev": 4.12,
-            "bytes": 6057
+            "bytes": 6060
           }
         }
       }

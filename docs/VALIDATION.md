@@ -60,6 +60,7 @@ node agent-bridge-audit.cjs
 node agent-controller-audit.cjs
 node agent-active-observer-audit.cjs
 node agent-resilience-audit.cjs
+node agent-development-cycle-audit.cjs
 node ollama-dispatcher-audit.cjs
 node ollama-defect-sensitivity-audit.cjs
 ```

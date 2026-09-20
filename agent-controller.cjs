@@ -22,6 +22,14 @@ function delay(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 function isRecoverableConnectionError(error) {
   return /target page.*closed|page has been closed|browser has been closed|browser closed|target closed|execution context was destroyed|session closed|connection closed|page crashed/i.test(String(error?.message ?? error));
 }
+function normalizedProjectFiles(files) {
+  if (!Array.isArray(files) || files.length < 1 || files.length > 20) throw new Error('One to twenty project files are required');
+  return [...new Set(files.map(value => {
+    const file = String(value ?? '').trim().replaceAll('\\', '/');
+    if (!file || file.includes('\0') || path.isAbsolute(file) || file.split('/').includes('..')) throw new Error(`Unsafe project file: ${file || '<empty>'}`);
+    return file.replace(/^\.\//, '');
+  }))];
+}
 function json(response, status, value) {
   const body = JSON.stringify(value, null, 2);
   response.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': Buffer.byteLength(body), 'Cache-Control': 'no-store' });
@@ -83,7 +91,7 @@ class FlightAgentController {
     this.recoveryPromise = null;
     this.stopping = false;
     this.cancelRoute = false;
-    this.state = { status: 'created', startedAt: null, api: null, scene: this.options.origin, route: null, inspection: null, recovery: { count: 0, last: null }, errors: [] };
+    this.state = { status: 'created', startedAt: null, api: null, scene: this.options.origin, route: null, inspection: null, cycle: null, recovery: { count: 0, last: null }, errors: [] };
     this.routes = JSON.parse(fs.readFileSync(this.options.routeFile, 'utf8'));
     this.dispatcher = new OllamaVisionDispatcher({ configPath: this.options.modelConfigFile });
     this.memory = this.loadMemory();
@@ -96,10 +104,11 @@ class FlightAgentController {
       if (parsed.version === 1 && Array.isArray(parsed.routeRuns)) {
         if (!Array.isArray(parsed.inspectionRuns)) parsed.inspectionRuns = [];
         if (!Array.isArray(parsed.recoveries)) parsed.recoveries = [];
+        if (!Array.isArray(parsed.developmentCycles)) parsed.developmentCycles = [];
         return parsed;
       }
     } catch {}
-    return { version: 1, updatedAt: null, sessions: [], routeRuns: [], inspectionRuns: [], recoveries: [], safeCheckpoint: null };
+    return { version: 1, updatedAt: null, sessions: [], routeRuns: [], inspectionRuns: [], recoveries: [], developmentCycles: [], safeCheckpoint: null };
   }
 
   saveMemory() {
@@ -220,6 +229,160 @@ class FlightAgentController {
     }
   }
 
+  snapshotProjectFiles(files) {
+    return normalizedProjectFiles(files).map(file => {
+      const absolute = path.resolve(root, file);
+      if (!absolute.startsWith(`${path.resolve(root)}${path.sep}`)) throw new Error(`Project file escapes workspace: ${file}`);
+      if (!fs.existsSync(absolute) || !fs.statSync(absolute).isFile()) return { file, exists: false, bytes: 0, sha256: null };
+      const content = fs.readFileSync(absolute);
+      return { file, exists: true, bytes: content.length, sha256: crypto.createHash('sha256').update(content).digest('hex') };
+    });
+  }
+
+  developmentCycle(id) {
+    const cycle = this.memory.developmentCycles.find(item => item.id === id);
+    if (!cycle) throw new Error(`Development cycle was not found: ${id}`);
+    return cycle;
+  }
+
+  createDevelopmentCycle(run) {
+    if (run.developmentCycleId) return this.developmentCycle(run.developmentCycleId);
+    const nonPassViews = run.views.filter(view => view.modelInspection?.finding?.decision !== 'pass');
+    const cycle = {
+      id: crypto.randomUUID(),
+      createdAt: now(),
+      updatedAt: now(),
+      status: 'awaiting-codex-review',
+      inspectionRunId: run.id,
+      target: run.target,
+      request: run.requested,
+      settings: run.settings,
+      initialDecision: run.decision,
+      evidence: nonPassViews.map(view => ({
+        view: view.index,
+        reason: view.reason,
+        center: view.center?.object ?? null,
+        finding: view.modelInspection.finding,
+      })),
+      review: null,
+      fix: null,
+      recheck: null,
+      history: [{ at: now(), event: 'finding-created', decision: run.decision }],
+    };
+    run.developmentCycleId = cycle.id;
+    this.memory.developmentCycles.push(cycle);
+    this.memory.developmentCycles = this.memory.developmentCycles.slice(-50);
+    this.state.cycle = { id: cycle.id, status: cycle.status };
+    this.saveMemory();
+    return cycle;
+  }
+
+  reviewDevelopmentCycle({ id, reviewer, decision, rationale, files = [] } = {}) {
+    const cycle = this.developmentCycle(id);
+    if (reviewer !== 'codex') throw new Error('Only Codex may review a development cycle');
+    if (!['approve-fix', 'request-reinspection', 'reject'].includes(decision)) throw new Error('Unsupported Codex review decision');
+    if (typeof rationale !== 'string' || !rationale.trim()) throw new Error('Codex review rationale is required');
+    if (!['awaiting-codex-review', 'needs-work'].includes(cycle.status)) throw new Error(`Cycle cannot be reviewed from status: ${cycle.status}`);
+    const proposedFiles = decision === 'approve-fix' ? normalizedProjectFiles(files) : [];
+    cycle.review = { at: now(), reviewer, decision, rationale: rationale.trim().slice(0, 2000), proposedFiles };
+    if (decision === 'approve-fix') {
+      cycle.review.beforeFiles = this.snapshotProjectFiles(proposedFiles);
+      cycle.status = 'approved-for-fix';
+    } else if (decision === 'request-reinspection') cycle.status = 'reinspection-requested';
+    else cycle.status = 'rejected';
+    cycle.updatedAt = now();
+    cycle.history.push({ at: now(), event: 'codex-review', decision, rationale: cycle.review.rationale });
+    this.state.cycle = { id: cycle.id, status: cycle.status };
+    this.saveMemory();
+    return cycle;
+  }
+
+  recordDevelopmentFix({ id, reviewer, summary, files, commit = null } = {}) {
+    const cycle = this.developmentCycle(id);
+    if (reviewer !== 'codex') throw new Error('Only Codex may record a development fix');
+    if (cycle.status !== 'approved-for-fix') throw new Error(`Fix cannot be recorded from status: ${cycle.status}`);
+    if (typeof summary !== 'string' || !summary.trim()) throw new Error('Fix summary is required');
+    const changedFiles = normalizedProjectFiles(files);
+    const approved = new Set(cycle.review.proposedFiles);
+    if (changedFiles.some(file => !approved.has(file))) throw new Error('Fix contains a file that Codex did not approve');
+    const before = new Map(cycle.review.beforeFiles.map(item => [item.file, item]));
+    const afterFiles = this.snapshotProjectFiles(changedFiles);
+    const changed = afterFiles.filter(item => {
+      const previous = before.get(item.file) ?? { exists: false, sha256: null };
+      return item.exists !== previous.exists || item.sha256 !== previous.sha256;
+    });
+    if (!changed.length) throw new Error('No approved project file changed after Codex review');
+    cycle.fix = {
+      at: now(), reviewer, summary: summary.trim().slice(0, 2000),
+      commit: typeof commit === 'string' && commit.trim() ? commit.trim().slice(0, 100) : null,
+      files: afterFiles,
+      changed: changed.map(item => item.file),
+    };
+    cycle.status = 'fix-recorded';
+    cycle.updatedAt = now();
+    cycle.history.push({ at: now(), event: 'fix-recorded', files: cycle.fix.changed, commit: cycle.fix.commit });
+    this.state.cycle = { id: cycle.id, status: cycle.status };
+    this.saveMemory();
+    return cycle;
+  }
+
+  async refreshScene() {
+    this.state.status = 'refreshing';
+    try {
+      if (this.page && !this.page.isClosed()) await this.page.close().catch(() => {});
+      await this.ensureSceneServer();
+      const capabilities = await this.openScenePage();
+      await this.restoreCheckpoint(this.safeCheckpoint);
+      const observation = await this.page.evaluate(() => window.flight.agent.observe({ visual: false }));
+      this.rememberCheckpoint(observation);
+      this.state.capabilities = capabilities;
+      this.state.status = 'ready';
+    } catch (error) {
+      this.state.status = 'failed';
+      throw error;
+    }
+  }
+
+  async recheckDevelopmentCycle(id) {
+    const cycle = this.developmentCycle(id);
+    if (!['fix-recorded', 'reinspection-requested'].includes(cycle.status)) throw new Error(`Cycle cannot be rechecked from status: ${cycle.status}`);
+    cycle.status = 'verifying';
+    cycle.updatedAt = now();
+    cycle.history.push({ at: now(), event: 'recheck-started' });
+    this.state.cycle = { id: cycle.id, status: cycle.status };
+    this.saveMemory();
+    try {
+      await this.refreshScene();
+      const settings = cycle.settings ?? {};
+      const run = await this.inspectObjectTour({
+        name: cycle.target.object.name,
+        semantic: cycle.target.object.semantic,
+        views: settings.views ?? 4,
+        startAzimuth: settings.startAzimuth ?? 0,
+        elevation: settings.elevation ?? 0.3,
+        distanceFactor: settings.distanceFactor ?? 2.4,
+        minimumDistance: settings.minimumDistance ?? 20,
+        maxExtraViews: settings.maxExtraViews ?? 2,
+        analyze: true,
+        createCycle: false,
+      });
+      cycle.recheck = { at: now(), inspectionRunId: run.id, decision: run.decision, views: run.views.length };
+      cycle.status = run.decision === 'pass' ? 'verified' : 'needs-work';
+      cycle.updatedAt = now();
+      cycle.history.push({ at: now(), event: 'recheck-completed', decision: run.decision, inspectionRunId: run.id });
+      this.state.cycle = { id: cycle.id, status: cycle.status };
+      this.saveMemory();
+      return cycle;
+    } catch (error) {
+      cycle.status = 'recheck-failed';
+      cycle.updatedAt = now();
+      cycle.history.push({ at: now(), event: 'recheck-failed', error: error.message });
+      this.state.cycle = { id: cycle.id, status: cycle.status };
+      this.saveMemory();
+      throw error;
+    }
+  }
+
   async start() {
     if (this.state.status !== 'created' && this.state.status !== 'stopped') return this.state;
     this.stopping = false;
@@ -281,7 +444,7 @@ class FlightAgentController {
     return this.dispatcher.analyze(observation, { ...context, center: identification.result.hit });
   }
 
-  async inspectObjectTour({ id, name, semantic, views = 4, analyze = true, startAzimuth = 0, elevation = 0.3, distanceFactor = 2.4, minimumDistance = 20, maxExtraViews = 2 } = {}) {
+  async inspectObjectTour({ id, name, semantic, views = 4, analyze = true, startAzimuth = 0, elevation = 0.3, distanceFactor = 2.4, minimumDistance = 20, maxExtraViews = 2, createCycle = true } = {}) {
     if (this.state.route?.status === 'running') throw new Error('A route is already running');
     if (this.state.inspection?.status === 'running') throw new Error('Another object inspection is already running');
     if (!id && !name && !semantic) throw new Error('Object inspection requires id, name, or semantic');
@@ -296,6 +459,7 @@ class FlightAgentController {
       analyze: analyze === true,
       requestedViews: viewCount,
       maxExtraViews: extraLimit,
+      settings: { views: viewCount, startAzimuth: Number(startAzimuth), elevation: Number(elevation), distanceFactor: Number(distanceFactor), minimumDistance: Number(minimumDistance), maxExtraViews: extraLimit },
       target: null,
       views: [],
       decision: analyze === true ? 'pending' : 'not-analyzed',
@@ -397,6 +561,7 @@ class FlightAgentController {
       this.state.inspection.status = run.status;
       this.saveMemory();
     }
+    if (createCycle !== false && run.status === 'complete' && analyze === true && run.decision !== 'pass') this.createDevelopmentCycle(run);
     return run;
   }
 
@@ -468,10 +633,21 @@ class FlightAgentController {
     if (request.method === 'GET' && url.pathname === '/health') return json(response, 200, { ok: this.state.status === 'ready', status: this.state.status, protocol: this.state.capabilities?.protocol ?? null });
     if (request.method === 'GET' && url.pathname === '/state') return json(response, 200, this.state);
     if (request.method === 'GET' && url.pathname === '/memory') return json(response, 200, this.memory);
+    if (request.method === 'GET' && url.pathname === '/cycles') return json(response, 200, { cycles: this.memory.developmentCycles });
     if (request.method === 'GET' && url.pathname === '/model') return json(response, 200, await this.dispatcher.status());
     if (request.method === 'POST' && url.pathname === '/command') return json(response, 200, await this.execute(await readBody(request)));
     if (request.method === 'POST' && url.pathname === '/observe') return json(response, 200, await this.observe(await readBody(request)));
     if (request.method === 'POST' && url.pathname === '/model/analyze') return json(response, 200, await this.inspectWithModel(await readBody(request)));
+    if (request.method === 'POST' && url.pathname === '/cycle/review') return json(response, 200, this.reviewDevelopmentCycle(await readBody(request)));
+    if (request.method === 'POST' && url.pathname === '/cycle/fix') return json(response, 200, this.recordDevelopmentFix(await readBody(request)));
+    if (request.method === 'POST' && url.pathname === '/cycle/recheck') {
+      const body = await readBody(request);
+      const cycle = this.developmentCycle(body.id);
+      if (!['fix-recorded', 'reinspection-requested'].includes(cycle.status)) throw new Error(`Cycle cannot be rechecked from status: ${cycle.status}`);
+      const promise = this.recheckDevelopmentCycle(body.id);
+      promise.catch(() => {});
+      return json(response, 202, { ok: true, id: body.id, status: 'verifying' });
+    }
     if (request.method === 'POST' && url.pathname === '/inspection/start') {
       const body = await readBody(request);
       const promise = this.inspectObjectTour(body);
