@@ -51,14 +51,15 @@ async function waitForInspection(base, timeoutMs = 300000) {
 
     assert.equal(state.capabilities.protocol, '0.2.0');
     assert.equal(run.status, 'complete');
-    assert.equal(run.views.length, 4);
+    assert.ok(run.views.length >= 4 && run.views.length <= 6);
+    assert.equal(run.views.filter(view => view.reason === 'scheduled').length, 4);
     assert.equal(run.target.object.semantic, 'bridge');
     assert.equal(run.target.object.module, 'city.js');
     assert.ok(run.target.bounds.radius > 0);
     assert.ok(run.target.geometry?.vertices > 0);
     assert.ok(run.target.materials.length > 0);
     assert.deepEqual(after, before, 'Observer pose must be restored after the tour');
-    assert.equal(new Set(run.views.map(view => view.observer.position.join(','))).size, 4, 'Every tour view must use a distinct camera position');
+    assert.equal(new Set(run.views.map(view => view.observer.position.join(','))).size, run.views.length, 'Every tour view must use a distinct camera position');
     for (const view of run.views) {
       assert.deepEqual(Object.keys(view.observation.sensors).sort(), ['depth', 'normal', 'objectId', 'rgb']);
       assert.ok(view.center?.object?.id > 0);

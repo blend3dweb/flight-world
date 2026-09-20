@@ -1,0 +1,194 @@
+{
+  "checkedAt": "2026-09-20T15:01:05.038Z",
+  "protocol": "0.2.0",
+  "recovery": {
+    "count": 2,
+    "last": {
+      "at": "2026-09-20T15:00:31.454Z",
+      "startedAt": "2026-09-20T15:00:19.090Z",
+      "reason": "page.evaluate: Target page, context or browser has been closed",
+      "restored": true
+    }
+  },
+  "checkpoint": {
+    "observer": {
+      "position": [
+        3300,
+        480,
+        -2450
+      ],
+      "target": [
+        2500,
+        35,
+        -3300
+      ],
+      "fov": 54,
+      "near": 0.2,
+      "far": 60000
+    },
+    "position": [
+      2730,
+      200,
+      -2030
+    ],
+    "paused": true,
+    "environment": {
+      "hour": 19.25,
+      "cycle": false,
+      "cycleSeconds": 240,
+      "weather": "rain",
+      "autoWeather": false,
+      "rain": 1,
+      "snow": 0,
+      "elapsed": 0,
+      "daylight": 0,
+      "fogDensity": 0.00023,
+      "wind": 2,
+      "reflectionUpdates": 4,
+      "pmremUpdates": 4,
+      "captureFace": -1
+    }
+  },
+  "recovered": {
+    "observer": {
+      "position": [
+        3300,
+        480,
+        -2450
+      ],
+      "target": [
+        2500,
+        35,
+        -3300
+      ],
+      "fov": 54,
+      "near": 0.2,
+      "far": 60000
+    },
+    "position": [
+      2730,
+      200,
+      -2030
+    ],
+    "paused": true,
+    "environment": {
+      "hour": 19.25,
+      "cycle": false,
+      "cycleSeconds": 240,
+      "weather": "rain",
+      "autoWeather": false,
+      "rain": 1,
+      "snow": 0,
+      "elapsed": 0.1,
+      "daylight": 0,
+      "fogDensity": 0.00023,
+      "wind": 2,
+      "reflectionUpdates": 2,
+      "pmremUpdates": 2,
+      "captureFace": -1
+    }
+  },
+  "browserRecovered": {
+    "observer": {
+      "position": [
+        3300,
+        480,
+        -2450
+      ],
+      "target": [
+        2500,
+        35,
+        -3300
+      ],
+      "fov": 54,
+      "near": 0.2,
+      "far": 60000
+    },
+    "position": [
+      2730,
+      200,
+      -2030
+    ],
+    "paused": true,
+    "environment": {
+      "hour": 19.25,
+      "cycle": false,
+      "cycleSeconds": 240,
+      "weather": "rain",
+      "autoWeather": false,
+      "rain": 1,
+      "snow": 0,
+      "elapsed": 0.05,
+      "daylight": 0,
+      "fogDensity": 0.00023,
+      "wind": 2,
+      "reflectionUpdates": 2,
+      "pmremUpdates": 2,
+      "captureFace": -1
+    }
+  },
+  "invalidCommandTriggeredRecovery": false,
+  "adaptiveInspection": {
+    "target": {
+      "id": 282,
+      "uuid": "04626d95-fc0c-45bf-8b5f-4b282c9d81ea",
+      "name": "Bridge deck",
+      "type": "Mesh",
+      "semantic": "bridge",
+      "module": "city.js",
+      "visible": true,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "instances": 90,
+      "vertices": 24
+    },
+    "requestedViews": 3,
+    "actualViews": 4,
+    "maxExtraViews": 2,
+    "decision": "pass",
+    "views": [
+      {
+        "index": 0,
+        "reason": "scheduled",
+        "parentView": null,
+        "rootView": 0,
+        "azimuth": 0,
+        "elevation": 0.3,
+        "decision": "reinspect"
+      },
+      {
+        "index": 1,
+        "reason": "scheduled",
+        "parentView": null,
+        "rootView": 1,
+        "azimuth": 2.094395,
+        "elevation": 0.3,
+        "decision": "pass"
+      },
+      {
+        "index": 2,
+        "reason": "scheduled",
+        "parentView": null,
+        "rootView": 2,
+        "azimuth": 4.18879,
+        "elevation": 0.3,
+        "decision": "pass"
+      },
+      {
+        "index": 3,
+        "reason": "reinspect-follow-up",
+        "parentView": 0,
+        "rootView": 0,
+        "azimuth": 0.523599,
+        "elevation": 0.42,
+        "decision": "pass"
+      }
+    ],
+    "observerRestored": true
+  },
+  "rawImagesPersisted": false,
+  "controllerErrors": []
+}

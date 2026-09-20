@@ -53,6 +53,17 @@ node gpu-reflection-turn-audit.cjs 13-reflection-check
 node gpu-benchmark.cjs 08-ocean-check
 ```
 
+Проверки Agent Bridge выполняются без сохранения кадров и видео:
+
+```powershell
+node agent-bridge-audit.cjs
+node agent-controller-audit.cjs
+node agent-active-observer-audit.cjs
+node agent-resilience-audit.cjs
+node ollama-dispatcher-audit.cjs
+node ollama-defect-sensitivity-audit.cjs
+```
+
 Имя папки менять на новый текущий этап или новую проверку. Скрипты принимают имя этапа. `stage-review.cjs` создаёт папку и галерею снимков.
 
 `gpu-benchmark.cjs` требует имя новой папки результата. Завершённые этапы 01–07 и папки с `complete.json` защищены от перезаписи. Для повторной проверки использовать новое имя, например `13-reflection-check-02`. Генератор `stage-gallery.cjs` содержит завершённые этапы 01–13 и сравнение текущей сцены с предыдущим завершённым этапом.
