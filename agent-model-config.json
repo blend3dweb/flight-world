@@ -8,8 +8,9 @@
     "role": "eyes-and-dispatcher",
     "options": {
       "num_ctx": 8192,
-      "temperature": 0.2,
-      "top_p": 0.9
+      "temperature": 0,
+      "top_p": 0.9,
+      "seed": 42
     },
     "keepAlive": "5m",
     "inputs": {
@@ -34,7 +35,13 @@
       "publish-build",
       "delete-project-files"
     ],
-    "outputSchema": "agent-defect.schema.json"
+    "outputSchema": "agent-defect.schema.json",
+    "validation": {
+      "referenceRoute": "passed",
+      "injectedDefect": "failed-model-detected-by-controller",
+      "autonomousPassAllowed": false,
+      "checkedAt": "2026-09-20"
+    }
   },
   "supervisor": {
     "provider": "codex",
@@ -55,13 +62,21 @@
     "model": "qwen3.5:9b",
     "enabled": false,
     "loadPolicy": "manual-sequential-only",
-    "reason": "Reserved for difficult cases; do not keep loaded together with the 4B model and WebGPU scene."
+    "reason": "Reserved for difficult cases; do not keep loaded together with the 4B model and WebGPU scene.",
+    "lastValidation": "Failed to initialize CUDA beside the WebGPU scene on 2026-09-20; keep disabled on this laptop."
   },
   "dataPolicy": {
     "persistRawImages": false,
     "persistStructuredFindings": true,
     "requireObjectOrModuleEvidence": true,
     "minimumConfidenceForAutomaticDispatch": 0.65,
-    "codexReviewsEveryFinding": true
+    "codexReviewsEveryFinding": true,
+    "allowModelOnlyPass": false,
+    "sensorDeltaGate": {
+      "enabled": true,
+      "meanLuminanceThreshold": 10,
+      "luminanceStdDevThreshold": 10,
+      "decision": "reinspect"
+    }
   }
 }

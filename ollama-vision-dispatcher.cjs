@@ -43,6 +43,34 @@ function knownObjects(observation, center) {
   return objects;
 }
 
+function applySensorDeltaGate(finding, observation, context, policy) {
+  const settings = policy.sensorDeltaGate;
+  const baseline = context.baselineSensorStatistics;
+  const current = observation.visual?.passes?.rgb;
+  if (!settings?.enabled || !baseline || !current) return { evaluated: false, applied: false };
+  const meanLuminanceDelta = Number(Math.abs((current.meanLuminance ?? 0) - (baseline.meanLuminance ?? 0)).toFixed(2));
+  const luminanceStdDevDelta = Number(Math.abs((current.luminanceStdDev ?? 0) - (baseline.luminanceStdDev ?? 0)).toFixed(2));
+  const significant = meanLuminanceDelta >= settings.meanLuminanceThreshold || luminanceStdDevDelta >= settings.luminanceStdDevThreshold;
+  const modelDecision = finding.decision;
+  if (significant && modelDecision === 'pass') {
+    finding.decision = settings.decision === 'dispatch-to-codex' ? 'dispatch-to-codex' : 'reinspect';
+    finding.summary = `Контроллер обнаружил значительное расхождение RGB-метрик с эталоном. ${finding.summary}`;
+    finding.defects.push({
+      category: 'unknown',
+      severity: 'high',
+      confidence: 1,
+      description: 'RGB-кадр заметно отличается от эталонного состояния, хотя визуальная модель вернула pass.',
+      pixel: null,
+      objectId: null,
+      semantic: null,
+      module: null,
+      evidence: [`meanLuminance delta: ${meanLuminanceDelta}`, `luminanceStdDev delta: ${luminanceStdDevDelta}`],
+      recommendedAction: 'Повторить осмотр с другим ракурсом и проверить объектные данные до изменения кода.',
+    });
+  }
+  return { evaluated: true, applied: significant && modelDecision === 'pass', significant, modelDecision, meanLuminanceDelta, luminanceStdDevDelta };
+}
+
 function validateFinding(value, expectedObservationId, objects, policy) {
   const errors = [];
   const corrections = [];
@@ -106,7 +134,7 @@ function validateFinding(value, expectedObservationId, objects, policy) {
   return { errors, corrections };
 }
 
-function buildPrompt(observationId, observation, context, center) {
+function buildPrompt(observationId, observation, context, center, hasReference = false) {
   const nearby = (observation.nearby ?? []).slice(0, 40).map(object => ({
     id: object.id,
     name: object.name,
@@ -121,7 +149,9 @@ function buildPrompt(observationId, observation, context, center) {
     luminanceStdDev: pass.luminanceStdDev,
   }]));
   return [
-    'Проанализируй RGB-кадр Flight World вместе со структурированными данными.',
+    hasReference
+      ? 'Сравни два RGB-кадра Flight World: изображение 1 — исправный эталон, изображение 2 — текущее состояние. Ищи нежелательные отличия на втором изображении.'
+      : 'Проанализируй RGB-кадр Flight World вместе со структурированными данными.',
     'Верни только JSON по заданной схеме. Не добавляй markdown.',
     'Не придумывай objectId, semantic или module: используй только значения из каталога объектов.',
     'В defects добавляй только реально видимую нежелательную аномалию. Ожидаемый дождь, снег, туман, темнота, блики, отражения, цвет заката и снижение детализации вдали не являются дефектами.',
@@ -150,7 +180,7 @@ class OllamaVisionDispatcher {
     return { provider: 'ollama', endpoint: this.dispatcher.endpoint, model: this.dispatcher.model, available };
   }
 
-  async analyze(observation, context = {}) {
+  async analyze(observation, context = {}, referenceObservation = null) {
     const rgb = observation.visual?.passes?.rgb;
     if (!rgb?.dataUrl) throw new Error('RGB pass is required for visual inspection');
     const observationId = context.observationId ?? crypto.randomUUID();
@@ -169,8 +199,10 @@ class OllamaVisionDispatcher {
         },
         {
           role: 'user',
-          content: buildPrompt(observationId, observation, context, context.center),
-          images: [stripDataUrl(rgb.dataUrl)],
+          content: buildPrompt(observationId, observation, context, context.center, Boolean(referenceObservation)),
+          images: referenceObservation
+            ? [stripDataUrl(referenceObservation.visual?.passes?.rgb?.dataUrl), stripDataUrl(rgb.dataUrl)]
+            : [stripDataUrl(rgb.dataUrl)],
         },
       ],
     };
@@ -189,17 +221,21 @@ class OllamaVisionDispatcher {
     let finding;
     try { finding = JSON.parse(body.message?.content ?? ''); }
     catch { throw new Error('Ollama did not return valid JSON'); }
+    const modelFinding = structuredClone(finding);
+    const sensorGate = applySensorDeltaGate(finding, observation, context, this.config.dataPolicy);
     const validation = validateFinding(finding, observationId, objects, this.config.dataPolicy);
     return {
       ok: validation.errors.length === 0,
       model: this.dispatcher.model,
       role: this.dispatcher.role,
       codexReview: this.config.dataPolicy.codexReviewsEveryFinding ? 'required' : 'optional',
+      modelFinding,
       finding,
+      sensorGate,
       validation,
       metrics: modelMetrics(body, Date.now() - started),
     };
   }
 }
 
-module.exports = { OllamaVisionDispatcher, validateFinding, buildPrompt };
+module.exports = { OllamaVisionDispatcher, validateFinding, buildPrompt, applySensorDeltaGate };

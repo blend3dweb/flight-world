@@ -1,0 +1,11 @@
+{
+  "checkedAt": "2026-09-20T13:22:00.000Z",
+  "model": "qwen3.5:9b",
+  "mode": "manual-sequential-only",
+  "result": "failed-before-inference",
+  "stage": "cuda-model-initialization",
+  "error": "Ollama llama-server terminated while initializing CUDA shared objects",
+  "rawImagesPersisted": false,
+  "configurationChanged": false,
+  "decision": "Keep qwen3.5:9b disabled on this laptop"
+}

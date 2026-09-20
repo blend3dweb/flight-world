@@ -1,0 +1,172 @@
+{
+  "checkedAt": "2026-09-20T13:30:33.308Z",
+  "model": "qwen3.5:4b",
+  "view": {
+    "position": [
+      -1350,
+      430,
+      -720
+    ],
+    "target": [
+      -2000,
+      60,
+      -1900
+    ],
+    "fov": 58,
+    "environment": {
+      "hour": 10,
+      "weather": "sun",
+      "cycle": false,
+      "autoWeather": false,
+      "immediate": true
+    }
+  },
+  "target": {
+    "name": "Complete visual scene",
+    "semantic": "world",
+    "module": "flight.js"
+  },
+  "injection": {
+    "target": "scene descendants",
+    "action": "visible=false",
+    "hiddenObjects": 449,
+    "expectedVisualEffect": "empty framebuffer"
+  },
+  "baseline": {
+    "ok": true,
+    "model": "qwen3.5:4b",
+    "role": "eyes-and-dispatcher",
+    "codexReview": "required",
+    "modelFinding": {
+      "observationId": "defect-test:baseline",
+      "decision": "pass",
+      "summary": "Визуальный осмотр не выявил дефектов. Сцена отрисована корректно.",
+      "defects": []
+    },
+    "finding": {
+      "observationId": "defect-test:baseline",
+      "decision": "pass",
+      "summary": "Визуальный осмотр не выявил дефектов. Сцена отрисована корректно.",
+      "defects": []
+    },
+    "sensorGate": {
+      "evaluated": false,
+      "applied": false
+    },
+    "validation": {
+      "errors": [],
+      "corrections": []
+    },
+    "metrics": {
+      "wallMs": 2496,
+      "totalMs": 2487.5,
+      "loadMs": 22.7,
+      "promptEvalMs": 1200.1,
+      "evalMs": 980.1,
+      "promptTokens": 2024,
+      "outputTokens": 59,
+      "outputTokensPerSecond": 60.2,
+      "doneReason": "stop"
+    }
+  },
+  "damaged": {
+    "ok": true,
+    "model": "qwen3.5:4b",
+    "role": "eyes-and-dispatcher",
+    "codexReview": "required",
+    "modelFinding": {
+      "observationId": "defect-test:damaged",
+      "decision": "pass",
+      "summary": "Визуальный осмотр не выявил дефектов. Сцена представляет собой стандартный вид на облака и небо, что соответствует ожидаемым условиям (недождь, отсутствие снега, нормальное освещение).",
+      "defects": []
+    },
+    "finding": {
+      "observationId": "defect-test:damaged",
+      "decision": "reinspect",
+      "summary": "Контроллер обнаружил значительное расхождение RGB-метрик с эталоном. Визуальный осмотр не выявил дефектов. Сцена представляет собой стандартный вид на облака и небо, что соответствует ожидаемым условиям (недождь, отсутствие снега, нормальное освещение).",
+      "defects": [
+        {
+          "category": "unknown",
+          "severity": "high",
+          "confidence": 1,
+          "description": "RGB-кадр заметно отличается от эталонного состояния, хотя визуальная модель вернула pass.",
+          "pixel": null,
+          "objectId": null,
+          "semantic": null,
+          "module": null,
+          "evidence": [
+            "meanLuminance delta: 56.99",
+            "luminanceStdDev delta: 32.83"
+          ],
+          "recommendedAction": "Повторить осмотр с другим ракурсом и проверить объектные данные до изменения кода."
+        }
+      ]
+    },
+    "sensorGate": {
+      "evaluated": true,
+      "applied": true,
+      "significant": true,
+      "modelDecision": "pass",
+      "meanLuminanceDelta": 56.99,
+      "luminanceStdDevDelta": 32.83
+    },
+    "validation": {
+      "errors": [],
+      "corrections": []
+    },
+    "metrics": {
+      "wallMs": 2819,
+      "totalMs": 2809.2,
+      "loadMs": 10.7,
+      "promptEvalMs": 1023.9,
+      "evalMs": 1488.3,
+      "promptTokens": 2014,
+      "outputTokens": 86,
+      "outputTokensPerSecond": 57.79,
+      "doneReason": "stop"
+    }
+  },
+  "modelSensitivityDetected": false,
+  "controllerSensitivityDetected": true,
+  "restored": {
+    "ok": true,
+    "model": "qwen3.5:4b",
+    "role": "eyes-and-dispatcher",
+    "codexReview": "required",
+    "modelFinding": {
+      "observationId": "defect-test:restored",
+      "decision": "pass",
+      "summary": "Визуальное сравнение двух кадров Flight World выявило отсутствие видимых различий. Оба изображения идентичны по ракурсу, освещению и отображению городской застройки на побережье.",
+      "defects": []
+    },
+    "finding": {
+      "observationId": "defect-test:restored",
+      "decision": "pass",
+      "summary": "Визуальное сравнение двух кадров Flight World выявило отсутствие видимых различий. Оба изображения идентичны по ракурсу, освещению и отображению городской застройки на побережье.",
+      "defects": []
+    },
+    "sensorGate": {
+      "evaluated": false,
+      "applied": false
+    },
+    "validation": {
+      "errors": [],
+      "corrections": []
+    },
+    "metrics": {
+      "wallMs": 3637,
+      "totalMs": 3632.8,
+      "loadMs": 17.3,
+      "promptEvalMs": 1359.3,
+      "evalMs": 1410.8,
+      "promptTokens": 2199,
+      "outputTokens": 80,
+      "outputTokensPerSecond": 56.71,
+      "doneReason": "stop"
+    }
+  },
+  "rawImagesPersisted": false,
+  "sourceSceneModified": false,
+  "passed": true,
+  "modelPassed": false
+}

@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-20T13:00:32.949Z",
+  "checkedAt": "2026-09-20T13:29:54.048Z",
   "model": {
     "provider": "ollama",
     "endpoint": "http://127.0.0.1:11434",
@@ -7,7 +7,7 @@
     "available": true
   },
   "route": {
-    "id": "5e6d7458-2bbf-42ef-9788-7d89b7038f21",
+    "id": "2eff9cae-e8d8-44e7-a68c-2d7170378ca1",
     "name": "oceania-inspection",
     "status": "complete"
   },
@@ -22,7 +22,7 @@
       ],
       "center": {
         "id": 89,
-        "uuid": "6f2c2238-9fd6-45b0-8ca7-9ac0322ef23f",
+        "uuid": "8a7efa82-a381-44b9-9a7d-107a9de722d2",
         "name": "Irregular sidewalk block",
         "type": "Mesh",
         "semantic": "airport",
@@ -35,25 +35,35 @@
         ],
         "vertices": 36
       },
-      "finding": {
-        "observationId": "5e6d7458-2bbf-42ef-9788-7d89b7038f21:city-overview",
+      "modelFinding": {
+        "observationId": "2eff9cae-e8d8-44e7-a68c-2d7170378ca1:city-overview",
         "decision": "pass",
-        "summary": "Визуальный осмотр города и прилегающей территории выполнен корректно. Все объекты (город, здания, дороги, рельеф) отрисованы без видимых артефактов или аномалий.",
+        "summary": "Визуальный осмотр города и прилегающей территории выполнен корректно. Все объекты (город, дороги, природа) отрисованы без видимых артефактов или аномалий.",
         "defects": []
+      },
+      "finding": {
+        "observationId": "2eff9cae-e8d8-44e7-a68c-2d7170378ca1:city-overview",
+        "decision": "pass",
+        "summary": "Визуальный осмотр города и прилегающей территории выполнен корректно. Все объекты (город, дороги, природа) отрисованы без видимых артефактов или аномалий.",
+        "defects": []
+      },
+      "sensorGate": {
+        "evaluated": false,
+        "applied": false
       },
       "validation": {
         "errors": [],
         "corrections": []
       },
       "metrics": {
-        "wallMs": 10263,
-        "totalMs": 10259,
-        "loadMs": 7192.6,
-        "promptEvalMs": 1219.6,
-        "evalMs": 1800.4,
-        "promptTokens": 2100,
-        "outputTokens": 117,
-        "outputTokensPerSecond": 64.99,
+        "wallMs": 3266,
+        "totalMs": 3260.1,
+        "loadMs": 21.8,
+        "promptEvalMs": 1198.8,
+        "evalMs": 1756,
+        "promptTokens": 2090,
+        "outputTokens": 110,
+        "outputTokensPerSecond": 62.64,
         "doneReason": "stop"
       },
       "codexReview": "required"
@@ -67,7 +77,7 @@
       ],
       "center": {
         "id": 193,
-        "uuid": "91c66348-d1a4-4097-bf3b-7878b15d0f68",
+        "uuid": "c86fb0ed-e5c6-4a49-a922-3a8096bb51c3",
         "name": "Roads",
         "type": "Mesh",
         "semantic": "airport",
@@ -81,25 +91,35 @@
         "instances": 75,
         "vertices": 24
       },
-      "finding": {
-        "observationId": "5e6d7458-2bbf-42ef-9788-7d89b7038f21:city-night",
+      "modelFinding": {
+        "observationId": "2eff9cae-e8d8-44e7-a68c-2d7170378ca1:city-night",
         "decision": "pass",
-        "summary": "Визуальный осмотр ночного города выполнен корректно. Все объекты (здания, дороги, природа) отображаются с правильной детализацией и освещением. Отражения на воде и блики от источников света выглядят естественно.",
+        "summary": "Визуальный осмотр города ночью показывает корректное отображение зданий, дорог и освещения. Не обнаружено дефектов.",
         "defects": []
+      },
+      "finding": {
+        "observationId": "2eff9cae-e8d8-44e7-a68c-2d7170378ca1:city-night",
+        "decision": "pass",
+        "summary": "Визуальный осмотр города ночью показывает корректное отображение зданий, дорог и освещения. Не обнаружено дефектов.",
+        "defects": []
+      },
+      "sensorGate": {
+        "evaluated": false,
+        "applied": false
       },
       "validation": {
         "errors": [],
         "corrections": []
       },
       "metrics": {
-        "wallMs": 3273,
-        "totalMs": 3268.4,
-        "loadMs": 38.6,
-        "promptEvalMs": 1168.6,
-        "evalMs": 1839.3,
-        "promptTokens": 2122,
-        "outputTokens": 120,
-        "outputTokensPerSecond": 65.24,
+        "wallMs": 2613,
+        "totalMs": 2609.8,
+        "loadMs": 17.8,
+        "promptEvalMs": 1042.5,
+        "evalMs": 1410.7,
+        "promptTokens": 2104,
+        "outputTokens": 90,
+        "outputTokensPerSecond": 63.8,
         "doneReason": "stop"
       },
       "codexReview": "required"
@@ -114,7 +134,7 @@
       ],
       "center": {
         "id": 5,
-        "uuid": "68407f58-4534-4a6b-82dd-78670a07f12a",
+        "uuid": "bee37176-4240-44c0-befe-f4698af4dfc3",
         "name": "Ocean — geometric waves and city reflection",
         "type": "Mesh",
         "semantic": "ocean",
@@ -127,25 +147,35 @@
         ],
         "vertices": 37249
       },
-      "finding": {
-        "observationId": "5e6d7458-2bbf-42ef-9788-7d89b7038f21:bridge-rain",
+      "modelFinding": {
+        "observationId": "2eff9cae-e8d8-44e7-a68c-2d7170378ca1:bridge-rain",
         "decision": "pass",
-        "summary": "Визуальный осмотр не выявил дефектов. Наблюдаемые погодные условия (дождь) и атмосферные эффекты соответствуют ожидаемым параметрам сценария.",
+        "summary": "Визуальный осмотр не выявил дефектов. Ожидаемые погодные условия (дождь) и атмосферные эффекты (туман, снижение детализации вдали) соответствуют настройкам сцены.",
         "defects": []
+      },
+      "finding": {
+        "observationId": "2eff9cae-e8d8-44e7-a68c-2d7170378ca1:bridge-rain",
+        "decision": "pass",
+        "summary": "Визуальный осмотр не выявил дефектов. Ожидаемые погодные условия (дождь) и атмосферные эффекты (туман, снижение детализации вдали) соответствуют настройкам сцены.",
+        "defects": []
+      },
+      "sensorGate": {
+        "evaluated": false,
+        "applied": false
       },
       "validation": {
         "errors": [],
         "corrections": []
       },
       "metrics": {
-        "wallMs": 2888,
-        "totalMs": 2885.7,
-        "loadMs": 6.7,
-        "promptEvalMs": 1060.8,
-        "evalMs": 1673.5,
-        "promptTokens": 2178,
-        "outputTokens": 108,
-        "outputTokensPerSecond": 64.54,
+        "wallMs": 3420,
+        "totalMs": 3416.7,
+        "loadMs": 11.4,
+        "promptEvalMs": 1194.8,
+        "evalMs": 1925.5,
+        "promptTokens": 2152,
+        "outputTokens": 112,
+        "outputTokensPerSecond": 58.17,
         "doneReason": "stop"
       },
       "codexReview": "required"
@@ -159,7 +189,7 @@
       ],
       "center": {
         "id": 298,
-        "uuid": "8a0e9179-e179-4784-8562-d6d76ffd94c2",
+        "uuid": "38bcb113-f79c-4ed7-8440-b658a789d7f5",
         "name": "Apron",
         "type": "Mesh",
         "semantic": "airport",
@@ -173,25 +203,35 @@
         "instances": 1,
         "vertices": 24
       },
-      "finding": {
-        "observationId": "5e6d7458-2bbf-42ef-9788-7d89b7038f21:airport",
+      "modelFinding": {
+        "observationId": "2eff9cae-e8d8-44e7-a68c-2d7170378ca1:airport",
         "decision": "pass",
-        "summary": "Визуальный осмотр аэродрома показал корректное отображение объектов и окружения. Не обнаружено дефектов.",
+        "summary": "Визуальный осмотр аэропорта (Apron) показал корректное отображение объектов, освещения и окружения. Не обнаружено видимых дефектов.",
         "defects": []
+      },
+      "finding": {
+        "observationId": "2eff9cae-e8d8-44e7-a68c-2d7170378ca1:airport",
+        "decision": "pass",
+        "summary": "Визуальный осмотр аэропорта (Apron) показал корректное отображение объектов, освещения и окружения. Не обнаружено видимых дефектов.",
+        "defects": []
+      },
+      "sensorGate": {
+        "evaluated": false,
+        "applied": false
       },
       "validation": {
         "errors": [],
         "corrections": []
       },
       "metrics": {
-        "wallMs": 2827,
-        "totalMs": 2823.9,
-        "loadMs": 23.4,
-        "promptEvalMs": 1081.9,
-        "evalMs": 1456,
-        "promptTokens": 2111,
-        "outputTokens": 96,
-        "outputTokensPerSecond": 65.93,
+        "wallMs": 2898,
+        "totalMs": 2894.3,
+        "loadMs": 14.5,
+        "promptEvalMs": 1209,
+        "evalMs": 1497.9,
+        "promptTokens": 2101,
+        "outputTokens": 95,
+        "outputTokensPerSecond": 63.42,
         "doneReason": "stop"
       },
       "codexReview": "required"
@@ -205,7 +245,7 @@
       ],
       "center": {
         "id": 25,
-        "uuid": "a5466cc8-2dc9-414f-9584-0dd6fe91e81b",
+        "uuid": "fe488624-78ec-4645-8bdb-5aa11fc89719",
         "name": "Forest distant 3",
         "type": "Mesh",
         "semantic": "vegetation",
@@ -219,25 +259,35 @@
         "instances": 19445,
         "vertices": 324
       },
-      "finding": {
-        "observationId": "5e6d7458-2bbf-42ef-9788-7d89b7038f21:islands-snow",
+      "modelFinding": {
+        "observationId": "2eff9cae-e8d8-44e7-a68c-2d7170378ca1:islands-snow",
         "decision": "pass",
-        "summary": "Кадр соответствует ожидаемым условиям (снег, туман). Все объекты видны корректно. Не обнаружено дефектов.",
+        "summary": "Визуальный осмотр не выявил дефектов. Сцена соответствует погодным условиям (снег, туман), освещение и детализация объектов выглядят корректно.",
         "defects": []
+      },
+      "finding": {
+        "observationId": "2eff9cae-e8d8-44e7-a68c-2d7170378ca1:islands-snow",
+        "decision": "pass",
+        "summary": "Визуальный осмотр не выявил дефектов. Сцена соответствует погодным условиям (снег, туман), освещение и детализация объектов выглядят корректно.",
+        "defects": []
+      },
+      "sensorGate": {
+        "evaluated": false,
+        "applied": false
       },
       "validation": {
         "errors": [],
         "corrections": []
       },
       "metrics": {
-        "wallMs": 2916,
-        "totalMs": 2903.7,
-        "loadMs": 12.3,
-        "promptEvalMs": 1047.2,
-        "evalMs": 1680.8,
-        "promptTokens": 2137,
-        "outputTokens": 99,
-        "outputTokensPerSecond": 58.9,
+        "wallMs": 2974,
+        "totalMs": 2972.2,
+        "loadMs": 14.7,
+        "promptEvalMs": 1204.1,
+        "evalMs": 1577.3,
+        "promptTokens": 2123,
+        "outputTokens": 102,
+        "outputTokensPerSecond": 64.67,
         "doneReason": "stop"
       },
       "codexReview": "required"
@@ -250,7 +300,7 @@
       ],
       "center": {
         "id": 6,
-        "uuid": "38c71d07-6405-4768-ba9e-b5c5282eef8e",
+        "uuid": "fbfdfb98-0e67-4aae-a551-da13c18fabfd",
         "name": "Mesh",
         "type": "Mesh",
         "semantic": "world",
@@ -263,25 +313,35 @@
         ],
         "vertices": 245098
       },
-      "finding": {
-        "observationId": "5e6d7458-2bbf-42ef-9788-7d89b7038f21:ocean-sunset",
+      "modelFinding": {
+        "observationId": "2eff9cae-e8d8-44e7-a68c-2d7170378ca1:ocean-sunset",
         "decision": "pass",
-        "summary": "Визуальный осмотр подтверждает корректную работу системы освещения и отражений. Цветовая палитра соответствует ожидаемому сценарию заката (темно-фиолетовые тона воды, мягкое освещение). Наблюдается физически корректное отражение неба на поверхности океана без видимых артефактов или искажений геометрии.",
+        "summary": "Визуальный осмотр не выявил дефектов. Наблюдается ожидаемый закат и отражения на воде.",
         "defects": []
+      },
+      "finding": {
+        "observationId": "2eff9cae-e8d8-44e7-a68c-2d7170378ca1:ocean-sunset",
+        "decision": "pass",
+        "summary": "Визуальный осмотр не выявил дефектов. Наблюдается ожидаемый закат и отражения на воде.",
+        "defects": []
+      },
+      "sensorGate": {
+        "evaluated": false,
+        "applied": false
       },
       "validation": {
         "errors": [],
         "corrections": []
       },
       "metrics": {
-        "wallMs": 3806,
-        "totalMs": 3801.4,
-        "loadMs": 11,
-        "promptEvalMs": 1236.4,
-        "evalMs": 2389.3,
-        "promptTokens": 2150,
-        "outputTokens": 155,
-        "outputTokensPerSecond": 64.87,
+        "wallMs": 2904,
+        "totalMs": 2900.8,
+        "loadMs": 30.2,
+        "promptEvalMs": 1159.2,
+        "evalMs": 1475.6,
+        "promptTokens": 2126,
+        "outputTokens": 91,
+        "outputTokensPerSecond": 61.67,
         "doneReason": "stop"
       },
       "codexReview": "required"
@@ -289,11 +349,11 @@
   ],
   "aggregate": {
     "count": 6,
-    "totalWallMs": 25973,
-    "averageWallMs": 4329,
-    "totalPromptTokens": 12798,
-    "totalOutputTokens": 695,
-    "hotAverageWallMs": 3142
+    "totalWallMs": 18075,
+    "averageWallMs": 3013,
+    "hotAverageWallMs": 2962,
+    "totalPromptTokens": 12696,
+    "totalOutputTokens": 600
   },
   "guardrails": {
     "hallucinatedObjectRemoved": true,
