@@ -1,11 +1,12 @@
 import * as THREE from './vendor/three.module.js';
 import { createVegetation } from './vegetation.js';
 import { createOcean } from './ocean.js';
-import { positionWorld, sin, cos, attribute, uniform } from './vendor/tsl.js';
+import { positionWorld, positionView, normalView, vec3, vec4, sin, cos, attribute, uniform } from './vendor/tsl.js';
 import { createAircraft } from './aircraft.js';
 import { createAtmosphere } from './atmosphere.js';
 import { createCity } from './city.js';
 import { urbanHeight, reservedLand, PADS, URBAN_GLSL } from './city-layout.js';
+import { createAgentBridge } from './agent-bridge.js';
 
 // Seeded procedural world. No remote assets or services are needed at runtime.
 const canvas = document.querySelector('#flight');
@@ -227,8 +228,10 @@ function update(dt){
   if(Math.hypot(state.x,state.z)>23000){state.x=initial.x;state.z=initial.z;state.heading=0;toast('Возвращаемся к архипелагу');}
 }
 let renderFrame=0;
+let agentBridge=null;
 sunlight.shadow.autoUpdate=false;
 function draw(){
+  const cpuStart=performance.now();
   renderer.info.reset();
   renderFrame++;
   aircraft.position.set(state.x,state.y+Math.sin(state.time*1.8)*.25,state.z);
@@ -254,6 +257,7 @@ function draw(){
   water.update?.(camera,{daylight:atmosphere.daylight,adaptiveRotation:viewMode==='cockpit'});
   cockpit.visible=viewMode==='cockpit'&&showCockpit;seaUniforms.time.value=state.time;seaUniforms.eye.value.copy(camera.position);
   renderer.render(scene,camera);ctx.clearRect(0,0,W,H);hud();if(recording)composeFrame();syncEnvironmentUI();drawCount++;
+  agentBridge?.reportFrame(performance.now()-cpuStart);
 }
 function frame(now){const dt=Math.min((now-(rafLast||now))/1000,.05);rafLast=now;if(!state.paused){update(dt);draw();}if(!offlineRender)requestAnimationFrame(frame);}
 let hintTimer;
@@ -286,6 +290,7 @@ function syncEnvironmentUI(){
   document.querySelectorAll('[data-weather]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.weather===env.weather));
 }
 function setEnvironment(values,options){atmosphere.set(values,options??{immediate:state.paused});draw();}
+function setPaused(paused){state.paused=Boolean(paused);syncButtons();draw();return state.paused;}
 document.querySelector('#time-of-day').addEventListener('input',e=>setEnvironment({hour:Number(e.target.value),cycle:false},{immediate:true}));
 document.querySelector('#day-duration').onchange=e=>setEnvironment({cycleSeconds:Number(e.target.value)});
 document.querySelector('#day-cycle').onclick=()=>setEnvironment({cycle:!atmosphere.getState().cycle});
@@ -337,8 +342,60 @@ document.querySelector('#record').onclick=()=>{
 };
 const outputCanvas=document.createElement('canvas'),outputContext=outputCanvas.getContext('2d',{alpha:false});
 function composeFrame(){if(outputCanvas.width!==W||outputCanvas.height!==H){outputCanvas.width=W;outputCanvas.height=H;}outputContext.drawImage(renderer.domElement,0,0,W,H);outputContext.drawImage(canvas,0,0,W,H);return outputCanvas;}
+const agentCanvas=document.createElement('canvas'),agentContext=agentCanvas.getContext('2d',{alpha:false});
+function agentImage(pixels,width,height,mimeType='image/png',quality=.72){
+  const image=new Uint8ClampedArray(pixels.length),row=width*4;
+  for(let y=0;y<height;y++)image.set(pixels.subarray((height-1-y)*row,(height-y)*row),y*row);
+  agentCanvas.width=width;agentCanvas.height=height;agentContext.putImageData(new ImageData(image,width,height),0,0);
+  let luminance=0,luminanceSquared=0,samples=0;
+  for(let i=0;i<image.length;i+=64){const value=image[i]*.2126+image[i+1]*.7152+image[i+2]*.0722;luminance+=value;luminanceSquared+=value*value;samples++;}
+  const mean=luminance/samples,standardDeviation=Math.sqrt(Math.max(0,luminanceSquared/samples-mean*mean));
+  return {mimeType,width,height,dataUrl:agentCanvas.toDataURL(mimeType,quality),meanLuminance:Math.round(mean*100)/100,luminanceStdDev:Math.round(standardDeviation*100)/100};
+}
+async function captureAgentObservation(observer,{width=512,height=288,quality=.72,sensors}={},objectIdFor){
+  const captureWidth=clamp(Math.round(width),64,1280),captureHeight=clamp(Math.round(height),64,720);
+  const requested=new Set(Array.isArray(sensors)&&sensors.length?sensors:['rgb']);requested.add('rgb');
+  observer.aspect=captureWidth/captureHeight;observer.updateProjectionMatrix();observer.updateMatrixWorld(true);
+  const cockpitVisible=cockpit.visible,aircraftVisible=aircraft.visible;
+  cockpit.visible=false;aircraft.visible=true;
+  const previousTarget=renderer.getRenderTarget(),previousOverride=scene.overrideMaterial,previousBackground=scene.background,previousToneMapping=renderer.toneMapping;
+  const target=new THREE.RenderTarget(captureWidth,captureHeight,{depthBuffer:true,stencilBuffer:false});
+  target.texture.colorSpace=THREE.SRGBColorSpace;
+  const dataTarget=new THREE.RenderTarget(captureWidth,captureHeight,{depthBuffer:true,stencilBuffer:false});dataTarget.texture.colorSpace=THREE.NoColorSpace;
+  let captureTarget=target;
+  const renderPixels=async()=>{renderer.setRenderTarget(captureTarget);renderer.render(scene,observer);return renderer.readRenderTargetPixelsAsync(captureTarget,0,0,captureWidth,captureHeight);};
+  const result={passes:{},near:observer.near,far:observer.far};let savedObjects=[],idMaterials=[];
+  try{
+    captureTarget=target;scene.overrideMaterial=null;scene.background=previousBackground;renderer.toneMapping=previousToneMapping;
+    const rgb=agentImage(await renderPixels(),captureWidth,captureHeight,'image/jpeg',clamp(Number(quality)||.72,.35,.92));Object.assign(result,rgb);result.passes.rgb=rgb;
+    if(requested.has('depth')){
+      captureTarget=dataTarget;scene.background=null;renderer.toneMapping=THREE.NoToneMapping;
+      scene.overrideMaterial=new THREE.MeshBasicNodeMaterial();scene.overrideMaterial.fragmentNode=vec4(vec3(positionView.length().div(observer.far).saturate()),1);scene.overrideMaterial.toneMapped=false;scene.overrideMaterial.fog=false;
+      result.passes.depth={...agentImage(await renderPixels(),captureWidth,captureHeight),packing:'linear-view-distance',near:observer.near,far:observer.far};scene.overrideMaterial.dispose();
+    }
+    if(requested.has('normal')){
+      captureTarget=dataTarget;
+      scene.overrideMaterial=new THREE.MeshBasicNodeMaterial();scene.overrideMaterial.fragmentNode=vec4(normalView.mul(.5).add(.5),1);scene.overrideMaterial.toneMapped=false;scene.overrideMaterial.fog=false;
+      result.passes.normal={...agentImage(await renderPixels(),captureWidth,captureHeight),space:'view'};scene.overrideMaterial.dispose();
+    }
+    if(requested.has('objectId')){
+      captureTarget=dataTarget;scene.overrideMaterial=null;const materialById=new Map();
+      scene.traverse(object=>{
+        if(object.isMesh){const id=objectIdFor(object),r=(id&255)/255,g=((id>>8)&255)/255,b=((id>>16)&255)/255;let material=materialById.get(id);if(!material){material=new THREE.MeshBasicNodeMaterial();material.fragmentNode=vec4(r,g,b,1);material.toneMapped=false;material.fog=false;materialById.set(id,material);idMaterials.push(material);}savedObjects.push([object,object.material,object.visible]);object.material=material;}
+        else if((object.isPoints||object.isLine||object.isSprite)&&object.visible){savedObjects.push([object,object.material,true]);object.visible=false;}
+      });
+      const objectIds=agentImage(await renderPixels(),captureWidth,captureHeight);result.passes.objectId={...objectIds,encoding:'id = r + (g << 8) + (b << 16)',backgroundId:0};
+    }
+  }finally{
+    for(const [object,material,visible] of savedObjects){object.material=material;object.visible=visible;}for(const material of idMaterials)material.dispose();
+    scene.overrideMaterial=previousOverride;scene.background=previousBackground;renderer.toneMapping=previousToneMapping;renderer.setRenderTarget(previousTarget);target.dispose();dataTarget.dispose();cockpit.visible=cockpitVisible;aircraft.visible=aircraftVisible;draw();
+  }
+  return result;
+}
 // Deterministic frame stepping lets the MP4 exporter include every HUD pixel.
-window.flight={revision:THREE.REVISION,setQuality,getState:()=>({...state,quality,verticalSpeed,drawCount,viewMode,orbit:{...orbit},environment:atmosphere.getState(),ocean:water.getState(),camera:camera.position.toArray(),triangles:renderer.info.render.triangles}),reset,setView,setOrbit,setEnvironment,startFlight,step(dt){update(dt);draw();},seek(t){reset();for(let i=0;i<Math.floor(t*30);i++)update(1/30);draw();},setSize(w,h){W=canvas.width=w;H=canvas.height=h;renderer.setSize(Math.round(w*qualities[quality].scale),Math.round(h*qualities[quality].scale),false);camera.aspect=w/h;camera.updateProjectionMatrix();draw();},getCanvas:composeFrame};
+window.flight={revision:THREE.REVISION,setQuality,getState:()=>({...state,quality,verticalSpeed,drawCount,viewMode,orbit:{...orbit},environment:atmosphere.getState(),ocean:water.getState(),camera:camera.position.toArray(),triangles:renderer.info.render.triangles}),reset,setView,setOrbit,setEnvironment,startFlight,setPaused,step(dt){update(dt);draw();},seek(t){reset();for(let i=0;i<Math.floor(t*30);i++)update(1/30);draw();},setSize(w,h){W=canvas.width=w;H=canvas.height=h;renderer.setSize(Math.round(w*qualities[quality].scale),Math.round(h*qualities[quality].scale),false);camera.aspect=w/h;camera.updateProjectionMatrix();draw();},getCanvas:composeFrame};
+agentBridge=createAgentBridge({scene,renderer,getWorldState:window.flight.getState,setEnvironment,startFlight,setQuality,setPaused,stepSimulation:window.flight.step,captureObservation:captureAgentObservation});
+window.flight.agent=agentBridge;
 window.flight.captureShot=async({eye,target})=>{cockpit.visible=aircraft.visible=false;camera.position.set(...eye);camera.lookAt(...target);vegetation.update(camera,state.time,atmosphere.wind);atmosphere.apply(camera,{immediate:true});sunlight.shadow.needsUpdate=sunlight.intensity>.08;infrastructure.update(atmosphere.daylight,atmosphere.getState().rain,camera);water.update?.(camera,{force:true,daylight:atmosphere.daylight});seaUniforms.eye.value.copy(camera.position);renderer.render(scene,camera);await renderer.backend.device.queue.onSubmittedWorkDone();return renderer.domElement.toDataURL();};
 if(offlineRender||params.has('test'))window.flight.place=values=>{for(const k of ['x','y','z','heading','pitch','roll'])if(Number.isFinite(values[k]))state[k]=values[k];draw();};
 if(offlineRender||params.has('test'))window.flight.inspect=()=>({scene,camera,renderer,aircraft,cockpit,atmosphere,terrainWetness,water,vegetation,city,roofMat,windowTex,ocean,ground,islandHeight,islands,infrastructure,forest,forestPoints,reservedLand,PADS});

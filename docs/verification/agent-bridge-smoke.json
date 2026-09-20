@@ -1,0 +1,661 @@
+{
+  "checkedAt": "2026-09-20T07:18:30.593Z",
+  "capabilities": {
+    "name": "Flight World Agent Bridge",
+    "protocol": "0.1.0",
+    "transport": "same-page JavaScript API",
+    "commands": [
+      "ping",
+      "observe",
+      "observer.set",
+      "observer.moveToObject",
+      "world.query",
+      "world.raycast",
+      "world.identifyPixel",
+      "environment.set",
+      "flight.start",
+      "quality.set",
+      "simulation.pause",
+      "simulation.step"
+    ],
+    "sensors": [
+      "rgb-framebuffer-on-demand",
+      "depth-buffer-on-demand",
+      "normal-buffer-on-demand",
+      "object-id-buffer-on-demand",
+      "semantic-object-catalog",
+      "raycast",
+      "world-state",
+      "renderer-telemetry"
+    ],
+    "plannedSensors": [
+      "gpu-timestamps"
+    ],
+    "visualPersistence": "memory-only"
+  },
+  "ping": {
+    "ok": true,
+    "protocol": "0.1.0"
+  },
+  "query": {
+    "ocean": [
+      {
+        "id": 5,
+        "uuid": "6c4c6404-dae9-4767-9e64-750ca9f2fd7e",
+        "name": "Ocean — geometric waves and city reflection",
+        "type": "Mesh",
+        "semantic": "ocean",
+        "module": "ocean.js",
+        "visible": true,
+        "position": [
+          -1730,
+          0,
+          -1000
+        ],
+        "vertices": 37249
+      },
+      {
+        "id": 264,
+        "uuid": "4389c7b4-d221-487a-8e45-7a1fade3d47a",
+        "name": "Fountain water",
+        "type": "Mesh",
+        "semantic": "ocean",
+        "module": "ocean.js",
+        "visible": true,
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "instances": 2,
+        "vertices": 52
+      }
+    ],
+    "bridge": [
+      {
+        "id": 111,
+        "uuid": "97b45c66-cbf3-44e8-bc9b-c3c5b2f752fb",
+        "name": "Bridge cables",
+        "type": "Mesh",
+        "semantic": "bridge",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          -550,
+          61.92,
+          -2000
+        ],
+        "vertices": 34
+      },
+      {
+        "id": 112,
+        "uuid": "222ed66a-3a46-465f-80d9-d8e0bb7dfe9e",
+        "name": "Bridge cables",
+        "type": "Mesh",
+        "semantic": "bridge",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          -515,
+          62.312,
+          -2000
+        ],
+        "vertices": 34
+      },
+      {
+        "id": 113,
+        "uuid": "f02fecdd-918b-4776-8656-36b15a748f71",
+        "name": "Bridge cables",
+        "type": "Mesh",
+        "semantic": "bridge",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          -480,
+          62.69,
+          -2000
+        ],
+        "vertices": 34
+      },
+      {
+        "id": 114,
+        "uuid": "7b6da1e7-edce-4343-9a4d-f995aa9ffeca",
+        "name": "Bridge cables",
+        "type": "Mesh",
+        "semantic": "bridge",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          -380,
+          63.684,
+          -2000
+        ],
+        "vertices": 34
+      },
+      {
+        "id": 115,
+        "uuid": "ba1b22c2-d801-419a-9ab0-1fba27408433",
+        "name": "Bridge cables",
+        "type": "Mesh",
+        "semantic": "bridge",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          -345,
+          63.999,
+          -2000
+        ],
+        "vertices": 34
+      },
+      {
+        "id": 116,
+        "uuid": "2bf97c22-0f53-4170-a825-84d7cc8da7f0",
+        "name": "Bridge cables",
+        "type": "Mesh",
+        "semantic": "bridge",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          -310,
+          64.295,
+          -2000
+        ],
+        "vertices": 34
+      },
+      {
+        "id": 117,
+        "uuid": "d05c0da6-6363-45a4-b904-d2963dbb1f24",
+        "name": "Bridge cables",
+        "type": "Mesh",
+        "semantic": "bridge",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          -550,
+          61.92,
+          -1976
+        ],
+        "vertices": 34
+      },
+      {
+        "id": 118,
+        "uuid": "7c52601b-fcc9-4468-8950-373e3a77845b",
+        "name": "Bridge cables",
+        "type": "Mesh",
+        "semantic": "bridge",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          -515,
+          62.312,
+          -1976
+        ],
+        "vertices": 34
+      },
+      {
+        "id": 119,
+        "uuid": "084483c7-386e-48be-b0e1-1d6c9e1f4cc9",
+        "name": "Bridge cables",
+        "type": "Mesh",
+        "semantic": "bridge",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          -480,
+          62.69,
+          -1976
+        ],
+        "vertices": 34
+      },
+      {
+        "id": 120,
+        "uuid": "7096d28d-a950-47a4-8584-694e345364f2",
+        "name": "Bridge cables",
+        "type": "Mesh",
+        "semantic": "bridge",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          -380,
+          63.684,
+          -1976
+        ],
+        "vertices": 34
+      },
+      {
+        "id": 121,
+        "uuid": "6f7628c5-e083-4b8d-b0f8-4e80cbb41903",
+        "name": "Bridge cables",
+        "type": "Mesh",
+        "semantic": "bridge",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          -345,
+          63.999,
+          -1976
+        ],
+        "vertices": 34
+      },
+      {
+        "id": 122,
+        "uuid": "f7e2fb29-d864-4303-b4d3-3e663211e430",
+        "name": "Bridge cables",
+        "type": "Mesh",
+        "semantic": "bridge",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          -310,
+          64.295,
+          -1976
+        ],
+        "vertices": 34
+      },
+      {
+        "id": 123,
+        "uuid": "7f1eae60-11e7-4c7c-a5e7-6cdc193acce8",
+        "name": "Bridge cables",
+        "type": "Mesh",
+        "semantic": "bridge",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          660,
+          69.401,
+          -2000
+        ],
+        "vertices": 34
+      },
+      {
+        "id": 124,
+        "uuid": "bdc883a8-911c-498d-9591-7344652ef9f3",
+        "name": "Bridge cables",
+        "type": "Mesh",
+        "semantic": "bridge",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          695,
+          69.472,
+          -2000
+        ],
+        "vertices": 34
+      },
+      {
+        "id": 125,
+        "uuid": "0e28a5a6-6555-49e9-bfdd-06f24ed8a139",
+        "name": "Bridge cables",
+        "type": "Mesh",
+        "semantic": "bridge",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          730,
+          69.523,
+          -2000
+        ],
+        "vertices": 34
+      },
+      {
+        "id": 126,
+        "uuid": "bef3053f-bef6-4e2b-89f6-1a8ece36a8c2",
+        "name": "Bridge cables",
+        "type": "Mesh",
+        "semantic": "bridge",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          830,
+          69.568,
+          -2000
+        ],
+        "vertices": 34
+      },
+      {
+        "id": 127,
+        "uuid": "a5c22279-5b73-4b89-9bc3-699ba87d4262",
+        "name": "Bridge cables",
+        "type": "Mesh",
+        "semantic": "bridge",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          865,
+          69.55,
+          -2000
+        ],
+        "vertices": 34
+      },
+      {
+        "id": 128,
+        "uuid": "f062d310-ce94-4bdf-9ee5-98169613019f",
+        "name": "Bridge cables",
+        "type": "Mesh",
+        "semantic": "bridge",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          900,
+          69.516,
+          -2000
+        ],
+        "vertices": 34
+      },
+      {
+        "id": 129,
+        "uuid": "a77ffb8f-15ed-4051-830c-d28546b2e1c4",
+        "name": "Bridge cables",
+        "type": "Mesh",
+        "semantic": "bridge",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          660,
+          69.401,
+          -1976
+        ],
+        "vertices": 34
+      },
+      {
+        "id": 130,
+        "uuid": "419a2208-dddc-4627-a0e7-ec00172d5b6a",
+        "name": "Bridge cables",
+        "type": "Mesh",
+        "semantic": "bridge",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          695,
+          69.472,
+          -1976
+        ],
+        "vertices": 34
+      }
+    ]
+  },
+  "observer": {
+    "position": [
+      -1350,
+      430,
+      -720
+    ],
+    "target": [
+      -2000,
+      60,
+      -1900
+    ],
+    "fov": 58,
+    "near": 0.2,
+    "far": 60000
+  },
+  "raycast": [
+    {
+      "distance": 687.56,
+      "point": [
+        -2000,
+        12.44,
+        -1900
+      ],
+      "object": {
+        "id": 91,
+        "uuid": "5ffc5ad8-4f01-438b-a849-e2a3cd3b6f40",
+        "name": "Park lawn",
+        "type": "Mesh",
+        "semantic": "airport",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "vertices": 36
+      }
+    },
+    {
+      "distance": 687.6,
+      "point": [
+        -2000,
+        12.4,
+        -1900
+      ],
+      "object": {
+        "id": 90,
+        "uuid": "0be7ee64-27bc-42f1-ab48-a412b1034035",
+        "name": "Irregular sidewalk block",
+        "type": "Mesh",
+        "semantic": "airport",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "vertices": 36
+      }
+    },
+    {
+      "distance": 688,
+      "point": [
+        -2000,
+        12,
+        -1900
+      ],
+      "object": {
+        "id": 6,
+        "uuid": "68b6c2e2-af58-4367-b9ac-7999ce5c920d",
+        "name": "Mesh",
+        "type": "Mesh",
+        "semantic": "world",
+        "module": null,
+        "visible": true,
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "vertices": 245098
+      }
+    },
+    {
+      "distance": 688,
+      "point": [
+        -2000,
+        12,
+        -1900
+      ],
+      "object": {
+        "id": 6,
+        "uuid": "68b6c2e2-af58-4367-b9ac-7999ce5c920d",
+        "name": "Mesh",
+        "type": "Mesh",
+        "semantic": "world",
+        "module": null,
+        "visible": true,
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "vertices": 245098
+      }
+    },
+    {
+      "distance": 700,
+      "point": [
+        -2000,
+        0,
+        -1900
+      ],
+      "object": {
+        "id": 5,
+        "uuid": "6c4c6404-dae9-4767-9e64-750ca9f2fd7e",
+        "name": "Ocean — geometric waves and city reflection",
+        "type": "Mesh",
+        "semantic": "ocean",
+        "module": "ocean.js",
+        "visible": true,
+        "position": [
+          -1730,
+          0,
+          -1000
+        ],
+        "vertices": 37249
+      }
+    }
+  ],
+  "observation": {
+    "protocol": "0.1.0",
+    "world": {
+      "x": -1730,
+      "y": 350,
+      "z": -1000,
+      "heading": 0.1,
+      "pitch": -0.035,
+      "roll": 0,
+      "speed": 82,
+      "throttle": 0.73,
+      "time": 0,
+      "auto": true,
+      "paused": true,
+      "quality": "high",
+      "verticalSpeed": 0,
+      "drawCount": 4,
+      "viewMode": "cockpit",
+      "orbit": {
+        "azimuth": 0.8,
+        "elevation": 0.26,
+        "distance": 21,
+        "auto": false
+      },
+      "environment": {
+        "hour": 19.5,
+        "cycle": false,
+        "cycleSeconds": 240,
+        "weather": "rain",
+        "autoWeather": false,
+        "rain": 1,
+        "snow": 0,
+        "elapsed": 0,
+        "daylight": 0,
+        "fogDensity": 0.00023,
+        "wind": 2,
+        "reflectionUpdates": 2,
+        "pmremUpdates": 2,
+        "captureFace": -1
+      },
+      "ocean": {
+        "reflectionUpdates": 2,
+        "reflectionEvery": 3,
+        "resolutionScale": 0.3192,
+        "baseResolutionScale": 0.42,
+        "turning": false,
+        "angularDelta": 0,
+        "turnHold": 0
+      },
+      "camera": [
+        -1730,
+        350,
+        -1000
+      ],
+      "triangles": 26592569
+    },
+    "telemetry": {
+      "cpuSubmitMs": {
+        "average": 1205.625,
+        "p95": 4775.6,
+        "samples": 4
+      },
+      "renderer": {
+        "calls": 66,
+        "triangles": 26592569,
+        "points": 0,
+        "lines": 5200,
+        "geometries": 187,
+        "textures": 15
+      },
+      "adapter": {},
+      "gpuTimingAvailable": false,
+      "commandCount": 8,
+      "observationCount": 1
+    },
+    "nearbyCount": 20,
+    "visual": {
+      "mimeType": "image/jpeg",
+      "width": 320,
+      "height": 180,
+      "bytes": 8394,
+      "prefix": "data:image/jpeg;base64,",
+      "meanLuminance": 39.18,
+      "luminanceStdDev": 26.86,
+      "passes": {
+        "rgb": {
+          "mimeType": "image/jpeg",
+          "bytes": 8394,
+          "meanLuminance": 39.18,
+          "luminanceStdDev": 26.86
+        },
+        "depth": {
+          "mimeType": "image/png",
+          "bytes": 12939,
+          "meanLuminance": 8.06,
+          "luminanceStdDev": 17.83
+        },
+        "normal": {
+          "mimeType": "image/png",
+          "bytes": 46296,
+          "meanLuminance": 148.49,
+          "luminanceStdDev": 96.24
+        },
+        "objectId": {
+          "mimeType": "image/png",
+          "bytes": 16044,
+          "meanLuminance": 3.88,
+          "luminanceStdDev": 10.5
+        }
+      },
+      "centerId": 89,
+      "centerRayId": 89,
+      "identifiedPixel": {
+        "pixel": [
+          160,
+          90
+        ],
+        "viewport": [
+          320,
+          180
+        ],
+        "ndc": [
+          0,
+          0
+        ],
+        "hit": {
+          "distance": 1576.799,
+          "point": [
+            -2083.622,
+            12.4,
+            -2051.805
+          ],
+          "object": {
+            "id": 89,
+            "uuid": "59648831-a48a-4b4c-ad3c-88653a421c4b",
+            "name": "Irregular sidewalk block",
+            "type": "Mesh",
+            "semantic": "airport",
+            "module": "city.js",
+            "visible": true,
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "vertices": 36
+          }
+        }
+      }
+    }
+  },
+  "errors": []
+}
