@@ -1,0 +1,416 @@
+{
+  "checkedAt": "2026-09-20T14:42:41.885Z",
+  "protocol": "0.2.0",
+  "model": "qwen2.5vl:3b",
+  "requested": {
+    "id": null,
+    "name": null,
+    "semantic": "bridge"
+  },
+  "target": {
+    "object": {
+      "id": 282,
+      "uuid": "ed4c90df-c694-4e2c-a35d-c4d515beb346",
+      "name": "Bridge deck",
+      "type": "Mesh",
+      "semantic": "bridge",
+      "module": "city.js",
+      "visible": true,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "instances": 90,
+      "vertices": 24
+    },
+    "bounds": {
+      "center": [
+        254,
+        20.795,
+        -1988
+      ],
+      "size": [
+        3452.08,
+        21.064,
+        26
+      ],
+      "radius": 1726.121
+    },
+    "hierarchy": [
+      "Bridge deck",
+      "Oceania — city, airport and harbour"
+    ],
+    "geometry": {
+      "type": "BoxGeometry",
+      "vertices": 24,
+      "indices": 36,
+      "instances": 90
+    },
+    "materials": [
+      {
+        "name": null,
+        "type": "MeshStandardMaterial",
+        "color": "#b5c1b9",
+        "roughness": 0.88,
+        "metalness": 0,
+        "opacity": 1,
+        "transparent": false,
+        "side": 0,
+        "map": null
+      }
+    ],
+    "lod": [],
+    "source": "city.js"
+  },
+  "status": "complete",
+  "restoredObserver": {
+    "position": [
+      -1450,
+      520,
+      -420
+    ],
+    "target": [
+      -2000,
+      80,
+      -1900
+    ],
+    "fov": 60,
+    "near": 0.2,
+    "far": 60000
+  },
+  "views": [
+    {
+      "index": 0,
+      "azimuth": 0,
+      "observer": {
+        "position": [
+          4741.915,
+          1261.056,
+          -1988
+        ],
+        "target": [
+          254,
+          20.795,
+          -1988
+        ],
+        "fov": 60,
+        "near": 0.2,
+        "far": 60000
+      },
+      "center": {
+        "id": 283,
+        "uuid": "f0befcea-92db-4faa-a2b2-3396fc8cba35",
+        "name": "Bridge asphalt",
+        "type": "Mesh",
+        "semantic": "bridge",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "instances": 90,
+        "vertices": 24
+      },
+      "sensors": {
+        "rgb": {
+          "mimeType": "image/jpeg",
+          "width": 512,
+          "height": 288,
+          "meanLuminance": 135.36,
+          "luminanceStdDev": 45.43,
+          "bytes": 18894
+        },
+        "depth": {
+          "mimeType": "image/png",
+          "width": 512,
+          "height": 288,
+          "meanLuminance": 20.92,
+          "luminanceStdDev": 35.81,
+          "bytes": 24231
+        },
+        "normal": {
+          "mimeType": "image/png",
+          "width": 512,
+          "height": 288,
+          "meanLuminance": 154.6,
+          "luminanceStdDev": 96.81,
+          "bytes": 84462
+        },
+        "objectId": {
+          "mimeType": "image/png",
+          "width": 512,
+          "height": 288,
+          "meanLuminance": 1.76,
+          "luminanceStdDev": 3.06,
+          "bytes": 21441
+        }
+      },
+      "perception": "The image depicts a coastal scene with a bridge visible in the distance. The bridge spans across a body of water, connecting two landmasses. The surrounding area includes greenery and small islands. The sky is clear with some clouds, and the overall scene appears to be a coastal landscape with a bridge as a prominent feature.",
+      "decision": "pass",
+      "metrics": {
+        "wallMs": 1027,
+        "totalMs": 1019.7,
+        "loadMs": 20,
+        "promptEvalMs": 206.8,
+        "evalMs": 657.7,
+        "promptTokens": 1143,
+        "outputTokens": 66,
+        "outputTokensPerSecond": 100.36,
+        "doneReason": "stop",
+        "pipeline": "perception-then-deterministic-structure"
+      }
+    },
+    {
+      "index": 1,
+      "azimuth": 1.570796,
+      "observer": {
+        "position": [
+          254,
+          1261.056,
+          2499.915
+        ],
+        "target": [
+          254,
+          20.795,
+          -1988
+        ],
+        "fov": 60,
+        "near": 0.2,
+        "far": 60000
+      },
+      "center": {
+        "id": 5,
+        "uuid": "091c76a4-2cef-474d-960f-3288af254b93",
+        "name": "Ocean — geometric waves and city reflection",
+        "type": "Mesh",
+        "semantic": "ocean",
+        "module": "ocean.js",
+        "visible": true,
+        "position": [
+          -1730.41,
+          0,
+          -1004.084
+        ],
+        "vertices": 37249
+      },
+      "sensors": {
+        "rgb": {
+          "mimeType": "image/jpeg",
+          "width": 512,
+          "height": 288,
+          "meanLuminance": 135.21,
+          "luminanceStdDev": 49.39,
+          "bytes": 15393
+        },
+        "depth": {
+          "mimeType": "image/png",
+          "width": 512,
+          "height": 288,
+          "meanLuminance": 20.02,
+          "luminanceStdDev": 32.9,
+          "bytes": 24321
+        },
+        "normal": {
+          "mimeType": "image/png",
+          "width": 512,
+          "height": 288,
+          "meanLuminance": 154.44,
+          "luminanceStdDev": 97.49,
+          "bytes": 59100
+        },
+        "objectId": {
+          "mimeType": "image/png",
+          "width": 512,
+          "height": 288,
+          "meanLuminance": 1.21,
+          "luminanceStdDev": 3.44,
+          "bytes": 18777
+        }
+      },
+      "perception": "The image depicts an aerial view of a coastal area with several islands and a bridge connecting two of them. The bridge is visible in the center of the image, spanning between two islands. The surrounding water is calm, and the sky is clear with some clouds. The islands are covered with green vegetation, and the bridge is a prominent feature in the scene.",
+      "decision": "pass",
+      "metrics": {
+        "wallMs": 1000,
+        "totalMs": 991.5,
+        "loadMs": 14.1,
+        "promptEvalMs": 94.7,
+        "evalMs": 715.4,
+        "promptTokens": 1143,
+        "outputTokens": 72,
+        "outputTokensPerSecond": 100.64,
+        "doneReason": "stop",
+        "pipeline": "perception-then-deterministic-structure"
+      }
+    },
+    {
+      "index": 2,
+      "azimuth": 3.141593,
+      "observer": {
+        "position": [
+          -4233.915,
+          1261.056,
+          -1988
+        ],
+        "target": [
+          254,
+          20.795,
+          -1988
+        ],
+        "fov": 60,
+        "near": 0.2,
+        "far": 60000
+      },
+      "center": {
+        "id": 283,
+        "uuid": "f0befcea-92db-4faa-a2b2-3396fc8cba35",
+        "name": "Bridge asphalt",
+        "type": "Mesh",
+        "semantic": "bridge",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "instances": 90,
+        "vertices": 24
+      },
+      "sensors": {
+        "rgb": {
+          "mimeType": "image/jpeg",
+          "width": 512,
+          "height": 288,
+          "meanLuminance": 136.88,
+          "luminanceStdDev": 46.35,
+          "bytes": 22155
+        },
+        "depth": {
+          "mimeType": "image/png",
+          "width": 512,
+          "height": 288,
+          "meanLuminance": 20.06,
+          "luminanceStdDev": 33.02,
+          "bytes": 23757
+        },
+        "normal": {
+          "mimeType": "image/png",
+          "width": 512,
+          "height": 288,
+          "meanLuminance": 152.79,
+          "luminanceStdDev": 97.22,
+          "bytes": 88002
+        },
+        "objectId": {
+          "mimeType": "image/png",
+          "width": 512,
+          "height": 288,
+          "meanLuminance": 2.22,
+          "luminanceStdDev": 7.06,
+          "bytes": 26889
+        }
+      },
+      "perception": "The image depicts an aerial view of a coastal area with a bridge visible. The bridge spans across a body of water, connecting two land masses. The surrounding area includes greenery and some developed areas, possibly indicating a town or city. The bridge is clearly identifiable and does not appear to be a severe rendering defect.",
+      "decision": "pass",
+      "metrics": {
+        "wallMs": 968,
+        "totalMs": 962.9,
+        "loadMs": 11.1,
+        "promptEvalMs": 194.8,
+        "evalMs": 627.8,
+        "promptTokens": 1143,
+        "outputTokens": 64,
+        "outputTokensPerSecond": 101.95,
+        "doneReason": "stop",
+        "pipeline": "perception-then-deterministic-structure"
+      }
+    },
+    {
+      "index": 3,
+      "azimuth": 4.712389,
+      "observer": {
+        "position": [
+          254,
+          1261.056,
+          -6475.915
+        ],
+        "target": [
+          254,
+          20.795,
+          -1988
+        ],
+        "fov": 60,
+        "near": 0.2,
+        "far": 60000
+      },
+      "center": {
+        "id": 5,
+        "uuid": "091c76a4-2cef-474d-960f-3288af254b93",
+        "name": "Ocean — geometric waves and city reflection",
+        "type": "Mesh",
+        "semantic": "ocean",
+        "module": "ocean.js",
+        "visible": true,
+        "position": [
+          -1730.41,
+          0,
+          -1004.084
+        ],
+        "vertices": 37249
+      },
+      "sensors": {
+        "rgb": {
+          "mimeType": "image/jpeg",
+          "width": 512,
+          "height": 288,
+          "meanLuminance": 130.22,
+          "luminanceStdDev": 41.49,
+          "bytes": 19458
+        },
+        "depth": {
+          "mimeType": "image/png",
+          "width": 512,
+          "height": 288,
+          "meanLuminance": 20.11,
+          "luminanceStdDev": 33.09,
+          "bytes": 22869
+        },
+        "normal": {
+          "mimeType": "image/png",
+          "width": 512,
+          "height": 288,
+          "meanLuminance": 153.36,
+          "luminanceStdDev": 97.39,
+          "bytes": 83574
+        },
+        "objectId": {
+          "mimeType": "image/png",
+          "width": 512,
+          "height": 288,
+          "meanLuminance": 1.52,
+          "luminanceStdDev": 3.49,
+          "bytes": 24798
+        }
+      },
+      "perception": "The image depicts a coastal scene with a bridge visible in the distance. The bridge spans across a body of water, connecting two landmasses. The surrounding area includes greenery and possibly some buildings or structures near the water's edge. The sky is clear with some clouds, and the overall scene appears to be a coastal landscape with a bridge as a prominent feature.",
+      "decision": "pass",
+      "metrics": {
+        "wallMs": 997,
+        "totalMs": 990.4,
+        "loadMs": 17,
+        "promptEvalMs": 51.2,
+        "evalMs": 713.4,
+        "promptTokens": 1143,
+        "outputTokens": 74,
+        "outputTokensPerSecond": 103.73,
+        "doneReason": "stop",
+        "pipeline": "perception-then-deterministic-structure"
+      }
+    }
+  ],
+  "rawImagesPersisted": false,
+  "controllerErrors": []
+}

@@ -45,6 +45,8 @@ node agent-controller.cjs --port=8770
 | `POST /command` | Одна команда протокола Agent Bridge |
 | `POST /observe` | Наблюдение текущего состояния |
 | `POST /model/analyze` | Новый кадр текущего наблюдателя и структурированный анализ vision-модели |
+| `POST /inspection/start` | Поиск объекта и осмотр с 3–8 сторон, при необходимости через vision-модель |
+| `POST /inspection/stop` | Мягкая остановка многопозиционной инспекции |
 | `POST /route/start` | Запуск маршрута |
 | `POST /route/recheck` | Повтор маршрута со сравнением с последним завершённым проходом |
 | `POST /route/stop` | Мягкая остановка маршрута после текущей точки |
@@ -76,6 +78,14 @@ Invoke-RestMethod http://127.0.0.1:8766/route/recheck -Method Post -ContentType 
 ```
 
 API не публикуется во внешний интернет и не имеет удалённой аутентификации. Поэтому адрес прослушивания намеренно зафиксирован на loopback-интерфейсе.
+
+Многопозиционный осмотр моста с четырёх сторон:
+
+```powershell
+Invoke-RestMethod http://127.0.0.1:8766/inspection/start -Method Post -ContentType 'application/json' -Body '{"semantic":"bridge","views":4,"analyze":true}'
+```
+
+Контроллер выбирает самый крупный объект подходящей категории, сохраняет текущую позицию наблюдателя, строит 3–8 равномерных ракурсов вокруг bounding box, получает RGB/depth/normal/object-ID и при `analyze: true` передаёт каждый вид в `qwen2.5vl:3b`. В память попадают только технический паспорт, позиции, сенсорные метрики и структурированные ответы. После завершения или ошибки наблюдатель возвращается в исходную точку.
 
 ## Маршруты
 
@@ -118,7 +128,7 @@ node agent-controller-audit.cjs
 node ollama-dispatcher-audit.cjs
 ```
 
-Результат основной модели: [verification/ollama-dispatcher-audit-qwen2.5vl-3b.json](verification/ollama-dispatcher-audit-qwen2.5vl-3b.json). Проверка от 20.09.2026 завершилась без ошибок: шесть состояний получили `pass`, сырые изображения не сохранились, среднее время всех ответов составило 0,81 секунды, пяти горячих — 0,75 секунды. Старый результат 4B сохранён в [verification/ollama-dispatcher-audit.json](verification/ollama-dispatcher-audit.json).
+Результат основной модели: [verification/ollama-dispatcher-audit-qwen2.5vl-3b.json](verification/ollama-dispatcher-audit-qwen2.5vl-3b.json). Проверка от 20.09.2026 после добавления активного наблюдателя завершилась без ошибок: шесть состояний получили `pass`, сырые изображения не сохранились, среднее время всех ответов составило 1,74 секунды, пяти горячих — 1,87 секунды. Старый результат 4B сохранён в [verification/ollama-dispatcher-audit.json](verification/ollama-dispatcher-audit.json).
 
 Проверка обратимого дефекта:
 
@@ -127,3 +137,11 @@ node ollama-defect-sensitivity-audit.cjs
 ```
 
 Результат основной модели: [verification/ollama-defect-sensitivity-audit-qwen2.5vl-3b.json](verification/ollama-defect-sensitivity-audit-qwen2.5vl-3b.json). `qwen2.5vl:3b` сама обнаружила временно опустошённую сцену, сенсорный барьер независимо подтвердил расхождение, а после восстановления модель снова вернула `pass`. Старый результат 4B сохранён в [verification/ollama-defect-sensitivity-audit.json](verification/ollama-defect-sensitivity-audit.json). Отдельная попытка 9B сохранена в [verification/ollama-reserve-expert-attempt.json](verification/ollama-reserve-expert-attempt.json): модель не дошла до инференса из-за ошибки инициализации CUDA.
+
+Проверка активного наблюдателя:
+
+```powershell
+node agent-active-observer-audit.cjs
+```
+
+Она находит мост по семантической категории, проверяет его геометрию и материалы, выполняет четыре анализа Qwen2.5-VL, возвращает камеру в исходную точку и подтверждает отсутствие изображений в постоянной памяти. Проверка от 20.09.2026 получила четыре `pass`; горячие ответы заняли 0,97–1,03 секунды. Результат: [verification/agent-active-observer-audit.json](verification/agent-active-observer-audit.json).

@@ -30,6 +30,14 @@ const output = path.join(__dirname, 'docs', 'verification', 'agent-bridge-smoke.
         type: 'observer.set',
         payload: { position: [-1350, 430, -720], target: [-2000, 60, -1900], fov: 58 },
       });
+      await agent.dispatch({ id: 'observer-save', type: 'observer.save', payload: { name: 'audit-start' } });
+      const objectInspection = await agent.dispatch({ id: 'inspect-bridge', type: 'world.inspectObject', payload: { semantic: 'bridge', visible: false } });
+      const orbit = await agent.dispatch({ id: 'orbit-bridge', type: 'observer.orbitObject', payload: { id: objectInspection.result.object.id, azimuth: Math.PI / 2, elevation: 0.3, distanceFactor: 2.5 } });
+      const follow = await agent.dispatch({ id: 'follow-aircraft', type: 'observer.followObject', payload: { semantic: 'aircraft', name: 'AERO 042' } });
+      await new Promise(resolve => setTimeout(resolve, 250));
+      const followUpdated = agent.observerState();
+      await agent.dispatch({ id: 'follow-stop', type: 'observer.stopFollowing' });
+      const restored = await agent.dispatch({ id: 'observer-restore', type: 'observer.restore', payload: { name: 'audit-start' } });
       const raycast = await agent.dispatch({
         id: 'ray-1',
         type: 'world.raycast',
@@ -75,6 +83,7 @@ const output = path.join(__dirname, 'docs', 'verification', 'agent-bridge-smoke.
           bridge: bridge.result,
         },
         observer: observer.result,
+        activeObserver: { objectInspection: objectInspection.result, orbit: orbit.result, follow: follow.result, followUpdated, restored: restored.result },
         raycast: raycast.result,
         observation: {
           protocol: observation.result.protocol,
@@ -98,14 +107,22 @@ const output = path.join(__dirname, 'docs', 'verification', 'agent-bridge-smoke.
       };
     });
 
-    assert.equal(report.capabilities.protocol, '0.1.0');
+    assert.equal(report.capabilities.protocol, '0.2.0');
     assert.equal(report.capabilities.visualPersistence, 'memory-only');
     assert.equal(report.ping.ok, true);
-    assert.equal(report.ping.protocol, '0.1.0');
+    assert.equal(report.ping.protocol, '0.2.0');
     assert.ok(report.query.ocean.length > 0, 'Ocean must be present in the semantic catalog');
     assert.ok(report.query.bridge.length > 0, 'Bridge must be present in the semantic catalog');
     assert.ok(report.query.bridge.every(object => object.semantic === 'bridge'), 'Bridge objects must have the bridge semantic label');
     assert.deepEqual(report.observer.position, [-1350, 430, -720]);
+    assert.equal(report.activeObserver.objectInspection.object.semantic, 'bridge');
+    assert.equal(report.activeObserver.objectInspection.source, 'city.js');
+    assert.ok(report.activeObserver.objectInspection.bounds.radius > 0);
+    assert.ok(report.activeObserver.objectInspection.materials.length > 0);
+    assert.equal(report.activeObserver.orbit.target.id, report.activeObserver.objectInspection.object.id);
+    assert.equal(report.activeObserver.follow.target.semantic, 'aircraft');
+    assert.notDeepEqual(report.activeObserver.followUpdated.target, report.activeObserver.follow.observer.target, 'Following observer must track the moving aircraft');
+    assert.deepEqual(report.activeObserver.restored.observer, report.observer);
     assert.ok(report.raycast.length > 0, 'Downward ray must hit the world');
     assert.equal(report.observation.world.environment.weather, 'rain');
     assert.equal(report.observation.world.paused, true);

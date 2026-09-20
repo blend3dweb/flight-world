@@ -85,6 +85,14 @@ function applyPerceptionGate(finding, perception, decision) {
   return { evaluated: true, applied: true, decision };
 }
 
+function classifyPerception(perception) {
+  const text = String(perception ?? '');
+  const severe = /severe rendering defect/is.test(text)
+    && !/(?:not|isn't|is not|doesn't|does not|no)\s+(?:appear\s+to\s+be\s+)?(?:a\s+)?severe rendering defect/is.test(text);
+  const missing = /no discernible objects?|required objects?.{0,80}(?:missing|not visible|absent)|(?:missing|lacks?) (?:the )?(?:required )?(?:city|buildings?|roads?|terrain|bridge|airport|vegetation|ocean)/is.test(text);
+  return severe || missing ? 'defect' : 'pass';
+}
+
 function validateFinding(value, expectedObservationId, objects, policy) {
   const errors = [];
   const corrections = [];
@@ -263,8 +271,7 @@ class OllamaVisionDispatcher {
       const perceptionBody = await perceptionResponse.json();
       perception = String(perceptionBody.message?.content ?? '').trim().slice(0, 8000);
       if (!perception) throw new Error('Ollama perception pass returned no text');
-      const defectLanguage = /severe rendering defect|no discernible objects?|required objects?.{0,80}(?:missing|not visible|absent)|(?:missing|lacks?) (?:the )?(?:required )?(?:city|buildings?|roads?|terrain|bridge|airport|vegetation|ocean)/is;
-      perceptionDecision = defectLanguage.test(perception) ? 'defect' : 'pass';
+      perceptionDecision = classifyPerception(perception);
       perceptionMetrics = modelMetrics(perceptionBody, Date.now() - perceptionStarted);
     }
     let finding;
@@ -322,4 +329,4 @@ class OllamaVisionDispatcher {
   }
 }
 
-module.exports = { OllamaVisionDispatcher, validateFinding, buildPrompt, applySensorDeltaGate };
+module.exports = { OllamaVisionDispatcher, validateFinding, buildPrompt, applySensorDeltaGate, classifyPerception };

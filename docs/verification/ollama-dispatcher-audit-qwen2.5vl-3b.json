@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-20T14:22:07.803Z",
+  "checkedAt": "2026-09-20T14:45:25.470Z",
   "model": {
     "provider": "ollama",
     "endpoint": "http://127.0.0.1:11434",
@@ -7,7 +7,7 @@
     "available": true
   },
   "route": {
-    "id": "6019878b-275d-4d15-8025-0b2ff0f51a29",
+    "id": "a25a3410-a007-4f86-9622-36fd31ca894e",
     "name": "oceania-inspection",
     "status": "complete"
   },
@@ -22,7 +22,7 @@
       ],
       "center": {
         "id": 89,
-        "uuid": "e35ab90e-3015-4a74-9774-79fb95c14ce5",
+        "uuid": "e4b233c9-2744-415c-8101-deddf96a5f6d",
         "name": "Irregular sidewalk block",
         "type": "Mesh",
         "semantic": "airport",
@@ -43,13 +43,13 @@
         "decision": "pass"
       },
       "modelFinding": {
-        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:city-overview",
+        "observationId": "a25a3410-a007-4f86-9622-36fd31ca894e:city-overview",
         "decision": "pass",
         "summary": "The image depicts a city with buildings and a road. The terrain appears to be a mix of green and blue, indicating different types of land or water. The buildings are visible as clusters of blue and white, suggesting different structures or types of buildings. The road is visible as a linear feature running through the city. The overall scene is a mix of urban and natural elements.",
         "defects": []
       },
       "finding": {
-        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:city-overview",
+        "observationId": "a25a3410-a007-4f86-9622-36fd31ca894e:city-overview",
         "decision": "pass",
         "summary": "The image depicts a city with buildings and a road. The terrain appears to be a mix of green and blue, indicating different types of land or water. The buildings are visible as clusters of blue and white, suggesting different structures or types of buildings. The road is visible as a linear feature running through the city. The overall scene is a mix of urban and natural elements.",
         "defects": []
@@ -63,14 +63,14 @@
         "corrections": []
       },
       "metrics": {
-        "wallMs": 1062,
-        "totalMs": 1057.7,
-        "loadMs": 12.6,
-        "promptEvalMs": 15.4,
-        "evalMs": 930,
+        "wallMs": 1059,
+        "totalMs": 1054.3,
+        "loadMs": 16.2,
+        "promptEvalMs": 20.3,
+        "evalMs": 928,
         "promptTokens": 1149,
         "outputTokens": 76,
-        "outputTokensPerSecond": 81.72,
+        "outputTokensPerSecond": 81.9,
         "doneReason": "stop",
         "pipeline": "perception-then-deterministic-structure"
       },
@@ -85,7 +85,7 @@
       ],
       "center": {
         "id": 193,
-        "uuid": "48f0307f-0fa6-42e9-8fe8-584f5bd6fe5d",
+        "uuid": "8813e78b-bc58-439e-995b-744d7b77884e",
         "name": "Roads",
         "type": "Mesh",
         "semantic": "airport",
@@ -107,13 +107,13 @@
         "decision": "pass"
       },
       "modelFinding": {
-        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:city-night",
+        "observationId": "a25a3410-a007-4f86-9622-36fd31ca894e:city-night",
         "decision": "pass",
         "summary": "The image depicts a city at night with illuminated buildings and a road. The buildings are lit up with numerous lights, creating a vibrant and bustling urban scene. The road is visible in the foreground, running parallel to the buildings. The overall scene is well-lit, indicating a lively city environment.",
         "defects": []
       },
       "finding": {
-        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:city-night",
+        "observationId": "a25a3410-a007-4f86-9622-36fd31ca894e:city-night",
         "decision": "pass",
         "summary": "The image depicts a city at night with illuminated buildings and a road. The buildings are lit up with numerous lights, creating a vibrant and bustling urban scene. The road is visible in the foreground, running parallel to the buildings. The overall scene is well-lit, indicating a lively city environment.",
         "defects": []
@@ -127,14 +127,14 @@
         "corrections": []
       },
       "metrics": {
-        "wallMs": 697,
-        "totalMs": 693.1,
-        "loadMs": 7.9,
-        "promptEvalMs": 10.3,
-        "evalMs": 593.6,
+        "wallMs": 1752,
+        "totalMs": 1746.4,
+        "loadMs": 16,
+        "promptEvalMs": 1066.5,
+        "evalMs": 604.7,
         "promptTokens": 1147,
         "outputTokens": 60,
-        "outputTokensPerSecond": 101.08,
+        "outputTokensPerSecond": 99.23,
         "doneReason": "stop",
         "pipeline": "perception-then-deterministic-structure"
       },
@@ -150,7 +150,7 @@
       ],
       "center": {
         "id": 5,
-        "uuid": "e4742c53-fc39-4560-af38-fd998653623b",
+        "uuid": "b51acfd6-1607-4853-b74a-21d9743fe208",
         "name": "Ocean — geometric waves and city reflection",
         "type": "Mesh",
         "semantic": "ocean",
@@ -163,7 +163,7 @@
         ],
         "vertices": 37249
       },
-      "perception": "The image contains a bridge, a road, and an ocean. The bridge and road are visible, but the ocean is not clearly defined. The terrain is not distinctly visible.",
+      "perception": "The image contains a bridge, a road, and an ocean. The bridge and road are visible, and the ocean is present. There are no severe rendering defects in the image.",
       "perceptionDecision": "pass",
       "perceptionGate": {
         "evaluated": true,
@@ -171,15 +171,15 @@
         "decision": "pass"
       },
       "modelFinding": {
-        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:bridge-rain",
+        "observationId": "a25a3410-a007-4f86-9622-36fd31ca894e:bridge-rain",
         "decision": "pass",
-        "summary": "The image contains a bridge, a road, and an ocean. The bridge and road are visible, but the ocean is not clearly defined. The terrain is not distinctly visible.",
+        "summary": "The image contains a bridge, a road, and an ocean. The bridge and road are visible, and the ocean is present. There are no severe rendering defects in the image.",
         "defects": []
       },
       "finding": {
-        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:bridge-rain",
+        "observationId": "a25a3410-a007-4f86-9622-36fd31ca894e:bridge-rain",
         "decision": "pass",
-        "summary": "The image contains a bridge, a road, and an ocean. The bridge and road are visible, but the ocean is not clearly defined. The terrain is not distinctly visible.",
+        "summary": "The image contains a bridge, a road, and an ocean. The bridge and road are visible, and the ocean is present. There are no severe rendering defects in the image.",
         "defects": []
       },
       "sensorGate": {
@@ -191,14 +191,14 @@
         "corrections": []
       },
       "metrics": {
-        "wallMs": 454,
-        "totalMs": 450.8,
-        "loadMs": 6.5,
-        "promptEvalMs": 11.9,
-        "evalMs": 362.1,
+        "wallMs": 1740,
+        "totalMs": 1736.2,
+        "loadMs": 11,
+        "promptEvalMs": 1246.3,
+        "evalMs": 385.3,
         "promptTokens": 1149,
-        "outputTokens": 36,
-        "outputTokensPerSecond": 99.41,
+        "outputTokens": 37,
+        "outputTokensPerSecond": 96.03,
         "doneReason": "stop",
         "pipeline": "perception-then-deterministic-structure"
       },
@@ -213,7 +213,7 @@
       ],
       "center": {
         "id": 298,
-        "uuid": "c88fbfbf-5ca0-42aa-b16a-8ef02bb60af6",
+        "uuid": "23161f26-aea8-4156-961a-2b1ae6df836b",
         "name": "Apron",
         "type": "Mesh",
         "semantic": "airport",
@@ -227,7 +227,7 @@
         "instances": 1,
         "vertices": 24
       },
-      "perception": "The image depicts a section of an airport with a runway and taxiway. The runway is visible with a clear path for aircraft to take off and land. The taxiway is also present, providing a route for ground vehicles and aircraft to move within the airport. The terrain around the airport is visible, showing the surrounding landscape, which includes grassy areas and possibly some water or wetlands. The image does not show any roads. The overall scene is well-rendered, with clear distinctions between the airport structures and the surrounding terrain.",
+      "perception": "The image depicts a section of an airport with a runway and taxiway. The runway is visible with a clear path for aircraft to take off and land. The taxiway is also present, connecting the runway to other parts of the airport. The terrain around the airport is visible, showing a mix of grassy areas and possibly some paved surfaces. The overall scene is well-rendered, with clear distinctions between the different elements of the airport and the surrounding terrain. There are no severe rendering defects present in the image.",
       "perceptionDecision": "pass",
       "perceptionGate": {
         "evaluated": true,
@@ -235,15 +235,15 @@
         "decision": "pass"
       },
       "modelFinding": {
-        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:airport",
+        "observationId": "a25a3410-a007-4f86-9622-36fd31ca894e:airport",
         "decision": "pass",
-        "summary": "The image depicts a section of an airport with a runway and taxiway. The runway is visible with a clear path for aircraft to take off and land. The taxiway is also present, providing a route for ground vehicles and aircraft to move within the airport. The terrain around the airport is visible, showing the surrounding landscape, which includes grassy areas and possibly some water or wetlands. The image does not show any roads. The overall scene is well-rendered, with clear distinctions between the airport structures and the surrounding terrain.",
+        "summary": "The image depicts a section of an airport with a runway and taxiway. The runway is visible with a clear path for aircraft to take off and land. The taxiway is also present, connecting the runway to other parts of the airport. The terrain around the airport is visible, showing a mix of grassy areas and possibly some paved surfaces. The overall scene is well-rendered, with clear distinctions between the different elements of the airport and the surrounding terrain. There are no severe rendering defects present in the image.",
         "defects": []
       },
       "finding": {
-        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:airport",
+        "observationId": "a25a3410-a007-4f86-9622-36fd31ca894e:airport",
         "decision": "pass",
-        "summary": "The image depicts a section of an airport with a runway and taxiway. The runway is visible with a clear path for aircraft to take off and land. The taxiway is also present, providing a route for ground vehicles and aircraft to move within the airport. The terrain around the airport is visible, showing the surrounding landscape, which includes grassy areas and possibly some water or wetlands. The image does not show any roads. The overall scene is well-rendered, with clear distinctions between the airport structures and the surrounding terrain.",
+        "summary": "The image depicts a section of an airport with a runway and taxiway. The runway is visible with a clear path for aircraft to take off and land. The taxiway is also present, connecting the runway to other parts of the airport. The terrain around the airport is visible, showing a mix of grassy areas and possibly some paved surfaces. The overall scene is well-rendered, with clear distinctions between the different elements of the airport and the surrounding terrain. There are no severe rendering defects present in the image.",
         "defects": []
       },
       "sensorGate": {
@@ -255,14 +255,14 @@
         "corrections": []
       },
       "metrics": {
-        "wallMs": 1391,
-        "totalMs": 1388,
-        "loadMs": 13.4,
-        "promptEvalMs": 107.1,
-        "evalMs": 1134.6,
+        "wallMs": 2465,
+        "totalMs": 2461.2,
+        "loadMs": 19.6,
+        "promptEvalMs": 1297.7,
+        "evalMs": 1056.1,
         "promptTokens": 1147,
-        "outputTokens": 107,
-        "outputTokensPerSecond": 94.31,
+        "outputTokens": 104,
+        "outputTokensPerSecond": 98.48,
         "doneReason": "stop",
         "pipeline": "perception-then-deterministic-structure"
       },
@@ -277,7 +277,7 @@
       ],
       "center": {
         "id": 25,
-        "uuid": "fec7be61-12fd-4f2e-991f-1dcc5621b584",
+        "uuid": "abd66081-f3bd-4009-a92f-e41dd8c7051b",
         "name": "Forest distant 3",
         "type": "Mesh",
         "semantic": "vegetation",
@@ -299,13 +299,13 @@
         "decision": "pass"
       },
       "modelFinding": {
-        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:islands-snow",
+        "observationId": "a25a3410-a007-4f86-9622-36fd31ca894e:islands-snow",
         "decision": "pass",
         "summary": "The image contains the following objects: terrain, vegetation, ocean.",
         "defects": []
       },
       "finding": {
-        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:islands-snow",
+        "observationId": "a25a3410-a007-4f86-9622-36fd31ca894e:islands-snow",
         "decision": "pass",
         "summary": "The image contains the following objects: terrain, vegetation, ocean.",
         "defects": []
@@ -319,14 +319,14 @@
         "corrections": []
       },
       "metrics": {
-        "wallMs": 281,
-        "totalMs": 275.5,
-        "loadMs": 15,
-        "promptEvalMs": 10.2,
-        "evalMs": 127.6,
+        "wallMs": 1305,
+        "totalMs": 1303.4,
+        "loadMs": 13.3,
+        "promptEvalMs": 1052.5,
+        "evalMs": 153.3,
         "promptTokens": 1147,
         "outputTokens": 14,
-        "outputTokensPerSecond": 109.74,
+        "outputTokensPerSecond": 91.3,
         "doneReason": "stop",
         "pipeline": "perception-then-deterministic-structure"
       },
@@ -340,7 +340,7 @@
       ],
       "center": {
         "id": 6,
-        "uuid": "d9091930-f547-40c9-8028-53aa3a91cde5",
+        "uuid": "f2bb7f7f-a149-428d-b0b1-241ade346ad8",
         "name": "Mesh",
         "type": "Mesh",
         "semantic": "world",
@@ -361,13 +361,13 @@
         "decision": "pass"
       },
       "modelFinding": {
-        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:ocean-sunset",
+        "observationId": "a25a3410-a007-4f86-9622-36fd31ca894e:ocean-sunset",
         "decision": "pass",
         "summary": "The image depicts a scene with a dark, cloudy sky and a body of water that appears to be an ocean. The terrain is visible along the edges of the water, showing a mix of dark and light colors, suggesting a variety of landforms or different types of terrain. The overall scene has a somewhat desolate and eerie atmosphere.",
         "defects": []
       },
       "finding": {
-        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:ocean-sunset",
+        "observationId": "a25a3410-a007-4f86-9622-36fd31ca894e:ocean-sunset",
         "decision": "pass",
         "summary": "The image depicts a scene with a dark, cloudy sky and a body of water that appears to be an ocean. The terrain is visible along the edges of the water, showing a mix of dark and light colors, suggesting a variety of landforms or different types of terrain. The overall scene has a somewhat desolate and eerie atmosphere.",
         "defects": []
@@ -381,14 +381,14 @@
         "corrections": []
       },
       "metrics": {
-        "wallMs": 944,
-        "totalMs": 941,
-        "loadMs": 9.5,
-        "promptEvalMs": 49.5,
-        "evalMs": 811.5,
+        "wallMs": 2109,
+        "totalMs": 2105.5,
+        "loadMs": 24.3,
+        "promptEvalMs": 1311.9,
+        "evalMs": 687.9,
         "promptTokens": 1145,
         "outputTokens": 68,
-        "outputTokensPerSecond": 83.79,
+        "outputTokensPerSecond": 98.86,
         "doneReason": "stop",
         "pipeline": "perception-then-deterministic-structure"
       },
@@ -397,11 +397,11 @@
   ],
   "aggregate": {
     "count": 6,
-    "totalWallMs": 4829,
-    "averageWallMs": 805,
-    "hotAverageWallMs": 753,
+    "totalWallMs": 10430,
+    "averageWallMs": 1738,
+    "hotAverageWallMs": 1874,
     "totalPromptTokens": 6884,
-    "totalOutputTokens": 361
+    "totalOutputTokens": 359
   },
   "guardrails": {
     "hallucinatedObjectRemoved": true,

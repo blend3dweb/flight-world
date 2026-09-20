@@ -2,7 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { FlightAgentController } = require('./agent-controller.cjs');
-const { validateFinding } = require('./ollama-vision-dispatcher.cjs');
+const { validateFinding, classifyPerception } = require('./ollama-vision-dispatcher.cjs');
 const modelConfig = require('./agent-model-config.json');
 
 const memoryFile = path.join(__dirname, 'tmp', 'agent-bridge', 'ollama-audit-memory.json');
@@ -32,6 +32,8 @@ async function waitForRoute(base, timeoutMs = 900000) {
 }
 
 function auditGuardrails() {
+  assert.equal(classifyPerception('The bridge does not appear to be a severe rendering defect.'), 'pass');
+  assert.equal(classifyPerception('The image is a severe rendering defect. No discernible objects are present.'), 'defect');
   const finding = {
     observationId: 'wrong-id',
     decision: 'dispatch-to-codex',

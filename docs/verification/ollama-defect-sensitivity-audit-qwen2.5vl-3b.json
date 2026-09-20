@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-20T14:22:40.703Z",
+  "checkedAt": "2026-09-20T14:44:08.695Z",
   "model": "qwen2.5vl:3b",
   "view": {
     "position": [
@@ -45,14 +45,14 @@
       "decision": "pass"
     },
     "perceptionMetrics": {
-      "wallMs": 1055,
-      "totalMs": 1049.6,
-      "loadMs": 32.2,
-      "promptEvalMs": 110.3,
-      "evalMs": 758.2,
+      "wallMs": 2123,
+      "totalMs": 2115.4,
+      "loadMs": 13,
+      "promptEvalMs": 1257,
+      "evalMs": 762.4,
       "promptTokens": 1149,
       "outputTokens": 76,
-      "outputTokensPerSecond": 100.23,
+      "outputTokensPerSecond": 99.69,
       "doneReason": "stop"
     },
     "modelFinding": {
@@ -76,14 +76,14 @@
       "corrections": []
     },
     "metrics": {
-      "wallMs": 1056,
-      "totalMs": 1049.6,
-      "loadMs": 32.2,
-      "promptEvalMs": 110.3,
-      "evalMs": 758.2,
+      "wallMs": 2123,
+      "totalMs": 2115.4,
+      "loadMs": 13,
+      "promptEvalMs": 1257,
+      "evalMs": 762.4,
       "promptTokens": 1149,
       "outputTokens": 76,
-      "outputTokensPerSecond": 100.23,
+      "outputTokensPerSecond": 99.69,
       "doneReason": "stop",
       "pipeline": "perception-then-deterministic-structure"
     }
@@ -101,14 +101,14 @@
       "decision": "defect"
     },
     "perceptionMetrics": {
-      "wallMs": 381,
-      "totalMs": 368.4,
-      "loadMs": 13.1,
-      "promptEvalMs": 11.2,
-      "evalMs": 260.6,
+      "wallMs": 1382,
+      "totalMs": 1377.3,
+      "loadMs": 5.9,
+      "promptEvalMs": 1044.6,
+      "evalMs": 277.6,
       "promptTokens": 1149,
       "outputTokens": 26,
-      "outputTokensPerSecond": 99.78,
+      "outputTokensPerSecond": 93.67,
       "doneReason": "stop"
     },
     "modelFinding": {
@@ -166,14 +166,14 @@
       "corrections": []
     },
     "metrics": {
-      "wallMs": 382,
-      "totalMs": 368.4,
-      "loadMs": 13.1,
-      "promptEvalMs": 11.2,
-      "evalMs": 260.6,
+      "wallMs": 1383,
+      "totalMs": 1377.3,
+      "loadMs": 5.9,
+      "promptEvalMs": 1044.6,
+      "evalMs": 277.6,
       "promptTokens": 1149,
       "outputTokens": 26,
-      "outputTokensPerSecond": 99.78,
+      "outputTokensPerSecond": 93.67,
       "doneReason": "stop",
       "pipeline": "perception-then-deterministic-structure"
     }
@@ -185,7 +185,7 @@
     "model": "qwen2.5vl:3b",
     "role": "eyes-and-dispatcher",
     "codexReview": "required",
-    "perception": "The image depicts a city with buildings and a road. The terrain appears to be a mix of green and blue, suggesting a coastal or waterfront area. The buildings are visible as clusters of blue and white, indicating urban structures. The road is a straight line running horizontally across the image. The overall scene is a clear representation of a city with its typical elements.",
+    "perception": "The image depicts a city with buildings and a road. The terrain appears to be a mix of green and blue, suggesting a coastal or waterfront area. The buildings are visible as clusters of blue and white, indicating urban development. The road is a straight line running horizontally across the image. The overall scene is a realistic representation of a coastal city.",
     "perceptionDecision": "pass",
     "perceptionGate": {
       "evaluated": true,
@@ -193,26 +193,26 @@
       "decision": "pass"
     },
     "perceptionMetrics": {
-      "wallMs": 828,
-      "totalMs": 821.4,
-      "loadMs": 12.3,
-      "promptEvalMs": 14.3,
-      "evalMs": 719.6,
+      "wallMs": 1887,
+      "totalMs": 1883.4,
+      "loadMs": 13.4,
+      "promptEvalMs": 1083.4,
+      "evalMs": 705.9,
       "promptTokens": 1149,
-      "outputTokens": 73,
-      "outputTokensPerSecond": 101.44,
+      "outputTokens": 70,
+      "outputTokensPerSecond": 99.17,
       "doneReason": "stop"
     },
     "modelFinding": {
       "observationId": "defect-test:restored",
       "decision": "pass",
-      "summary": "The image depicts a city with buildings and a road. The terrain appears to be a mix of green and blue, suggesting a coastal or waterfront area. The buildings are visible as clusters of blue and white, indicating urban structures. The road is a straight line running horizontally across the image. The overall scene is a clear representation of a city with its typical elements.",
+      "summary": "The image depicts a city with buildings and a road. The terrain appears to be a mix of green and blue, suggesting a coastal or waterfront area. The buildings are visible as clusters of blue and white, indicating urban development. The road is a straight line running horizontally across the image. The overall scene is a realistic representation of a coastal city.",
       "defects": []
     },
     "finding": {
       "observationId": "defect-test:restored",
       "decision": "pass",
-      "summary": "The image depicts a city with buildings and a road. The terrain appears to be a mix of green and blue, suggesting a coastal or waterfront area. The buildings are visible as clusters of blue and white, indicating urban structures. The road is a straight line running horizontally across the image. The overall scene is a clear representation of a city with its typical elements.",
+      "summary": "The image depicts a city with buildings and a road. The terrain appears to be a mix of green and blue, suggesting a coastal or waterfront area. The buildings are visible as clusters of blue and white, indicating urban development. The road is a straight line running horizontally across the image. The overall scene is a realistic representation of a coastal city.",
       "defects": []
     },
     "sensorGate": {
@@ -224,14 +224,14 @@
       "corrections": []
     },
     "metrics": {
-      "wallMs": 828,
-      "totalMs": 821.4,
-      "loadMs": 12.3,
-      "promptEvalMs": 14.3,
-      "evalMs": 719.6,
+      "wallMs": 1887,
+      "totalMs": 1883.4,
+      "loadMs": 13.4,
+      "promptEvalMs": 1083.4,
+      "evalMs": 705.9,
       "promptTokens": 1149,
-      "outputTokens": 73,
-      "outputTokensPerSecond": 101.44,
+      "outputTokens": 70,
+      "outputTokensPerSecond": 99.17,
       "doneReason": "stop",
       "pipeline": "perception-then-deterministic-structure"
     }

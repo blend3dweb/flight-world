@@ -78,7 +78,7 @@ class FlightAgentController {
     this.sceneServer = null;
     this.queue = Promise.resolve();
     this.cancelRoute = false;
-    this.state = { status: 'created', startedAt: null, api: null, scene: this.options.origin, route: null, errors: [] };
+    this.state = { status: 'created', startedAt: null, api: null, scene: this.options.origin, route: null, inspection: null, errors: [] };
     this.routes = JSON.parse(fs.readFileSync(this.options.routeFile, 'utf8'));
     this.dispatcher = new OllamaVisionDispatcher({ configPath: this.options.modelConfigFile });
     this.memory = this.loadMemory();
@@ -87,9 +87,12 @@ class FlightAgentController {
   loadMemory() {
     try {
       const parsed = JSON.parse(fs.readFileSync(this.options.memoryFile, 'utf8'));
-      if (parsed.version === 1 && Array.isArray(parsed.routeRuns)) return parsed;
+      if (parsed.version === 1 && Array.isArray(parsed.routeRuns)) {
+        if (!Array.isArray(parsed.inspectionRuns)) parsed.inspectionRuns = [];
+        return parsed;
+      }
     } catch {}
-    return { version: 1, updatedAt: null, sessions: [], routeRuns: [] };
+    return { version: 1, updatedAt: null, sessions: [], routeRuns: [], inspectionRuns: [] };
   }
 
   saveMemory() {
@@ -181,8 +184,84 @@ class FlightAgentController {
     return this.dispatcher.analyze(observation, { ...context, center: identification.result.hit });
   }
 
+  async inspectObjectTour({ id, name, semantic, views = 4, analyze = true, startAzimuth = 0, elevation = 0.3, distanceFactor = 2.4, minimumDistance = 20 } = {}) {
+    if (this.state.route?.status === 'running') throw new Error('A route is already running');
+    if (this.state.inspection?.status === 'running') throw new Error('Another object inspection is already running');
+    if (!id && !name && !semantic) throw new Error('Object inspection requires id, name, or semantic');
+    const viewCount = Math.max(3, Math.min(8, Math.floor(Number(views) || 4)));
+    const run = {
+      id: crypto.randomUUID(),
+      startedAt: now(),
+      completedAt: null,
+      status: 'running',
+      requested: { id: Number.isInteger(id) ? id : null, name: name || null, semantic: semantic || null },
+      analyze: analyze === true,
+      target: null,
+      views: [],
+    };
+    const poseName = `inspection-${run.id}`;
+    this.cancelRoute = false;
+    this.memory.inspectionRuns.push(run);
+    this.memory.inspectionRuns = this.memory.inspectionRuns.slice(-30);
+    this.state.inspection = { id: run.id, status: 'running', target: run.requested, completed: 0, total: viewCount };
+    this.saveMemory();
+    let poseSaved = false;
+    try {
+      await this.execute({ type: 'simulation.pause', payload: { paused: true } });
+      await this.execute({ type: 'observer.save', payload: { name: poseName } });
+      poseSaved = true;
+      const inspection = await this.execute({ type: 'world.inspectObject', payload: { id, name, semantic, visible: false } });
+      run.target = inspection.result;
+      this.state.inspection.target = inspection.result.object;
+      const width = this.dispatcher.dispatcher.inputs.rgb.width;
+      const height = this.dispatcher.dispatcher.inputs.rgb.height;
+      for (let index = 0; index < viewCount; index++) {
+        if (this.cancelRoute) { run.status = 'cancelled'; break; }
+        const azimuth = Number(startAzimuth) + index * Math.PI * 2 / viewCount;
+        const orbit = await this.execute({
+          type: 'observer.orbitObject',
+          payload: { id: inspection.result.object.id, azimuth, elevation, distanceFactor, minimumDistance },
+        });
+        const observation = await this.observe({ visual: true, sensors: ['rgb', 'depth', 'normal', 'objectId'], width, height, quality: 0.72 });
+        const identification = await this.execute({ type: 'world.identifyPixel', payload: { x: Math.floor(width / 2), y: Math.floor(height / 2), width, height } });
+        const entry = {
+          index,
+          azimuth: Number(azimuth.toFixed(6)),
+          observer: orbit.result.observer,
+          center: identification.result.hit,
+          observation: summarizeObservation(observation),
+        };
+        if (analyze === true) {
+          entry.modelInspection = await this.dispatcher.analyze(observation, {
+            observationId: `${run.id}:view-${index + 1}`,
+            inspection: run.id,
+            view: index + 1,
+            expected: [inspection.result.object.semantic],
+            center: identification.result.hit,
+          });
+        }
+        run.views.push(entry);
+        this.state.inspection.completed = run.views.length;
+        this.saveMemory();
+      }
+      if (run.status === 'running') run.status = 'complete';
+    } catch (error) {
+      run.status = 'failed';
+      run.error = error.message;
+      this.state.errors.push({ at: now(), type: 'inspection', message: error.message });
+      throw error;
+    } finally {
+      if (poseSaved) await this.execute({ type: 'observer.restore', payload: { name: poseName } }).catch(error => this.state.errors.push({ at: now(), type: 'inspection-restore', message: error.message }));
+      run.completedAt = now();
+      this.state.inspection.status = run.status;
+      this.saveMemory();
+    }
+    return run;
+  }
+
   async runRoute(name, { recheck = false, analyze = false } = {}) {
     if (this.state.route?.status === 'running') throw new Error('Another route is already running');
+    if (this.state.inspection?.status === 'running') throw new Error('An object inspection is already running');
     const definition = this.routeDefinition(name);
     const baseline = recheck ? [...this.memory.routeRuns].reverse().find(run => run.name === name && run.status === 'complete') : null;
     const run = { id: crypto.randomUUID(), name, title: definition.title, recheck, analyze, baselineId: baseline?.id ?? null, startedAt: now(), completedAt: null, status: 'running', waypoints: [], comparison: [] };
@@ -252,13 +331,19 @@ class FlightAgentController {
     if (request.method === 'POST' && url.pathname === '/command') return json(response, 200, await this.execute(await readBody(request)));
     if (request.method === 'POST' && url.pathname === '/observe') return json(response, 200, await this.observe(await readBody(request)));
     if (request.method === 'POST' && url.pathname === '/model/analyze') return json(response, 200, await this.inspectWithModel(await readBody(request)));
+    if (request.method === 'POST' && url.pathname === '/inspection/start') {
+      const body = await readBody(request);
+      const promise = this.inspectObjectTour(body);
+      promise.catch(() => {});
+      return json(response, 202, { ok: true, requested: { id: body.id ?? null, name: body.name ?? null, semantic: body.semantic ?? null }, views: Math.max(3, Math.min(8, Math.floor(Number(body.views) || 4))), analyze: body.analyze !== false });
+    }
     if (request.method === 'POST' && (url.pathname === '/route/start' || url.pathname === '/route/recheck')) {
       const body = await readBody(request);
       const promise = this.runRoute(body.name, { recheck: url.pathname.endsWith('recheck'), analyze: body.analyze === true });
       promise.catch(() => {});
       return json(response, 202, { ok: true, route: body.name, recheck: url.pathname.endsWith('recheck'), analyze: body.analyze === true });
     }
-    if (request.method === 'POST' && url.pathname === '/route/stop') { this.cancelRoute = true; return json(response, 200, { ok: true }); }
+    if (request.method === 'POST' && (url.pathname === '/route/stop' || url.pathname === '/inspection/stop')) { this.cancelRoute = true; return json(response, 200, { ok: true }); }
     return json(response, 404, { ok: false, error: 'Not found' });
   }
 
