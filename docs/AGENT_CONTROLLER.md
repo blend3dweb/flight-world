@@ -41,8 +41,10 @@ node agent-controller.cjs --port=8770
 | `GET /health` | Готовность и версия Agent Bridge |
 | `GET /state` | Текущее состояние контроллера и маршрута |
 | `GET /memory` | Сохранённые сессии, маршруты и сравнения |
+| `GET /model` | Доступность выбранной локальной модели Ollama |
 | `POST /command` | Одна команда протокола Agent Bridge |
 | `POST /observe` | Наблюдение текущего состояния |
+| `POST /model/analyze` | Новый кадр текущего наблюдателя и структурированный анализ 4B |
 | `POST /route/start` | Запуск маршрута |
 | `POST /route/recheck` | Повтор маршрута со сравнением с последним завершённым проходом |
 | `POST /route/stop` | Мягкая остановка маршрута после текущей точки |
@@ -55,6 +57,18 @@ Invoke-RestMethod http://127.0.0.1:8766/health
 
 ```powershell
 Invoke-RestMethod http://127.0.0.1:8766/route/start -Method Post -ContentType 'application/json' -Body '{"name":"oceania-inspection"}'
+```
+
+Маршрут с анализом каждой точки через `qwen3.5:4b`:
+
+```powershell
+Invoke-RestMethod http://127.0.0.1:8766/route/start -Method Post -ContentType 'application/json' -Body '{"name":"oceania-inspection","analyze":true}'
+```
+
+Разовый анализ текущего вида:
+
+```powershell
+Invoke-RestMethod http://127.0.0.1:8766/model/analyze -Method Post -ContentType 'application/json' -Body '{"source":"manual"}'
 ```
 
 ```powershell
@@ -86,6 +100,8 @@ API не публикуется во внешний интернет и не и�
 
 Base64, JPEG и PNG в память маршрута не попадают. Запись выполняется через временный файл с последующим атомарным переименованием.
 
+При `analyze: true` к точке добавляются только структурированная находка, результат проверки схемы, требование проверки Codex и метрики Ollama. Локальная модель не получает команд изменения файлов и не может обращаться к Git или публикации сборки. Анализ выполняется последовательно и только в режиме инспекции; обычный полёт не вызывает модель.
+
 ## Проверка
 
 ```powershell
@@ -93,3 +109,11 @@ node agent-controller-audit.cjs
 ```
 
 Аудит запускает локальный контроллер на свободном порту, проходит короткий маршрут, повторяет его для сравнения и затем выполняет полный маршрут из шести точек. Результат: [verification/agent-controller-smoke.json](verification/agent-controller-smoke.json).
+
+Проверка интеграции с Ollama на шести одинаковых контрольных точках:
+
+```powershell
+node ollama-dispatcher-audit.cjs
+```
+
+Результат: [verification/ollama-dispatcher-audit.json](verification/ollama-dispatcher-audit.json). Проверка от 20.09.2026 завершилась без ошибок: шесть состояний получили валидный JSON, сырые изображения не сохранились, среднее время пяти ответов после загрузки модели составило 3,14 секунды. Этот маршрут содержит эталонные состояния без специально внесённых дефектов, поэтому чувствительность модели к контролируемой поломке нужно проверять отдельно.

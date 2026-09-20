@@ -4,6 +4,7 @@ const path = require('node:path');
 const { spawn } = require('node:child_process');
 const crypto = require('node:crypto');
 const { chromium } = require('C:/Users/sva/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const { OllamaVisionDispatcher } = require('./ollama-vision-dispatcher.cjs');
 
 const root = __dirname;
 const defaults = {
@@ -13,6 +14,7 @@ const defaults = {
   headless: true,
   routeFile: path.join(root, 'agent-routes.json'),
   memoryFile: path.join(root, 'tmp', 'agent-bridge', 'memory.json'),
+  modelConfigFile: path.join(root, 'agent-model-config.json'),
 };
 
 function now() { return new Date().toISOString(); }
@@ -78,6 +80,7 @@ class FlightAgentController {
     this.cancelRoute = false;
     this.state = { status: 'created', startedAt: null, api: null, scene: this.options.origin, route: null, errors: [] };
     this.routes = JSON.parse(fs.readFileSync(this.options.routeFile, 'utf8'));
+    this.dispatcher = new OllamaVisionDispatcher({ configPath: this.options.modelConfigFile });
     this.memory = this.loadMemory();
   }
 
@@ -170,11 +173,19 @@ class FlightAgentController {
     return route;
   }
 
-  async runRoute(name, { recheck = false } = {}) {
+  async inspectWithModel(context = {}) {
+    const width = this.dispatcher.dispatcher.inputs.rgb.width;
+    const height = this.dispatcher.dispatcher.inputs.rgb.height;
+    const observation = await this.observe({ visual: true, sensors: ['rgb', 'depth', 'normal', 'objectId'], width, height, quality: 0.72 });
+    const identification = await this.execute({ type: 'world.identifyPixel', payload: { x: Math.floor(width / 2), y: Math.floor(height / 2), width, height } });
+    return this.dispatcher.analyze(observation, { ...context, center: identification.result.hit });
+  }
+
+  async runRoute(name, { recheck = false, analyze = false } = {}) {
     if (this.state.route?.status === 'running') throw new Error('Another route is already running');
     const definition = this.routeDefinition(name);
     const baseline = recheck ? [...this.memory.routeRuns].reverse().find(run => run.name === name && run.status === 'complete') : null;
-    const run = { id: crypto.randomUUID(), name, title: definition.title, recheck, baselineId: baseline?.id ?? null, startedAt: now(), completedAt: null, status: 'running', waypoints: [], comparison: [] };
+    const run = { id: crypto.randomUUID(), name, title: definition.title, recheck, analyze, baselineId: baseline?.id ?? null, startedAt: now(), completedAt: null, status: 'running', waypoints: [], comparison: [] };
     this.memory.routeRuns.push(run);
     this.memory.routeRuns = this.memory.routeRuns.slice(-50);
     this.state.route = { id: run.id, name, status: 'running', waypoint: null, completed: 0, total: definition.waypoints.length };
@@ -187,11 +198,22 @@ class FlightAgentController {
         this.state.route.waypoint = waypoint.id;
         await this.execute({ type: 'observer.set', payload: { position: waypoint.position, target: waypoint.target, fov: waypoint.fov ?? 58 } });
         await this.execute({ type: 'environment.set', payload: { ...waypoint.environment, cycle: false, autoWeather: false, immediate: true } });
-        const observation = await this.observe({ visual: true, sensors: ['rgb', 'depth', 'normal', 'objectId'], width: 320, height: 180, quality: 0.65 });
-        const identification = await this.execute({ type: 'world.identifyPixel', payload: { x: 160, y: 90, width: 320, height: 180 } });
+        const width = analyze ? this.dispatcher.dispatcher.inputs.rgb.width : 320;
+        const height = analyze ? this.dispatcher.dispatcher.inputs.rgb.height : 180;
+        const observation = await this.observe({ visual: true, sensors: ['rgb', 'depth', 'normal', 'objectId'], width, height, quality: analyze ? 0.72 : 0.65 });
+        const identification = await this.execute({ type: 'world.identifyPixel', payload: { x: Math.floor(width / 2), y: Math.floor(height / 2), width, height } });
         const semanticCounts = {};
         for (const object of observation.nearby) semanticCounts[object.semantic] = (semanticCounts[object.semantic] ?? 0) + 1;
         const entry = { id: waypoint.id, expected: waypoint.expected, semanticCounts, center: identification.result.hit, observation: summarizeObservation(observation) };
+        if (analyze) {
+          entry.modelInspection = await this.dispatcher.analyze(observation, {
+            observationId: `${run.id}:${waypoint.id}`,
+            route: name,
+            waypoint: waypoint.id,
+            expected: waypoint.expected,
+            center: identification.result.hit,
+          });
+        }
         run.waypoints.push(entry);
         if (baseline) {
           const before = baseline.waypoints.find(item => item.id === waypoint.id);
@@ -226,13 +248,15 @@ class FlightAgentController {
     if (request.method === 'GET' && url.pathname === '/health') return json(response, 200, { ok: this.state.status === 'ready', status: this.state.status, protocol: this.state.capabilities?.protocol ?? null });
     if (request.method === 'GET' && url.pathname === '/state') return json(response, 200, this.state);
     if (request.method === 'GET' && url.pathname === '/memory') return json(response, 200, this.memory);
+    if (request.method === 'GET' && url.pathname === '/model') return json(response, 200, await this.dispatcher.status());
     if (request.method === 'POST' && url.pathname === '/command') return json(response, 200, await this.execute(await readBody(request)));
     if (request.method === 'POST' && url.pathname === '/observe') return json(response, 200, await this.observe(await readBody(request)));
+    if (request.method === 'POST' && url.pathname === '/model/analyze') return json(response, 200, await this.inspectWithModel(await readBody(request)));
     if (request.method === 'POST' && (url.pathname === '/route/start' || url.pathname === '/route/recheck')) {
       const body = await readBody(request);
-      const promise = this.runRoute(body.name, { recheck: url.pathname.endsWith('recheck') });
+      const promise = this.runRoute(body.name, { recheck: url.pathname.endsWith('recheck'), analyze: body.analyze === true });
       promise.catch(() => {});
-      return json(response, 202, { ok: true, route: body.name, recheck: url.pathname.endsWith('recheck') });
+      return json(response, 202, { ok: true, route: body.name, recheck: url.pathname.endsWith('recheck'), analyze: body.analyze === true });
     }
     if (request.method === 'POST' && url.pathname === '/route/stop') { this.cancelRoute = true; return json(response, 200, { ok: true }); }
     return json(response, 404, { ok: false, error: 'Not found' });
