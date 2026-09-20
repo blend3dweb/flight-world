@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "routes": {
+    "smoke": {
+      "title": "Короткая проверка Agent Controller",
+      "waypoints": [
+        {
+          "id": "city-overview",
+          "position": [-1350, 430, -720],
+          "target": [-2000, 60, -1900],
+          "environment": { "hour": 10, "weather": "sun" },
+          "expected": ["city", "building", "road", "terrain"]
+        },
+        {
+          "id": "bridge",
+          "position": [640, 330, -1120],
+          "target": [250, 70, -1988],
+          "environment": { "hour": 19.5, "weather": "rain" },
+          "expected": ["bridge", "road", "terrain", "ocean"]
+        }
+      ]
+    },
+    "oceania-inspection": {
+      "title": "Автономный осмотр Океании",
+      "waypoints": [
+        {
+          "id": "city-overview",
+          "position": [-1350, 430, -720],
+          "target": [-2000, 60, -1900],
+          "environment": { "hour": 10, "weather": "sun" },
+          "expected": ["city", "building", "road", "terrain"]
+        },
+        {
+          "id": "city-night",
+          "position": [-1720, 260, -1300],
+          "target": [-2050, 55, -2050],
+          "environment": { "hour": 0.5, "weather": "sun" },
+          "expected": ["city", "building", "road"]
+        },
+        {
+          "id": "bridge-rain",
+          "position": [640, 330, -1120],
+          "target": [250, 70, -1988],
+          "environment": { "hour": 17.8, "weather": "rain" },
+          "expected": ["bridge", "road", "terrain", "ocean"]
+        },
+        {
+          "id": "airport",
+          "position": [3500, 520, -2500],
+          "target": [2500, 35, -3300],
+          "environment": { "hour": 8.5, "weather": "sun" },
+          "expected": ["airport", "road", "terrain"]
+        },
+        {
+          "id": "islands-snow",
+          "position": [300, 720, 1200],
+          "target": [750, 70, -900],
+          "environment": { "hour": 14, "weather": "snow" },
+          "expected": ["terrain", "vegetation", "ocean"]
+        },
+        {
+          "id": "ocean-sunset",
+          "position": [-400, 150, 450],
+          "target": [-700, 0, -2200],
+          "environment": { "hour": 18.7, "weather": "sun" },
+          "expected": ["ocean", "terrain"]
+        }
+      ]
+    }
+  }
+}

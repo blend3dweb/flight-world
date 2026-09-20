@@ -1,6 +1,6 @@
 # AERO: WebGPU
 
-Программное наблюдение и управление нейромоделью описаны в [Agent Bridge 0.1.0](../docs/AGENT_BRIDGE_PROTOCOL.md). После готовности сцены API доступен через `window.flight.agent`.
+Программное наблюдение и управление нейромоделью описаны в [Agent Bridge 0.1.0](../docs/AGENT_BRIDGE_PROTOCOL.md). После готовности сцены API доступен через `window.flight.agent`. Постоянный локальный процесс и автономные маршруты описаны в [Agent Controller](../docs/AGENT_CONTROLLER.md).
 
 Новая версия находится в отдельной папке `webgpu`. Исходная WebGL-версия сохранена в корне проекта.
 
