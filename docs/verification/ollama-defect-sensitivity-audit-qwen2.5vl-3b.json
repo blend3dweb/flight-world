@@ -1,0 +1,243 @@
+{
+  "checkedAt": "2026-09-20T14:22:40.703Z",
+  "model": "qwen2.5vl:3b",
+  "view": {
+    "position": [
+      -1350,
+      430,
+      -720
+    ],
+    "target": [
+      -2000,
+      60,
+      -1900
+    ],
+    "fov": 58,
+    "environment": {
+      "hour": 10,
+      "weather": "sun",
+      "cycle": false,
+      "autoWeather": false,
+      "immediate": true
+    }
+  },
+  "target": {
+    "name": "Complete visual scene",
+    "semantic": "world",
+    "module": "flight.js"
+  },
+  "injection": {
+    "target": "scene descendants",
+    "action": "visible=false",
+    "hiddenObjects": 449,
+    "expectedVisualEffect": "empty framebuffer"
+  },
+  "baseline": {
+    "ok": true,
+    "model": "qwen2.5vl:3b",
+    "role": "eyes-and-dispatcher",
+    "codexReview": "required",
+    "perception": "The image depicts a city with buildings and a road. The terrain appears to be a mix of green and blue, indicating different types of land or water. The buildings are visible as clusters of blue and white, suggesting different structures or types of buildings. The road is visible as a linear feature running through the city. The overall scene is a mix of urban and natural elements.",
+    "perceptionDecision": "pass",
+    "perceptionGate": {
+      "evaluated": true,
+      "applied": false,
+      "decision": "pass"
+    },
+    "perceptionMetrics": {
+      "wallMs": 1055,
+      "totalMs": 1049.6,
+      "loadMs": 32.2,
+      "promptEvalMs": 110.3,
+      "evalMs": 758.2,
+      "promptTokens": 1149,
+      "outputTokens": 76,
+      "outputTokensPerSecond": 100.23,
+      "doneReason": "stop"
+    },
+    "modelFinding": {
+      "observationId": "defect-test:baseline",
+      "decision": "pass",
+      "summary": "The image depicts a city with buildings and a road. The terrain appears to be a mix of green and blue, indicating different types of land or water. The buildings are visible as clusters of blue and white, suggesting different structures or types of buildings. The road is visible as a linear feature running through the city. The overall scene is a mix of urban and natural elements.",
+      "defects": []
+    },
+    "finding": {
+      "observationId": "defect-test:baseline",
+      "decision": "pass",
+      "summary": "The image depicts a city with buildings and a road. The terrain appears to be a mix of green and blue, indicating different types of land or water. The buildings are visible as clusters of blue and white, suggesting different structures or types of buildings. The road is visible as a linear feature running through the city. The overall scene is a mix of urban and natural elements.",
+      "defects": []
+    },
+    "sensorGate": {
+      "evaluated": false,
+      "applied": false
+    },
+    "validation": {
+      "errors": [],
+      "corrections": []
+    },
+    "metrics": {
+      "wallMs": 1056,
+      "totalMs": 1049.6,
+      "loadMs": 32.2,
+      "promptEvalMs": 110.3,
+      "evalMs": 758.2,
+      "promptTokens": 1149,
+      "outputTokens": 76,
+      "outputTokensPerSecond": 100.23,
+      "doneReason": "stop",
+      "pipeline": "perception-then-deterministic-structure"
+    }
+  },
+  "damaged": {
+    "ok": true,
+    "model": "qwen2.5vl:3b",
+    "role": "eyes-and-dispatcher",
+    "codexReview": "required",
+    "perception": "The image is severely defective. There are no discernible objects such as a city, buildings, roads, or terrain present.",
+    "perceptionDecision": "defect",
+    "perceptionGate": {
+      "evaluated": true,
+      "applied": false,
+      "decision": "defect"
+    },
+    "perceptionMetrics": {
+      "wallMs": 381,
+      "totalMs": 368.4,
+      "loadMs": 13.1,
+      "promptEvalMs": 11.2,
+      "evalMs": 260.6,
+      "promptTokens": 1149,
+      "outputTokens": 26,
+      "outputTokensPerSecond": 99.78,
+      "doneReason": "stop"
+    },
+    "modelFinding": {
+      "observationId": "defect-test:damaged",
+      "decision": "reinspect",
+      "summary": "The image is severely defective. There are no discernible objects such as a city, buildings, roads, or terrain present.",
+      "defects": [
+        {
+          "category": "geometry",
+          "severity": "high",
+          "confidence": 0.9,
+          "description": "The direct vision pass reported a visible regression or a missing required category.",
+          "pixel": null,
+          "objectId": null,
+          "semantic": null,
+          "module": null,
+          "evidence": [
+            "The image is severely defective. There are no discernible objects such as a city, buildings, roads, or terrain present."
+          ],
+          "recommendedAction": "Use object-ID and another viewpoint to localize the regression before changing code."
+        }
+      ]
+    },
+    "finding": {
+      "observationId": "defect-test:damaged",
+      "decision": "reinspect",
+      "summary": "The image is severely defective. There are no discernible objects such as a city, buildings, roads, or terrain present.",
+      "defects": [
+        {
+          "category": "geometry",
+          "severity": "high",
+          "confidence": 0.9,
+          "description": "The direct vision pass reported a visible regression or a missing required category.",
+          "pixel": null,
+          "objectId": null,
+          "semantic": null,
+          "module": null,
+          "evidence": [
+            "The image is severely defective. There are no discernible objects such as a city, buildings, roads, or terrain present."
+          ],
+          "recommendedAction": "Use object-ID and another viewpoint to localize the regression before changing code."
+        }
+      ]
+    },
+    "sensorGate": {
+      "evaluated": true,
+      "applied": false,
+      "significant": true,
+      "modelDecision": "reinspect",
+      "meanLuminanceDelta": 56.99,
+      "luminanceStdDevDelta": 32.83
+    },
+    "validation": {
+      "errors": [],
+      "corrections": []
+    },
+    "metrics": {
+      "wallMs": 382,
+      "totalMs": 368.4,
+      "loadMs": 13.1,
+      "promptEvalMs": 11.2,
+      "evalMs": 260.6,
+      "promptTokens": 1149,
+      "outputTokens": 26,
+      "outputTokensPerSecond": 99.78,
+      "doneReason": "stop",
+      "pipeline": "perception-then-deterministic-structure"
+    }
+  },
+  "modelSensitivityDetected": true,
+  "controllerSensitivityDetected": true,
+  "restored": {
+    "ok": true,
+    "model": "qwen2.5vl:3b",
+    "role": "eyes-and-dispatcher",
+    "codexReview": "required",
+    "perception": "The image depicts a city with buildings and a road. The terrain appears to be a mix of green and blue, suggesting a coastal or waterfront area. The buildings are visible as clusters of blue and white, indicating urban structures. The road is a straight line running horizontally across the image. The overall scene is a clear representation of a city with its typical elements.",
+    "perceptionDecision": "pass",
+    "perceptionGate": {
+      "evaluated": true,
+      "applied": false,
+      "decision": "pass"
+    },
+    "perceptionMetrics": {
+      "wallMs": 828,
+      "totalMs": 821.4,
+      "loadMs": 12.3,
+      "promptEvalMs": 14.3,
+      "evalMs": 719.6,
+      "promptTokens": 1149,
+      "outputTokens": 73,
+      "outputTokensPerSecond": 101.44,
+      "doneReason": "stop"
+    },
+    "modelFinding": {
+      "observationId": "defect-test:restored",
+      "decision": "pass",
+      "summary": "The image depicts a city with buildings and a road. The terrain appears to be a mix of green and blue, suggesting a coastal or waterfront area. The buildings are visible as clusters of blue and white, indicating urban structures. The road is a straight line running horizontally across the image. The overall scene is a clear representation of a city with its typical elements.",
+      "defects": []
+    },
+    "finding": {
+      "observationId": "defect-test:restored",
+      "decision": "pass",
+      "summary": "The image depicts a city with buildings and a road. The terrain appears to be a mix of green and blue, suggesting a coastal or waterfront area. The buildings are visible as clusters of blue and white, indicating urban structures. The road is a straight line running horizontally across the image. The overall scene is a clear representation of a city with its typical elements.",
+      "defects": []
+    },
+    "sensorGate": {
+      "evaluated": false,
+      "applied": false
+    },
+    "validation": {
+      "errors": [],
+      "corrections": []
+    },
+    "metrics": {
+      "wallMs": 828,
+      "totalMs": 821.4,
+      "loadMs": 12.3,
+      "promptEvalMs": 14.3,
+      "evalMs": 719.6,
+      "promptTokens": 1149,
+      "outputTokens": 73,
+      "outputTokensPerSecond": 101.44,
+      "doneReason": "stop",
+      "pipeline": "perception-then-deterministic-structure"
+    }
+  },
+  "rawImagesPersisted": false,
+  "sourceSceneModified": false,
+  "passed": true,
+  "modelPassed": true
+}

@@ -3,9 +3,12 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { FlightAgentController } = require('./agent-controller.cjs');
 const { validateFinding } = require('./ollama-vision-dispatcher.cjs');
+const modelConfig = require('./agent-model-config.json');
 
 const memoryFile = path.join(__dirname, 'tmp', 'agent-bridge', 'ollama-audit-memory.json');
-const outputFile = path.join(__dirname, 'docs', 'verification', 'ollama-dispatcher-audit.json');
+const requestedModel = process.env.FLIGHT_VISION_MODEL || modelConfig.visionDispatcher.model;
+const modelSuffix = `-${requestedModel.replace(/[^a-z0-9.-]+/gi, '-')}`;
+const outputFile = path.join(__dirname, 'docs', 'verification', `ollama-dispatcher-audit${modelSuffix}.json`);
 
 async function request(base, pathname, method = 'GET', body) {
   const response = await fetch(`${base}${pathname}`, {
@@ -61,11 +64,12 @@ function auditGuardrails() {
   fs.mkdirSync(path.dirname(memoryFile), { recursive: true });
   fs.rmSync(memoryFile, { force: true });
   const controller = new FlightAgentController({ port: 0, headless: true, memoryFile });
+  controller.dispatcher.dispatcher.model = requestedModel;
   try {
     const state = await controller.start();
     const base = state.api;
     const model = await request(base, '/model');
-    assert.equal(model.model, 'qwen3.5:4b');
+    assert.equal(model.model, requestedModel);
     assert.equal(model.available, true);
 
     const started = await request(base, '/route/start', 'POST', { name: 'oceania-inspection', analyze: true });
@@ -80,7 +84,7 @@ function auditGuardrails() {
     assert.equal(run.waypoints.length, 6);
     for (const waypoint of run.waypoints) {
       assert.equal(waypoint.modelInspection.ok, true, `${waypoint.id}: ${waypoint.modelInspection.validation.errors.join('; ')}`);
-      assert.equal(waypoint.modelInspection.model, 'qwen3.5:4b');
+      assert.equal(waypoint.modelInspection.model, requestedModel);
       assert.equal(waypoint.modelInspection.codexReview, 'required');
       assert.equal(waypoint.modelInspection.finding.observationId, `${run.id}:${waypoint.id}`);
       assert.ok(waypoint.modelInspection.metrics.wallMs > 0);
@@ -97,6 +101,9 @@ function auditGuardrails() {
         id: waypoint.id,
         expected: waypoint.expected,
         center: waypoint.center?.object ?? null,
+        perception: waypoint.modelInspection.perception,
+        perceptionDecision: waypoint.modelInspection.perceptionDecision,
+        perceptionGate: waypoint.modelInspection.perceptionGate,
         modelFinding: waypoint.modelInspection.modelFinding,
         finding: waypoint.modelInspection.finding,
         sensorGate: waypoint.modelInspection.sensorGate,

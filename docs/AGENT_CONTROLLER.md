@@ -44,7 +44,7 @@ node agent-controller.cjs --port=8770
 | `GET /model` | Доступность выбранной локальной модели Ollama |
 | `POST /command` | Одна команда протокола Agent Bridge |
 | `POST /observe` | Наблюдение текущего состояния |
-| `POST /model/analyze` | Новый кадр текущего наблюдателя и структурированный анализ 4B |
+| `POST /model/analyze` | Новый кадр текущего наблюдателя и структурированный анализ vision-модели |
 | `POST /route/start` | Запуск маршрута |
 | `POST /route/recheck` | Повтор маршрута со сравнением с последним завершённым проходом |
 | `POST /route/stop` | Мягкая остановка маршрута после текущей точки |
@@ -59,7 +59,7 @@ Invoke-RestMethod http://127.0.0.1:8766/health
 Invoke-RestMethod http://127.0.0.1:8766/route/start -Method Post -ContentType 'application/json' -Body '{"name":"oceania-inspection"}'
 ```
 
-Маршрут с анализом каждой точки через `qwen3.5:4b`:
+Маршрут с анализом каждой точки через `qwen2.5vl:3b`:
 
 ```powershell
 Invoke-RestMethod http://127.0.0.1:8766/route/start -Method Post -ContentType 'application/json' -Body '{"name":"oceania-inspection","analyze":true}'
@@ -100,7 +100,7 @@ API не публикуется во внешний интернет и не и�
 
 Base64, JPEG и PNG в память маршрута не попадают. Запись выполняется через временный файл с последующим атомарным переименованием.
 
-При `analyze: true` к точке добавляются только структурированная находка, результат проверки схемы, требование проверки Codex и метрики Ollama. Локальная модель не получает команд изменения файлов и не может обращаться к Git или публикации сборки. Анализ выполняется последовательно и только в режиме инспекции; обычный полёт не вызывает модель.
+При `analyze: true` к точке добавляются визуальное описание `perception`, детерминированная структурированная находка, результат проверки схемы, требование проверки Codex и метрики Ollama. Локальная модель не получает команд изменения файлов и не может обращаться к Git или публикации сборки. Анализ выполняется последовательно и только в режиме инспекции; обычный полёт не вызывает модель.
 
 Если контроллер получает эталонные RGB-метрики, он независимо сравнивает среднюю яркость и её стандартное отклонение. Значительное расхождение запрещает принять ответ модели `pass`: решение меняется на `reinspect`, а в доказательства записываются числовые дельты. Исходное решение модели сохраняется отдельно в `modelFinding`.
 
@@ -118,7 +118,7 @@ node agent-controller-audit.cjs
 node ollama-dispatcher-audit.cjs
 ```
 
-Результат: [verification/ollama-dispatcher-audit.json](verification/ollama-dispatcher-audit.json). Проверка от 20.09.2026 завершилась без ошибок: шесть состояний получили валидный JSON, сырые изображения не сохранились, среднее время пяти горячих ответов составило 2,96 секунды. Чувствительность проверяется отдельным обратимым дефектом ниже.
+Результат основной модели: [verification/ollama-dispatcher-audit-qwen2.5vl-3b.json](verification/ollama-dispatcher-audit-qwen2.5vl-3b.json). Проверка от 20.09.2026 завершилась без ошибок: шесть состояний получили `pass`, сырые изображения не сохранились, среднее время всех ответов составило 0,81 секунды, пяти горячих — 0,75 секунды. Старый результат 4B сохранён в [verification/ollama-dispatcher-audit.json](verification/ollama-dispatcher-audit.json).
 
 Проверка обратимого дефекта:
 
@@ -126,4 +126,4 @@ node ollama-dispatcher-audit.cjs
 node ollama-defect-sensitivity-audit.cjs
 ```
 
-Результат: [verification/ollama-defect-sensitivity-audit.json](verification/ollama-defect-sensitivity-audit.json). Сама 4B пропустила пустую сцену, но сенсорный барьер контроллера обнаружил расхождение и потребовал повторный осмотр. Проверка восстановления завершилась с `pass`. Отдельная попытка 9B сохранена в [verification/ollama-reserve-expert-attempt.json](verification/ollama-reserve-expert-attempt.json): модель не дошла до инференса из-за ошибки инициализации CUDA.
+Результат основной модели: [verification/ollama-defect-sensitivity-audit-qwen2.5vl-3b.json](verification/ollama-defect-sensitivity-audit-qwen2.5vl-3b.json). `qwen2.5vl:3b` сама обнаружила временно опустошённую сцену, сенсорный барьер независимо подтвердил расхождение, а после восстановления модель снова вернула `pass`. Старый результат 4B сохранён в [verification/ollama-defect-sensitivity-audit.json](verification/ollama-defect-sensitivity-audit.json). Отдельная попытка 9B сохранена в [verification/ollama-reserve-expert-attempt.json](verification/ollama-reserve-expert-attempt.json): модель не дошла до инференса из-за ошибки инициализации CUDA.

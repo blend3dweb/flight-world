@@ -2,10 +2,11 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const { FlightAgentController } = require('./agent-controller.cjs');
+const modelConfig = require('./agent-model-config.json');
 
 const memoryFile = path.join(__dirname, 'tmp', 'agent-bridge', 'defect-audit-memory.json');
-const requestedModel = process.env.FLIGHT_VISION_MODEL || 'qwen3.5:4b';
-const modelSuffix = requestedModel === 'qwen3.5:4b' ? '' : `-${requestedModel.replace(/[^a-z0-9.-]+/gi, '-')}`;
+const requestedModel = process.env.FLIGHT_VISION_MODEL || modelConfig.visionDispatcher.model;
+const modelSuffix = `-${requestedModel.replace(/[^a-z0-9.-]+/gi, '-')}`;
 const outputFile = path.join(__dirname, 'docs', 'verification', `ollama-defect-sensitivity-audit${modelSuffix}.json`);
 const view = {
   position: [-1350, 430, -720],
@@ -68,7 +69,8 @@ async function restoreDefect(controller) {
       expected: ['city', 'building', 'road', 'terrain'],
     });
     assert.equal(baseline.ok, true);
-    assert.equal(baseline.finding.decision, 'pass');
+    assert.equal(baseline.finding.decision, 'pass', `Baseline decision failed. Perception: ${baseline.perception}. Structured: ${JSON.stringify(baseline.modelFinding)}`);
+    assert.equal(baseline.perceptionDecision, 'pass', 'Vision pass rejected the correct baseline');
 
     const injection = await injectDefect(controller);
     injected = true;
@@ -86,7 +88,7 @@ async function restoreDefect(controller) {
       },
     });
     assert.equal(damaged.ok, true);
-    const modelSensitivityDetected = damaged.modelFinding.decision !== 'pass' && damaged.modelFinding.defects.length > 0;
+    const modelSensitivityDetected = damaged.perceptionDecision === 'defect';
     const controllerSensitivityDetected = damaged.finding.decision !== 'pass' && damaged.finding.defects.length > 0;
 
     assert.equal(await restoreDefect(controller), true);
@@ -96,9 +98,10 @@ async function restoreDefect(controller) {
     const restored = await controller.dispatcher.analyze(restoredCapture.observation, {
       observationId: 'defect-test:restored', phase: 'restored-comparison', center: restoredCapture.center,
       expected: ['city', 'building', 'road', 'terrain'],
-    }, baselineCapture.observation);
+    });
     assert.equal(restored.ok, true);
     assert.equal(restored.finding.decision, 'pass', 'The restored scene did not return to pass');
+    assert.equal(restored.perceptionDecision, 'pass', 'Vision pass rejected the restored scene');
 
     const report = {
       checkedAt: new Date().toISOString(),

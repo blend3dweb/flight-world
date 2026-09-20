@@ -1,0 +1,413 @@
+{
+  "checkedAt": "2026-09-20T14:22:07.803Z",
+  "model": {
+    "provider": "ollama",
+    "endpoint": "http://127.0.0.1:11434",
+    "model": "qwen2.5vl:3b",
+    "available": true
+  },
+  "route": {
+    "id": "6019878b-275d-4d15-8025-0b2ff0f51a29",
+    "name": "oceania-inspection",
+    "status": "complete"
+  },
+  "waypoints": [
+    {
+      "id": "city-overview",
+      "expected": [
+        "city",
+        "building",
+        "road",
+        "terrain"
+      ],
+      "center": {
+        "id": 89,
+        "uuid": "e35ab90e-3015-4a74-9774-79fb95c14ce5",
+        "name": "Irregular sidewalk block",
+        "type": "Mesh",
+        "semantic": "airport",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "vertices": 36
+      },
+      "perception": "The image depicts a city with buildings and a road. The terrain appears to be a mix of green and blue, indicating different types of land or water. The buildings are visible as clusters of blue and white, suggesting different structures or types of buildings. The road is visible as a linear feature running through the city. The overall scene is a mix of urban and natural elements.",
+      "perceptionDecision": "pass",
+      "perceptionGate": {
+        "evaluated": true,
+        "applied": false,
+        "decision": "pass"
+      },
+      "modelFinding": {
+        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:city-overview",
+        "decision": "pass",
+        "summary": "The image depicts a city with buildings and a road. The terrain appears to be a mix of green and blue, indicating different types of land or water. The buildings are visible as clusters of blue and white, suggesting different structures or types of buildings. The road is visible as a linear feature running through the city. The overall scene is a mix of urban and natural elements.",
+        "defects": []
+      },
+      "finding": {
+        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:city-overview",
+        "decision": "pass",
+        "summary": "The image depicts a city with buildings and a road. The terrain appears to be a mix of green and blue, indicating different types of land or water. The buildings are visible as clusters of blue and white, suggesting different structures or types of buildings. The road is visible as a linear feature running through the city. The overall scene is a mix of urban and natural elements.",
+        "defects": []
+      },
+      "sensorGate": {
+        "evaluated": false,
+        "applied": false
+      },
+      "validation": {
+        "errors": [],
+        "corrections": []
+      },
+      "metrics": {
+        "wallMs": 1062,
+        "totalMs": 1057.7,
+        "loadMs": 12.6,
+        "promptEvalMs": 15.4,
+        "evalMs": 930,
+        "promptTokens": 1149,
+        "outputTokens": 76,
+        "outputTokensPerSecond": 81.72,
+        "doneReason": "stop",
+        "pipeline": "perception-then-deterministic-structure"
+      },
+      "codexReview": "required"
+    },
+    {
+      "id": "city-night",
+      "expected": [
+        "city",
+        "building",
+        "road"
+      ],
+      "center": {
+        "id": 193,
+        "uuid": "48f0307f-0fa6-42e9-8fe8-584f5bd6fe5d",
+        "name": "Roads",
+        "type": "Mesh",
+        "semantic": "airport",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "instances": 75,
+        "vertices": 24
+      },
+      "perception": "The image depicts a city at night with illuminated buildings and a road. The buildings are lit up with numerous lights, creating a vibrant and bustling urban scene. The road is visible in the foreground, running parallel to the buildings. The overall scene is well-lit, indicating a lively city environment.",
+      "perceptionDecision": "pass",
+      "perceptionGate": {
+        "evaluated": true,
+        "applied": false,
+        "decision": "pass"
+      },
+      "modelFinding": {
+        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:city-night",
+        "decision": "pass",
+        "summary": "The image depicts a city at night with illuminated buildings and a road. The buildings are lit up with numerous lights, creating a vibrant and bustling urban scene. The road is visible in the foreground, running parallel to the buildings. The overall scene is well-lit, indicating a lively city environment.",
+        "defects": []
+      },
+      "finding": {
+        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:city-night",
+        "decision": "pass",
+        "summary": "The image depicts a city at night with illuminated buildings and a road. The buildings are lit up with numerous lights, creating a vibrant and bustling urban scene. The road is visible in the foreground, running parallel to the buildings. The overall scene is well-lit, indicating a lively city environment.",
+        "defects": []
+      },
+      "sensorGate": {
+        "evaluated": false,
+        "applied": false
+      },
+      "validation": {
+        "errors": [],
+        "corrections": []
+      },
+      "metrics": {
+        "wallMs": 697,
+        "totalMs": 693.1,
+        "loadMs": 7.9,
+        "promptEvalMs": 10.3,
+        "evalMs": 593.6,
+        "promptTokens": 1147,
+        "outputTokens": 60,
+        "outputTokensPerSecond": 101.08,
+        "doneReason": "stop",
+        "pipeline": "perception-then-deterministic-structure"
+      },
+      "codexReview": "required"
+    },
+    {
+      "id": "bridge-rain",
+      "expected": [
+        "bridge",
+        "road",
+        "terrain",
+        "ocean"
+      ],
+      "center": {
+        "id": 5,
+        "uuid": "e4742c53-fc39-4560-af38-fd998653623b",
+        "name": "Ocean — geometric waves and city reflection",
+        "type": "Mesh",
+        "semantic": "ocean",
+        "module": "ocean.js",
+        "visible": true,
+        "position": [
+          -1730.41,
+          0,
+          -1004.084
+        ],
+        "vertices": 37249
+      },
+      "perception": "The image contains a bridge, a road, and an ocean. The bridge and road are visible, but the ocean is not clearly defined. The terrain is not distinctly visible.",
+      "perceptionDecision": "pass",
+      "perceptionGate": {
+        "evaluated": true,
+        "applied": false,
+        "decision": "pass"
+      },
+      "modelFinding": {
+        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:bridge-rain",
+        "decision": "pass",
+        "summary": "The image contains a bridge, a road, and an ocean. The bridge and road are visible, but the ocean is not clearly defined. The terrain is not distinctly visible.",
+        "defects": []
+      },
+      "finding": {
+        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:bridge-rain",
+        "decision": "pass",
+        "summary": "The image contains a bridge, a road, and an ocean. The bridge and road are visible, but the ocean is not clearly defined. The terrain is not distinctly visible.",
+        "defects": []
+      },
+      "sensorGate": {
+        "evaluated": false,
+        "applied": false
+      },
+      "validation": {
+        "errors": [],
+        "corrections": []
+      },
+      "metrics": {
+        "wallMs": 454,
+        "totalMs": 450.8,
+        "loadMs": 6.5,
+        "promptEvalMs": 11.9,
+        "evalMs": 362.1,
+        "promptTokens": 1149,
+        "outputTokens": 36,
+        "outputTokensPerSecond": 99.41,
+        "doneReason": "stop",
+        "pipeline": "perception-then-deterministic-structure"
+      },
+      "codexReview": "required"
+    },
+    {
+      "id": "airport",
+      "expected": [
+        "airport",
+        "road",
+        "terrain"
+      ],
+      "center": {
+        "id": 298,
+        "uuid": "c88fbfbf-5ca0-42aa-b16a-8ef02bb60af6",
+        "name": "Apron",
+        "type": "Mesh",
+        "semantic": "airport",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "instances": 1,
+        "vertices": 24
+      },
+      "perception": "The image depicts a section of an airport with a runway and taxiway. The runway is visible with a clear path for aircraft to take off and land. The taxiway is also present, providing a route for ground vehicles and aircraft to move within the airport. The terrain around the airport is visible, showing the surrounding landscape, which includes grassy areas and possibly some water or wetlands. The image does not show any roads. The overall scene is well-rendered, with clear distinctions between the airport structures and the surrounding terrain.",
+      "perceptionDecision": "pass",
+      "perceptionGate": {
+        "evaluated": true,
+        "applied": false,
+        "decision": "pass"
+      },
+      "modelFinding": {
+        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:airport",
+        "decision": "pass",
+        "summary": "The image depicts a section of an airport with a runway and taxiway. The runway is visible with a clear path for aircraft to take off and land. The taxiway is also present, providing a route for ground vehicles and aircraft to move within the airport. The terrain around the airport is visible, showing the surrounding landscape, which includes grassy areas and possibly some water or wetlands. The image does not show any roads. The overall scene is well-rendered, with clear distinctions between the airport structures and the surrounding terrain.",
+        "defects": []
+      },
+      "finding": {
+        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:airport",
+        "decision": "pass",
+        "summary": "The image depicts a section of an airport with a runway and taxiway. The runway is visible with a clear path for aircraft to take off and land. The taxiway is also present, providing a route for ground vehicles and aircraft to move within the airport. The terrain around the airport is visible, showing the surrounding landscape, which includes grassy areas and possibly some water or wetlands. The image does not show any roads. The overall scene is well-rendered, with clear distinctions between the airport structures and the surrounding terrain.",
+        "defects": []
+      },
+      "sensorGate": {
+        "evaluated": false,
+        "applied": false
+      },
+      "validation": {
+        "errors": [],
+        "corrections": []
+      },
+      "metrics": {
+        "wallMs": 1391,
+        "totalMs": 1388,
+        "loadMs": 13.4,
+        "promptEvalMs": 107.1,
+        "evalMs": 1134.6,
+        "promptTokens": 1147,
+        "outputTokens": 107,
+        "outputTokensPerSecond": 94.31,
+        "doneReason": "stop",
+        "pipeline": "perception-then-deterministic-structure"
+      },
+      "codexReview": "required"
+    },
+    {
+      "id": "islands-snow",
+      "expected": [
+        "terrain",
+        "vegetation",
+        "ocean"
+      ],
+      "center": {
+        "id": 25,
+        "uuid": "fec7be61-12fd-4f2e-991f-1dcc5621b584",
+        "name": "Forest distant 3",
+        "type": "Mesh",
+        "semantic": "vegetation",
+        "module": "vegetation.js",
+        "visible": true,
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "instances": 19445,
+        "vertices": 324
+      },
+      "perception": "The image contains the following objects: terrain, vegetation, ocean.",
+      "perceptionDecision": "pass",
+      "perceptionGate": {
+        "evaluated": true,
+        "applied": false,
+        "decision": "pass"
+      },
+      "modelFinding": {
+        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:islands-snow",
+        "decision": "pass",
+        "summary": "The image contains the following objects: terrain, vegetation, ocean.",
+        "defects": []
+      },
+      "finding": {
+        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:islands-snow",
+        "decision": "pass",
+        "summary": "The image contains the following objects: terrain, vegetation, ocean.",
+        "defects": []
+      },
+      "sensorGate": {
+        "evaluated": false,
+        "applied": false
+      },
+      "validation": {
+        "errors": [],
+        "corrections": []
+      },
+      "metrics": {
+        "wallMs": 281,
+        "totalMs": 275.5,
+        "loadMs": 15,
+        "promptEvalMs": 10.2,
+        "evalMs": 127.6,
+        "promptTokens": 1147,
+        "outputTokens": 14,
+        "outputTokensPerSecond": 109.74,
+        "doneReason": "stop",
+        "pipeline": "perception-then-deterministic-structure"
+      },
+      "codexReview": "required"
+    },
+    {
+      "id": "ocean-sunset",
+      "expected": [
+        "ocean",
+        "terrain"
+      ],
+      "center": {
+        "id": 6,
+        "uuid": "d9091930-f547-40c9-8028-53aa3a91cde5",
+        "name": "Mesh",
+        "type": "Mesh",
+        "semantic": "world",
+        "module": null,
+        "visible": true,
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "vertices": 245098
+      },
+      "perception": "The image depicts a scene with a dark, cloudy sky and a body of water that appears to be an ocean. The terrain is visible along the edges of the water, showing a mix of dark and light colors, suggesting a variety of landforms or different types of terrain. The overall scene has a somewhat desolate and eerie atmosphere.",
+      "perceptionDecision": "pass",
+      "perceptionGate": {
+        "evaluated": true,
+        "applied": false,
+        "decision": "pass"
+      },
+      "modelFinding": {
+        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:ocean-sunset",
+        "decision": "pass",
+        "summary": "The image depicts a scene with a dark, cloudy sky and a body of water that appears to be an ocean. The terrain is visible along the edges of the water, showing a mix of dark and light colors, suggesting a variety of landforms or different types of terrain. The overall scene has a somewhat desolate and eerie atmosphere.",
+        "defects": []
+      },
+      "finding": {
+        "observationId": "6019878b-275d-4d15-8025-0b2ff0f51a29:ocean-sunset",
+        "decision": "pass",
+        "summary": "The image depicts a scene with a dark, cloudy sky and a body of water that appears to be an ocean. The terrain is visible along the edges of the water, showing a mix of dark and light colors, suggesting a variety of landforms or different types of terrain. The overall scene has a somewhat desolate and eerie atmosphere.",
+        "defects": []
+      },
+      "sensorGate": {
+        "evaluated": false,
+        "applied": false
+      },
+      "validation": {
+        "errors": [],
+        "corrections": []
+      },
+      "metrics": {
+        "wallMs": 944,
+        "totalMs": 941,
+        "loadMs": 9.5,
+        "promptEvalMs": 49.5,
+        "evalMs": 811.5,
+        "promptTokens": 1145,
+        "outputTokens": 68,
+        "outputTokensPerSecond": 83.79,
+        "doneReason": "stop",
+        "pipeline": "perception-then-deterministic-structure"
+      },
+      "codexReview": "required"
+    }
+  ],
+  "aggregate": {
+    "count": 6,
+    "totalWallMs": 4829,
+    "averageWallMs": 805,
+    "hotAverageWallMs": 753,
+    "totalPromptTokens": 6884,
+    "totalOutputTokens": 361
+  },
+  "guardrails": {
+    "hallucinatedObjectRemoved": true,
+    "inventedSemanticAndModuleRemoved": true,
+    "unsupportedDispatchDowngraded": true
+  },
+  "persistedWithoutImages": true,
+  "controllerErrors": []
+}

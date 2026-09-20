@@ -4,8 +4,9 @@
   "visionDispatcher": {
     "provider": "ollama",
     "endpoint": "http://127.0.0.1:11434",
-    "model": "qwen3.5:4b",
+    "model": "qwen2.5vl:3b",
     "role": "eyes-and-dispatcher",
+    "pipeline": "perception-then-structure",
     "options": {
       "num_ctx": 8192,
       "temperature": 0,
@@ -38,7 +39,7 @@
     "outputSchema": "agent-defect.schema.json",
     "validation": {
       "referenceRoute": "passed",
-      "injectedDefect": "failed-model-detected-by-controller",
+      "injectedDefect": "passed-model-and-controller",
       "autonomousPassAllowed": false,
       "checkedAt": "2026-09-20"
     }
@@ -62,7 +63,7 @@
     "model": "qwen3.5:9b",
     "enabled": false,
     "loadPolicy": "manual-sequential-only",
-    "reason": "Reserved for difficult cases; do not keep loaded together with the 4B model and WebGPU scene.",
+    "reason": "Reserved for difficult cases; do not keep loaded together with the vision model and WebGPU scene.",
     "lastValidation": "Failed to initialize CUDA beside the WebGPU scene on 2026-09-20; keep disabled on this laptop."
   },
   "dataPolicy": {

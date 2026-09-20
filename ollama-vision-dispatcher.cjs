@@ -71,6 +71,20 @@ function applySensorDeltaGate(finding, observation, context, policy) {
   return { evaluated: true, applied: significant && modelDecision === 'pass', significant, modelDecision, meanLuminanceDelta, luminanceStdDevDelta };
 }
 
+function applyPerceptionGate(finding, perception, decision) {
+  if (decision !== 'defect' || finding.decision !== 'pass') return { evaluated: Boolean(decision), applied: false, decision };
+  finding.decision = 'reinspect';
+  finding.summary = `Vision pass detected a defect that requires structured reinspection. ${finding.summary}`;
+  finding.defects.push({
+    category: 'unknown', severity: 'high', confidence: 0.8,
+    description: 'The direct vision pass reported a visible regression, but the schema conversion returned pass.',
+    pixel: null, objectId: null, semantic: null, module: null,
+    evidence: [String(perception).slice(0, 500)],
+    recommendedAction: 'Repeat inspection and localize the visual regression before changing code.',
+  });
+  return { evaluated: true, applied: true, decision };
+}
+
 function validateFinding(value, expectedObservationId, objects, policy) {
   const errors = [];
   const corrections = [];
@@ -150,14 +164,17 @@ function buildPrompt(observationId, observation, context, center, hasReference =
   }]));
   return [
     hasReference
-      ? 'Сравни два RGB-кадра Flight World: изображение 1 — исправный эталон, изображение 2 — текущее состояние. Ищи нежелательные отличия на втором изображении.'
-      : 'Проанализируй RGB-кадр Flight World вместе со структурированными данными.',
-    'Верни только JSON по заданной схеме. Не добавляй markdown.',
-    'Не придумывай objectId, semantic или module: используй только значения из каталога объектов.',
-    'В defects добавляй только реально видимую нежелательную аномалию. Ожидаемый дождь, снег, туман, темнота, блики, отражения, цвет заката и снижение детализации вдали не являются дефектами.',
-    'Если всё выглядит нормально, обязательно выбери pass и верни defects: []. Не создавай запись о том, что эффект корректен.',
-    'Выбирай reinspect только когда видна возможная аномалия, но текущего кадра недостаточно для решения. Тогда кратко опиши именно подозрительную аномалию.',
-    'Если видимую аномалию нельзя уверенно связать с объектом или модулем, поставь null и выбери reinspect.',
+      ? 'Compare two Flight World RGB frames. Image 1 is the correct reference and image 2 is the current state. Find undesirable differences in image 2.'
+      : 'Inspect the Flight World RGB frame together with the structured data.',
+    'Return JSON only, matching the supplied schema. Do not use markdown.',
+    'Act as a strict visual regression inspector. Inspect visible pixels; do not infer that an object is visible merely because telemetry or a catalog mentions it.',
+    'context.expected lists categories that must be visibly present in the current RGB frame. A missing required category is a high or blocking geometry defect.',
+    'A frame showing only sky or clouds is defective when context.expected includes city, building, road, terrain, bridge, airport, vegetation, or ocean.',
+    'Do not invent objectId, semantic, or module. Use only values present in the observed object catalog.',
+    'Only add an actual undesirable visual anomaly to defects. Expected rain, snow, fog, darkness, glare, reflections, sunset colors, and lower distant detail are not defects.',
+    'If everything is visibly correct, choose pass and return defects: []. Do not create a defect merely to describe a correct effect.',
+    'Choose reinspect when a possible anomaly is visible but the current evidence is insufficient. Describe the suspected anomaly.',
+    'If a visible anomaly cannot be linked confidently to an object or module, use null and choose reinspect.',
     JSON.stringify({ observationId, context, world: observation.world, telemetry: observation.telemetry, center, sensorStatistics: passes, nearbyObjects: nearby }),
   ].join('\n');
 }
@@ -185,6 +202,10 @@ class OllamaVisionDispatcher {
     if (!rgb?.dataUrl) throw new Error('RGB pass is required for visual inspection');
     const observationId = context.observationId ?? crypto.randomUUID();
     const objects = knownObjects(observation, context.center);
+    const images = referenceObservation
+      ? [stripDataUrl(referenceObservation.visual?.passes?.rgb?.dataUrl), stripDataUrl(rgb.dataUrl)]
+      : [stripDataUrl(rgb.dataUrl)];
+    const inspectionPrompt = buildPrompt(observationId, observation, context, context.center, Boolean(referenceObservation));
     const requestBody = {
       model: this.dispatcher.model,
       stream: false,
@@ -195,33 +216,90 @@ class OllamaVisionDispatcher {
       messages: [
         {
           role: 'system',
-          content: 'Ты визуальный инспектор и диспетчер. Ты только наблюдаешь и формируешь структурированные находки для проверки Codex. Ты не меняешь код, файлы, Git или сборку.',
+          content: 'You are a visual regression inspector and dispatcher. You only observe and produce structured findings for Codex review. You never modify code, files, Git, or builds.',
         },
         {
           role: 'user',
-          content: buildPrompt(observationId, observation, context, context.center, Boolean(referenceObservation)),
-          images: referenceObservation
-            ? [stripDataUrl(referenceObservation.visual?.passes?.rgb?.dataUrl), stripDataUrl(rgb.dataUrl)]
-            : [stripDataUrl(rgb.dataUrl)],
+          content: inspectionPrompt,
+          images,
         },
       ],
     };
     const started = Date.now();
-    const response = await fetch(`${this.dispatcher.endpoint}/api/chat`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(requestBody),
-      signal: AbortSignal.timeout(this.timeoutMs),
-    });
-    if (!response.ok) {
-      const detail = (await response.text()).slice(0, 1000);
-      throw new Error(`Ollama inference failed: HTTP ${response.status}: ${detail}`);
+    let perception = null;
+    let perceptionDecision = null;
+    let perceptionMetrics = null;
+    if (this.dispatcher.pipeline === 'perception-then-structure') {
+      const perceptionStarted = Date.now();
+      const expected = Array.isArray(context.expected) ? context.expected : [];
+      const perceptionPrompt = [
+        referenceObservation
+          ? 'Compare image 1 (correct reference) with image 2 (current state). Evaluate image 2.'
+          : 'Describe exactly what is visible in the current rendered image.',
+        `The following objects are required: ${expected.length ? expected.join(', ') : 'none specified'}.`,
+        'Are those required objects visibly present? Judge only the image pixels. If they are missing, state clearly that this is a severe rendering defect.',
+      ].join('\n');
+      const perceptionResponse = await fetch(`${this.dispatcher.endpoint}/api/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: this.dispatcher.model,
+          stream: false,
+          think: false,
+          keep_alive: this.dispatcher.keepAlive,
+          options: this.dispatcher.options,
+          messages: [{
+            role: 'user',
+            content: perceptionPrompt,
+            images,
+          }],
+        }),
+        signal: AbortSignal.timeout(this.timeoutMs),
+      });
+      if (!perceptionResponse.ok) {
+        const detail = (await perceptionResponse.text()).slice(0, 1000);
+        throw new Error(`Ollama perception failed: HTTP ${perceptionResponse.status}: ${detail}`);
+      }
+      const perceptionBody = await perceptionResponse.json();
+      perception = String(perceptionBody.message?.content ?? '').trim().slice(0, 8000);
+      if (!perception) throw new Error('Ollama perception pass returned no text');
+      const defectLanguage = /severe rendering defect|no discernible objects?|required objects?.{0,80}(?:missing|not visible|absent)|(?:missing|lacks?) (?:the )?(?:required )?(?:city|buildings?|roads?|terrain|bridge|airport|vegetation|ocean)/is;
+      perceptionDecision = defectLanguage.test(perception) ? 'defect' : 'pass';
+      perceptionMetrics = modelMetrics(perceptionBody, Date.now() - perceptionStarted);
     }
-    const body = await response.json();
     let finding;
-    try { finding = JSON.parse(body.message?.content ?? ''); }
-    catch { throw new Error('Ollama did not return valid JSON'); }
+    let body = null;
+    if (this.dispatcher.pipeline === 'perception-then-structure') {
+      const defect = perceptionDecision === 'defect';
+      finding = {
+        observationId,
+        decision: defect ? 'reinspect' : 'pass',
+        summary: String(perception).slice(0, 1000),
+        defects: defect ? [{
+          category: 'geometry', severity: 'high', confidence: 0.9,
+          description: 'The direct vision pass reported a visible regression or a missing required category.',
+          pixel: null, objectId: null, semantic: null, module: null,
+          evidence: [String(perception).slice(0, 500)],
+          recommendedAction: 'Use object-ID and another viewpoint to localize the regression before changing code.',
+        }] : [],
+      };
+    } else {
+      const response = await fetch(`${this.dispatcher.endpoint}/api/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody),
+        signal: AbortSignal.timeout(this.timeoutMs),
+      });
+      if (!response.ok) {
+        const detail = (await response.text()).slice(0, 1000);
+        throw new Error(`Ollama inference failed: HTTP ${response.status}: ${detail}`);
+      }
+      body = await response.json();
+      try { finding = JSON.parse(body.message?.content ?? ''); }
+      catch { throw new Error('Ollama did not return valid JSON'); }
+    }
     const modelFinding = structuredClone(finding);
+    const perceptionGate = applyPerceptionGate(finding, perception, perceptionDecision);
     const sensorGate = applySensorDeltaGate(finding, observation, context, this.config.dataPolicy);
     const validation = validateFinding(finding, observationId, objects, this.config.dataPolicy);
     return {
@@ -229,11 +307,17 @@ class OllamaVisionDispatcher {
       model: this.dispatcher.model,
       role: this.dispatcher.role,
       codexReview: this.config.dataPolicy.codexReviewsEveryFinding ? 'required' : 'optional',
+      perception,
+      perceptionDecision,
+      perceptionGate,
+      perceptionMetrics,
       modelFinding,
       finding,
       sensorGate,
       validation,
-      metrics: modelMetrics(body, Date.now() - started),
+      metrics: body
+        ? modelMetrics(body, Date.now() - started)
+        : { ...perceptionMetrics, wallMs: Date.now() - started, pipeline: 'perception-then-deterministic-structure' },
     };
   }
 }
