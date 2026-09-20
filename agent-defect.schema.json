@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://flight-world.local/schemas/agent-defect.schema.json",
+  "title": "Flight World visual inspection result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["observationId", "decision", "summary", "defects"],
+  "properties": {
+    "observationId": { "type": "string", "minLength": 1 },
+    "decision": { "enum": ["pass", "reinspect", "dispatch-to-codex"] },
+    "summary": { "type": "string", "minLength": 1, "maxLength": 1000 },
+    "defects": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["category", "severity", "confidence", "description", "evidence", "recommendedAction"],
+        "properties": {
+          "category": {
+            "enum": ["geometry", "material", "lighting", "reflection", "ocean", "atmosphere", "vegetation", "city", "aircraft", "performance", "unknown"]
+          },
+          "severity": { "enum": ["low", "medium", "high", "blocking"] },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "description": { "type": "string", "minLength": 1, "maxLength": 1200 },
+          "pixel": {
+            "type": ["object", "null"],
+            "additionalProperties": false,
+            "required": ["x", "y"],
+            "properties": {
+              "x": { "type": "integer", "minimum": 0 },
+              "y": { "type": "integer", "minimum": 0 }
+            }
+          },
+          "objectId": { "type": ["integer", "null"], "minimum": 1 },
+          "semantic": { "type": ["string", "null"] },
+          "module": { "type": ["string", "null"] },
+          "evidence": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 10,
+            "items": { "type": "string", "minLength": 1, "maxLength": 500 }
+          },
+          "recommendedAction": { "type": "string", "minLength": 1, "maxLength": 1000 }
+        }
+      }
+    }
+  }
+}

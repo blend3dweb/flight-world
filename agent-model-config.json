@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "workflow": "vision-dispatcher-with-codex-supervision",
+  "visionDispatcher": {
+    "provider": "ollama",
+    "endpoint": "http://127.0.0.1:11434",
+    "model": "qwen3.5:4b",
+    "role": "eyes-and-dispatcher",
+    "options": {
+      "num_ctx": 8192,
+      "temperature": 0.2,
+      "top_p": 0.9
+    },
+    "keepAlive": "5m",
+    "inputs": {
+      "rgb": { "width": 512, "height": 288, "required": true },
+      "depth": { "width": 320, "height": 180, "required": true },
+      "normal": { "width": 320, "height": 180, "required": false },
+      "objectId": { "width": 320, "height": 180, "required": true },
+      "telemetry": true,
+      "semanticObjects": true
+    },
+    "responsibilities": [
+      "describe-visible-state",
+      "detect-possible-defects",
+      "localize-defect",
+      "assign-object-and-module",
+      "estimate-confidence",
+      "dispatch-to-codex"
+    ],
+    "forbiddenActions": [
+      "modify-source-code",
+      "commit-git-changes",
+      "publish-build",
+      "delete-project-files"
+    ],
+    "outputSchema": "agent-defect.schema.json"
+  },
+  "supervisor": {
+    "provider": "codex",
+    "role": "process-and-data-controller",
+    "responsibilities": [
+      "validate-model-observations",
+      "inspect-source-and-runtime-data",
+      "reject-unsupported-findings",
+      "plan-and-implement-fixes",
+      "run-tests-and-builds",
+      "request-repeat-inspection",
+      "compare-before-and-after",
+      "maintain-development-plan"
+    ]
+  },
+  "reserveExpert": {
+    "provider": "ollama",
+    "model": "qwen3.5:9b",
+    "enabled": false,
+    "loadPolicy": "manual-sequential-only",
+    "reason": "Reserved for difficult cases; do not keep loaded together with the 4B model and WebGPU scene."
+  },
+  "dataPolicy": {
+    "persistRawImages": false,
+    "persistStructuredFindings": true,
+    "requireObjectOrModuleEvidence": true,
+    "minimumConfidenceForAutomaticDispatch": 0.65,
+    "codexReviewsEveryFinding": true
+  }
+}
