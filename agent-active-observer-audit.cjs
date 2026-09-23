@@ -49,7 +49,7 @@ async function waitForInspection(base, timeoutMs = 300000) {
     const run = memory.inspectionRuns.at(-1);
     const after = (await request(base, '/observe', 'POST', {})).body.observer;
 
-    assert.equal(state.capabilities.protocol, '0.2.0');
+    assert.equal(state.capabilities.protocol, '0.3.0');
     assert.equal(run.status, 'complete');
     assert.ok(run.views.length >= 4 && run.views.length <= 6);
     assert.equal(run.views.filter(view => view.reason === 'scheduled').length, 4);

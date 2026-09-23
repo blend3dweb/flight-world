@@ -1,6 +1,6 @@
 import * as THREE from './vendor/three.module.js';
 
-const PROTOCOL_VERSION = '0.2.0';
+const PROTOCOL_VERSION = '0.3.0';
 const MAX_QUERY_RESULTS = 100;
 const frameVector = new THREE.Vector3();
 
@@ -65,6 +65,9 @@ export function createAgentBridge({
   startFlight,
   setQuality,
   setPaused,
+  setFlightAltitude,
+  setFlightRoute,
+  setSimulationSpeed,
   stepSimulation,
   captureObservation,
 }) {
@@ -391,8 +394,11 @@ export function createAgentBridge({
       case 'world.identifyPixel': result = identifyPixel(payload); break;
       case 'environment.set': setEnvironment(payload, { immediate: payload.immediate !== false }); result = getWorldState().environment; break;
       case 'flight.start': startFlight(payload.location); result = getWorldState(); break;
+      case 'flight.setAltitude': result = setFlightAltitude(payload.metres); break;
+      case 'flight.setRoute': result = setFlightRoute(payload.waypoints); break;
       case 'quality.set': setQuality(payload.quality); result = getWorldState().quality; break;
       case 'simulation.pause': setPaused(payload.paused !== false); result = getWorldState().paused; break;
+      case 'simulation.setSpeed': result = setSimulationSpeed(payload.factor); break;
       case 'simulation.step': stepSimulation(THREE.MathUtils.clamp(Number(payload.seconds) || 1 / 30, 1 / 240, 2)); result = getWorldState(); break;
       default: throw new Error(`Unsupported Agent Bridge command: ${command.type}`);
     }
@@ -404,7 +410,7 @@ export function createAgentBridge({
       name: 'Flight World Agent Bridge',
       protocol: PROTOCOL_VERSION,
       transport: 'same-page JavaScript API',
-      commands: ['ping', 'observe', 'observer.set', 'observer.moveToObject', 'observer.orbitObject', 'observer.followObject', 'observer.stopFollowing', 'observer.save', 'observer.restore', 'world.query', 'world.inspectObject', 'world.raycast', 'world.identifyPixel', 'environment.set', 'flight.start', 'quality.set', 'simulation.pause', 'simulation.step'],
+      commands: ['ping', 'observe', 'observer.set', 'observer.moveToObject', 'observer.orbitObject', 'observer.followObject', 'observer.stopFollowing', 'observer.save', 'observer.restore', 'world.query', 'world.inspectObject', 'world.raycast', 'world.identifyPixel', 'environment.set', 'flight.start', 'flight.setAltitude', 'flight.setRoute', 'quality.set', 'simulation.pause', 'simulation.setSpeed', 'simulation.step'],
       sensors: ['rgb-framebuffer-on-demand', 'depth-buffer-on-demand', 'normal-buffer-on-demand', 'object-id-buffer-on-demand', 'semantic-object-catalog', 'raycast', 'world-state', 'renderer-telemetry'],
       plannedSensors: ['gpu-timestamps'],
       visualPersistence: 'memory-only',

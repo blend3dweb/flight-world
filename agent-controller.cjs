@@ -174,6 +174,7 @@ class FlightAgentController {
         heading: observation.world.heading, pitch: observation.world.pitch, roll: observation.world.roll,
       },
       environment: observation.world.environment,
+      flightPlan: observation.world.flightPlan ?? null,
       paused: observation.world.paused,
       quality: observation.world.quality,
     };
@@ -185,6 +186,11 @@ class FlightAgentController {
     const dispatch = command => this.page.evaluate(value => window.flight.agent.dispatch(value), command);
     await dispatch({ type: 'simulation.pause', payload: { paused: true } });
     await this.page.evaluate(flight => window.flight.place?.(flight), checkpoint.flight);
+    if (checkpoint.flightPlan) {
+      await dispatch({ type: 'simulation.setSpeed', payload: { factor: checkpoint.flightPlan.simulationSpeed ?? 1 } });
+      if (checkpoint.flightPlan.targetAltitude != null) await dispatch({ type: 'flight.setAltitude', payload: { metres: checkpoint.flightPlan.targetAltitude } });
+      if (checkpoint.flightPlan.route?.length) await dispatch({ type: 'flight.setRoute', payload: { waypoints: checkpoint.flightPlan.route } });
+    }
     if (checkpoint.environment) await dispatch({ type: 'environment.set', payload: { ...checkpoint.environment, cycle: false, autoWeather: false, immediate: true } });
     if (checkpoint.quality) await dispatch({ type: 'quality.set', payload: { quality: checkpoint.quality } });
     if (checkpoint.observer) await dispatch({ type: 'observer.set', payload: checkpoint.observer });

@@ -1,8 +1,8 @@
 {
-  "checkedAt": "2026-09-20T14:43:33.062Z",
+  "checkedAt": "2026-09-23T18:21:25.304Z",
   "capabilities": {
     "name": "Flight World Agent Bridge",
-    "protocol": "0.2.0",
+    "protocol": "0.3.0",
     "transport": "same-page JavaScript API",
     "commands": [
       "ping",
@@ -20,8 +20,11 @@
       "world.identifyPixel",
       "environment.set",
       "flight.start",
+      "flight.setAltitude",
+      "flight.setRoute",
       "quality.set",
       "simulation.pause",
+      "simulation.setSpeed",
       "simulation.step"
     ],
     "sensors": [
@@ -41,13 +44,13 @@
   },
   "ping": {
     "ok": true,
-    "protocol": "0.2.0"
+    "protocol": "0.3.0"
   },
   "query": {
     "ocean": [
       {
         "id": 5,
-        "uuid": "6805522d-697c-4104-89e0-640a019cdb49",
+        "uuid": "339a1c35-52e2-4b87-815c-b6e8d1f9e506",
         "name": "Ocean — geometric waves and city reflection",
         "type": "Mesh",
         "semantic": "ocean",
@@ -62,7 +65,7 @@
       },
       {
         "id": 264,
-        "uuid": "3e9d26e1-5ea7-47d4-a0c2-e7538d5352ef",
+        "uuid": "284aa36c-d082-44e1-88c2-b660378899d8",
         "name": "Fountain water",
         "type": "Mesh",
         "semantic": "ocean",
@@ -80,7 +83,7 @@
     "bridge": [
       {
         "id": 111,
-        "uuid": "10e41762-8c0d-4377-b0a5-10fd10f099a7",
+        "uuid": "609f14ea-3053-4d68-8bc8-7f4d4f6d47cd",
         "name": "Bridge cables",
         "type": "Mesh",
         "semantic": "bridge",
@@ -95,7 +98,7 @@
       },
       {
         "id": 112,
-        "uuid": "9cbaa09a-d04c-451c-9cdc-3352d9599aad",
+        "uuid": "7463efb2-c0c1-474e-94c7-fd5d40676aef",
         "name": "Bridge cables",
         "type": "Mesh",
         "semantic": "bridge",
@@ -110,7 +113,7 @@
       },
       {
         "id": 113,
-        "uuid": "fc17d51a-6b0f-441d-ae87-02022238f02a",
+        "uuid": "7fb8e098-d3ef-4a90-8b33-2bb8ea32630d",
         "name": "Bridge cables",
         "type": "Mesh",
         "semantic": "bridge",
@@ -125,7 +128,7 @@
       },
       {
         "id": 114,
-        "uuid": "03d7478f-cb81-45e7-b85c-d2d50975e7b4",
+        "uuid": "7493374f-e3fb-4472-ba69-10c811468d83",
         "name": "Bridge cables",
         "type": "Mesh",
         "semantic": "bridge",
@@ -140,7 +143,7 @@
       },
       {
         "id": 115,
-        "uuid": "a0f9b2c4-774a-4f26-9b26-c7531c5fa169",
+        "uuid": "27bc0b34-d604-4e76-881b-3f1f3badabfa",
         "name": "Bridge cables",
         "type": "Mesh",
         "semantic": "bridge",
@@ -155,7 +158,7 @@
       },
       {
         "id": 116,
-        "uuid": "4d17becd-d4be-4eaf-bca7-6f98783efe9d",
+        "uuid": "763a2283-3f49-4fab-b276-4ce5299618d9",
         "name": "Bridge cables",
         "type": "Mesh",
         "semantic": "bridge",
@@ -170,7 +173,7 @@
       },
       {
         "id": 117,
-        "uuid": "1aac0d40-cef7-4237-b174-90fa7d17f0dd",
+        "uuid": "033b7303-ae40-4a63-b164-8ea61ffb0fdb",
         "name": "Bridge cables",
         "type": "Mesh",
         "semantic": "bridge",
@@ -185,7 +188,7 @@
       },
       {
         "id": 118,
-        "uuid": "fc0bf501-0f53-4307-a756-1c18bcb1d198",
+        "uuid": "a7f5e6d2-8370-49f2-b653-1d0b389601bf",
         "name": "Bridge cables",
         "type": "Mesh",
         "semantic": "bridge",
@@ -200,7 +203,7 @@
       },
       {
         "id": 119,
-        "uuid": "23bf385d-ae13-4e8b-9953-c1c3f018a8e1",
+        "uuid": "356dc288-df15-4527-9802-cb3955ffbe22",
         "name": "Bridge cables",
         "type": "Mesh",
         "semantic": "bridge",
@@ -215,7 +218,7 @@
       },
       {
         "id": 120,
-        "uuid": "f4a2d3dc-f1d8-4b11-b4ac-22bbd6145a22",
+        "uuid": "d99bbc63-66ac-460d-bbe9-9a1e7bea281d",
         "name": "Bridge cables",
         "type": "Mesh",
         "semantic": "bridge",
@@ -230,7 +233,7 @@
       },
       {
         "id": 121,
-        "uuid": "4a139798-974e-4706-ad4d-c2cae207275e",
+        "uuid": "fdbed67c-0968-460f-bd8c-4ff998a247e7",
         "name": "Bridge cables",
         "type": "Mesh",
         "semantic": "bridge",
@@ -245,7 +248,7 @@
       },
       {
         "id": 122,
-        "uuid": "430ec677-b720-4116-8083-dd3fd1a94e4d",
+        "uuid": "9788c9d0-7ccc-4e66-9c9d-6c5a3a60abb2",
         "name": "Bridge cables",
         "type": "Mesh",
         "semantic": "bridge",
@@ -260,7 +263,7 @@
       },
       {
         "id": 123,
-        "uuid": "80e97869-ce1e-4969-a960-bbbe5a1575ec",
+        "uuid": "80ca5b08-1180-483f-b600-b97759ccf140",
         "name": "Bridge cables",
         "type": "Mesh",
         "semantic": "bridge",
@@ -275,7 +278,7 @@
       },
       {
         "id": 124,
-        "uuid": "91331351-c0f5-45cd-9aad-004d788e2b59",
+        "uuid": "52f406e2-8cfe-43ea-800d-a4315b531e91",
         "name": "Bridge cables",
         "type": "Mesh",
         "semantic": "bridge",
@@ -290,7 +293,7 @@
       },
       {
         "id": 125,
-        "uuid": "5f1021e7-fddc-4bcb-8f13-83d3cee83831",
+        "uuid": "f6501041-a1be-4a68-9e62-1cac5239cb72",
         "name": "Bridge cables",
         "type": "Mesh",
         "semantic": "bridge",
@@ -305,7 +308,7 @@
       },
       {
         "id": 126,
-        "uuid": "12fa47ab-c783-4008-8451-26768181ba88",
+        "uuid": "1462a457-685f-4385-bce8-4238ce5edd9d",
         "name": "Bridge cables",
         "type": "Mesh",
         "semantic": "bridge",
@@ -320,7 +323,7 @@
       },
       {
         "id": 127,
-        "uuid": "2d9049c8-7c08-4b69-b194-0e6b7046f8be",
+        "uuid": "a6097b27-1abc-4389-89d9-c97cccf9dbe1",
         "name": "Bridge cables",
         "type": "Mesh",
         "semantic": "bridge",
@@ -335,7 +338,7 @@
       },
       {
         "id": 128,
-        "uuid": "a40a4fe2-aa67-4d32-bba9-7ea263369057",
+        "uuid": "8c02052d-2be0-4745-928d-bd5df004953e",
         "name": "Bridge cables",
         "type": "Mesh",
         "semantic": "bridge",
@@ -350,7 +353,7 @@
       },
       {
         "id": 129,
-        "uuid": "c3a7dab0-e586-486c-a236-4e82d225d9a2",
+        "uuid": "1df18e1f-6c56-4f96-8d16-59bbfacc5a76",
         "name": "Bridge cables",
         "type": "Mesh",
         "semantic": "bridge",
@@ -365,7 +368,7 @@
       },
       {
         "id": 130,
-        "uuid": "f35799af-ec41-482e-804a-7c88b4e02565",
+        "uuid": "a8d7e589-578b-4fbb-bfe5-fad50634c9a6",
         "name": "Bridge cables",
         "type": "Mesh",
         "semantic": "bridge",
@@ -399,7 +402,7 @@
     "objectInspection": {
       "object": {
         "id": 282,
-        "uuid": "d1f0f1b2-aa92-42a3-97ad-583fd2a456c5",
+        "uuid": "25d66e69-d4e7-4263-b46d-ad24de50efd0",
         "name": "Bridge deck",
         "type": "Mesh",
         "semantic": "bridge",
@@ -455,7 +458,7 @@
     "orbit": {
       "target": {
         "id": 282,
-        "uuid": "d1f0f1b2-aa92-42a3-97ad-583fd2a456c5",
+        "uuid": "25d66e69-d4e7-4263-b46d-ad24de50efd0",
         "name": "Bridge deck",
         "type": "Mesh",
         "semantic": "bridge",
@@ -502,7 +505,7 @@
       "following": true,
       "target": {
         "id": 362,
-        "uuid": "5ad0c062-b9d3-4b40-abc0-8aaf3fcbdd11",
+        "uuid": "d7119682-ff39-4d4e-932c-9727d08ea9d9",
         "name": "AERO 042 seaplane",
         "type": "Group",
         "semantic": "aircraft",
@@ -582,10 +585,10 @@
       ],
       "object": {
         "id": 91,
-        "uuid": "20509ef4-f090-43ee-a11e-99cab2fa3d54",
+        "uuid": "2d850ca7-a304-49ab-961c-55edb6336de3",
         "name": "Park lawn",
         "type": "Mesh",
-        "semantic": "airport",
+        "semantic": "city",
         "module": "city.js",
         "visible": true,
         "position": [
@@ -605,10 +608,10 @@
       ],
       "object": {
         "id": 90,
-        "uuid": "8ced7be0-4c81-42ff-812a-f455772b67fd",
+        "uuid": "9af1d369-5792-46c9-8d6f-a22601568988",
         "name": "Irregular sidewalk block",
         "type": "Mesh",
-        "semantic": "airport",
+        "semantic": "road",
         "module": "city.js",
         "visible": true,
         "position": [
@@ -628,7 +631,7 @@
       ],
       "object": {
         "id": 6,
-        "uuid": "6fefe3e8-9d2c-4591-85cf-e470702df675",
+        "uuid": "eb956707-7ae1-4619-b37c-8006076cda2e",
         "name": "Mesh",
         "type": "Mesh",
         "semantic": "world",
@@ -651,7 +654,7 @@
       ],
       "object": {
         "id": 6,
-        "uuid": "6fefe3e8-9d2c-4591-85cf-e470702df675",
+        "uuid": "eb956707-7ae1-4619-b37c-8006076cda2e",
         "name": "Mesh",
         "type": "Mesh",
         "semantic": "world",
@@ -674,7 +677,7 @@
       ],
       "object": {
         "id": 5,
-        "uuid": "6805522d-697c-4104-89e0-640a019cdb49",
+        "uuid": "339a1c35-52e2-4b87-815c-b6e8d1f9e506",
         "name": "Ocean — geometric waves and city reflection",
         "type": "Mesh",
         "semantic": "ocean",
@@ -690,7 +693,7 @@
     }
   ],
   "observation": {
-    "protocol": "0.2.0",
+    "protocol": "0.3.0",
     "world": {
       "x": -1730.4097222523699,
       "y": 349.85910046503557,
@@ -712,6 +715,11 @@
         "elevation": 0.26,
         "distance": 21,
         "auto": false
+      },
+      "flightPlan": {
+        "targetAltitude": null,
+        "route": [],
+        "simulationSpeed": 1
       },
       "environment": {
         "hour": 19.5,
@@ -747,8 +755,8 @@
     },
     "telemetry": {
       "cpuSubmitMs": {
-        "average": 780.3,
-        "p95": 3862.1,
+        "average": 2560.7,
+        "p95": 12680.8,
         "samples": 5
       },
       "renderer": {
@@ -769,32 +777,32 @@
       "mimeType": "image/jpeg",
       "width": 320,
       "height": 180,
-      "bytes": 8388,
+      "bytes": 8466,
       "prefix": "data:image/jpeg;base64,",
       "meanLuminance": 39.06,
       "luminanceStdDev": 26.48,
       "passes": {
         "rgb": {
           "mimeType": "image/jpeg",
-          "bytes": 8388,
+          "bytes": 8466,
           "meanLuminance": 39.06,
           "luminanceStdDev": 26.48
         },
         "depth": {
           "mimeType": "image/png",
-          "bytes": 12909,
+          "bytes": 11322,
           "meanLuminance": 8.08,
           "luminanceStdDev": 17.83
         },
         "normal": {
           "mimeType": "image/png",
-          "bytes": 46320,
+          "bytes": 46350,
           "meanLuminance": 148.7,
           "luminanceStdDev": 96.15
         },
         "objectId": {
           "mimeType": "image/png",
-          "bytes": 16038,
+          "bytes": 15990,
           "meanLuminance": 3.88,
           "luminanceStdDev": 10.5
         }
@@ -823,10 +831,10 @@
           ],
           "object": {
             "id": 89,
-            "uuid": "1178b3a1-def4-411c-80b7-4378e86b8f0c",
+            "uuid": "c8f69c66-75b6-40c8-bb7c-960d894c0800",
             "name": "Irregular sidewalk block",
             "type": "Mesh",
-            "semantic": "airport",
+            "semantic": "road",
             "module": "city.js",
             "visible": true,
             "position": [

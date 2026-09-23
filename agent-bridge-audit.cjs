@@ -107,10 +107,10 @@ const output = path.join(__dirname, 'docs', 'verification', 'agent-bridge-smoke.
       };
     });
 
-    assert.equal(report.capabilities.protocol, '0.2.0');
+    assert.equal(report.capabilities.protocol, '0.3.0');
     assert.equal(report.capabilities.visualPersistence, 'memory-only');
     assert.equal(report.ping.ok, true);
-    assert.equal(report.ping.protocol, '0.2.0');
+    assert.equal(report.ping.protocol, '0.3.0');
     assert.ok(report.query.ocean.length > 0, 'Ocean must be present in the semantic catalog');
     assert.ok(report.query.bridge.length > 0, 'Bridge must be present in the semantic catalog');
     assert.ok(report.query.bridge.every(object => object.semantic === 'bridge'), 'Bridge objects must have the bridge semantic label');

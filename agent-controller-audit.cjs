@@ -57,9 +57,9 @@ async function waitForRoute(base, timeoutMs = 180000) {
     const recheck = runs.find(run => run.recheck);
     const full = memory.routeRuns.find(run => run.name === 'oceania-inspection');
     assert.equal(health.body.ok, true);
-    assert.equal(health.body.protocol, '0.2.0');
+    assert.equal(health.body.protocol, '0.3.0');
     assert.equal(ping.body.ok, true);
-    assert.equal(ping.body.result.protocol, '0.2.0');
+    assert.equal(ping.body.result.protocol, '0.3.0');
     assert.equal(baseline.status, 'complete');
     assert.equal(baseline.waypoints.length, 2);
     assert.equal(recheck.status, 'complete');

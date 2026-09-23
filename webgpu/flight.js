@@ -124,6 +124,7 @@ let viewMode='cockpit';
 
 const initial={x:-1730,y:350,z:-1000,heading:.10,pitch:-.035,roll:0,speed:82,throttle:.73,time:0,auto:true,paused:false};
 let state={...initial}, prevAltitude=state.y,verticalSpeed=0,showCockpit=true,recording=false,rafLast=0,drawCount=0;
+let targetAltitude=null,routeWaypoints=[],routeIndex=0,simulationSpeed=1;
 const keys=new Set();let pointer={down:false,x:0,y:0};
 const accent='#d7efb5',white='#edf5ef',muted='#adc5c5';
 let W=1600,H=900;
@@ -209,10 +210,20 @@ function update(dt){
   if(viewMode==='external'&&orbit.auto)orbit.azimuth+=dt*Math.PI/9;
   state.time+=dt;prevAltitude=state.y;
   if(state.auto){
-    const t=state.time;state.roll=lerp(state.roll,.12*Math.sin(t*.19)-.07*Math.sin(t*.37),Math.min(1,dt*2));
-    state.pitch=lerp(state.pitch,-.022+.021*Math.sin(t*.22),Math.min(1,dt));
-    state.heading+=Math.sin(state.roll)*dt*.18;
-    state.throttle=.73+.035*Math.sin(t*.12);
+    const waypoint=routeWaypoints[routeIndex];
+    if(waypoint){
+      const dx=waypoint.x-state.x,dz=waypoint.z-state.z;
+      if(Math.hypot(dx,dz)<100){routeIndex++;if(routeIndex>=routeWaypoints.length){routeWaypoints=[];routeIndex=0;}}
+      else{
+        const desired=Math.atan2(-dx,-dz);
+        const turn=Math.atan2(Math.sin(desired-state.heading),Math.cos(desired-state.heading));
+        state.heading+=clamp(turn,-dt*.4,dt*.4);
+        state.roll=lerp(state.roll,clamp(turn*.35,-.24,.24),Math.min(1,dt*2));
+      }
+    }else{const t=state.time;state.roll=lerp(state.roll,.12*Math.sin(t*.19)-.07*Math.sin(t*.37),Math.min(1,dt*2));state.heading+=Math.sin(state.roll)*dt*.18;}
+    const altitude=waypoint?.y??targetAltitude;
+    state.pitch=lerp(state.pitch,altitude===null?-.022+.021*Math.sin(state.time*.22):clamp((altitude-state.y)/500,-.16,.16),Math.min(1,dt));
+    state.throttle=.73+(waypoint?.y===undefined&&targetAltitude===null ? .035*Math.sin(state.time*.12) : 0);
   }else{
     const rollIn=(keys.has('ArrowLeft')||keys.has('KeyA')?1:0)-(keys.has('ArrowRight')||keys.has('KeyD')?1:0)-(pointer.down?pointer.x:0);
     const pitchIn=(keys.has('ArrowDown')||keys.has('KeyS')?1:0)-(keys.has('ArrowUp')||keys.has('KeyW')?1:0)+(pointer.down?pointer.y:0);
@@ -259,7 +270,7 @@ function draw(){
   renderer.render(scene,camera);ctx.clearRect(0,0,W,H);hud();if(recording)composeFrame();syncEnvironmentUI();drawCount++;
   agentBridge?.reportFrame(performance.now()-cpuStart);
 }
-function frame(now){const dt=Math.min((now-(rafLast||now))/1000,.05);rafLast=now;if(!state.paused){update(dt);draw();}if(!offlineRender)requestAnimationFrame(frame);}
+function frame(now){const dt=Math.min((now-(rafLast||now))/1000,.05);rafLast=now;if(!state.paused){update(dt*simulationSpeed);draw();}if(!offlineRender)requestAnimationFrame(frame);}
 let hintTimer;
 function toast(message){const el=document.querySelector('#hint');el.textContent=message;el.classList.add('show');clearTimeout(hintTimer);hintTimer=setTimeout(()=>el.classList.remove('show'),5000);}
 function syncButtons(){document.querySelector('#auto').setAttribute('aria-pressed',state.auto);document.querySelector('#pause').setAttribute('aria-pressed',state.paused);document.querySelector('#pause').textContent=state.paused?'Продолжить':'Пауза';document.querySelector('#cockpit').setAttribute('aria-pressed',showCockpit);document.querySelector('#cockpit').disabled=viewMode==='external';document.querySelector('#view').setAttribute('aria-pressed',viewMode==='external');document.querySelector('#orbit').hidden=viewMode!=='external';document.querySelector('#orbit').setAttribute('aria-pressed',orbit.auto);}
@@ -271,8 +282,12 @@ function setOrbit(values){
   if(typeof values.auto==='boolean')orbit.auto=values.auto;
   syncButtons();draw();
 }
-function manual(){if(state.auto){state.auto=false;syncButtons();toast('Стрелки / WASD — крен и тангаж · Shift / Ctrl — тяга · P — автопилот');}}
-function reset(){document.querySelector('#flight-location').value='city';state={...initial};atmosphere.reset();verticalSpeed=0;keys.clear();pointer.down=false;pointer.x=pointer.y=0;viewMode='cockpit';Object.assign(orbit,{azimuth:.8,elevation:.26,distance:21,auto:false});syncButtons();draw();}
+function manual(){if(state.auto){state.auto=false;routeWaypoints=[];routeIndex=0;targetAltitude=null;syncButtons();toast('Стрелки / WASD — крен и тангаж · Shift / Ctrl — тяга · P — автопилот');}}
+function flightPlan(){return {targetAltitude,route:routeWaypoints.slice(routeIndex).map(point=>({...point})),simulationSpeed};}
+function setFlightAltitude(value){if(!Number.isFinite(value)||value<60||value>4500)throw new RangeError('Altitude must be 60–4500 metres');targetAltitude=value;state.auto=true;syncButtons();return flightPlan();}
+function setFlightRoute(waypoints){if(!Array.isArray(waypoints)||waypoints.length>16||waypoints.some(point=>!point||!Number.isFinite(point.x)||!Number.isFinite(point.z)||Math.hypot(point.x,point.z)>22000||point.y!==undefined&&(!Number.isFinite(point.y)||point.y<60||point.y>4500)))throw new TypeError('Route requires 0–16 finite waypoints within the world and optional altitude 60–4500 metres');routeWaypoints=waypoints.map(point=>({x:point.x,z:point.z,...(point.y===undefined?{}:{y:point.y})}));routeIndex=0;if(routeWaypoints.length)state.auto=true;syncButtons();return flightPlan();}
+function setSimulationSpeed(value){if(!Number.isFinite(value)||value<.25||value>2)throw new RangeError('Simulation speed must be 0.25–2');simulationSpeed=value;return flightPlan();}
+function reset(){document.querySelector('#flight-location').value='city';state={...initial};targetAltitude=null;routeWaypoints=[];routeIndex=0;simulationSpeed=1;atmosphere.reset();verticalSpeed=0;keys.clear();pointer.down=false;pointer.x=pointer.y=0;viewMode='cockpit';Object.assign(orbit,{azimuth:.8,elevation:.26,distance:21,auto:false});syncButtons();draw();}
 function startFlight(location){
   const starts={city:initial,airport:{x:2730,y:200,z:-2030,heading:0},islands:{x:-120,y:490,z:2000,heading:0}};
   if(!starts[location])return;
@@ -296,7 +311,7 @@ document.querySelector('#day-duration').onchange=e=>setEnvironment({cycleSeconds
 document.querySelector('#day-cycle').onclick=()=>setEnvironment({cycle:!atmosphere.getState().cycle});
 document.querySelector('#auto-weather').onclick=()=>setEnvironment({autoWeather:!atmosphere.getState().autoWeather});
 document.querySelectorAll('[data-weather]').forEach(b=>b.onclick=()=>setEnvironment({weather:b.dataset.weather,autoWeather:false}));
-document.querySelector('#auto').onclick=()=>{state.auto=!state.auto;syncButtons();toast(state.auto?'Автопилот включён':'Стрелки / WASD — управление · Shift / Ctrl — тяга · Можно потянуть экран мышью');};
+document.querySelector('#auto').onclick=()=>{state.auto=!state.auto;if(!state.auto){routeWaypoints=[];routeIndex=0;targetAltitude=null;}syncButtons();toast(state.auto?'Автопилот включён':'Стрелки / WASD — управление · Shift / Ctrl — тяга · Можно потянуть экран мышью');};
 document.querySelector('#pause').onclick=()=>{state.paused=!state.paused;syncButtons();draw();};
 document.querySelector('#cockpit').onclick=()=>{showCockpit=!showCockpit;syncButtons();draw();};
 document.querySelector('#view').onclick=()=>{setView(viewMode==='external'?'cockpit':'external');toast(viewMode==='external'?'Потяните мышью — осмотр · Колёсико — расстояние · O — облёт · V — в кабину':'Вид из кабины · Стрелки / WASD — управление');};
@@ -393,8 +408,8 @@ async function captureAgentObservation(observer,{width=512,height=288,quality=.7
   return result;
 }
 // Deterministic frame stepping lets the MP4 exporter include every HUD pixel.
-window.flight={revision:THREE.REVISION,setQuality,getState:()=>({...state,quality,verticalSpeed,drawCount,viewMode,orbit:{...orbit},environment:atmosphere.getState(),ocean:water.getState(),camera:camera.position.toArray(),triangles:renderer.info.render.triangles}),reset,setView,setOrbit,setEnvironment,startFlight,setPaused,step(dt){update(dt);draw();},seek(t){reset();for(let i=0;i<Math.floor(t*30);i++)update(1/30);draw();},setSize(w,h){W=canvas.width=w;H=canvas.height=h;renderer.setSize(Math.round(w*qualities[quality].scale),Math.round(h*qualities[quality].scale),false);camera.aspect=w/h;camera.updateProjectionMatrix();draw();},getCanvas:composeFrame};
-agentBridge=createAgentBridge({scene,renderer,getWorldState:window.flight.getState,setEnvironment,startFlight,setQuality,setPaused,stepSimulation:window.flight.step,captureObservation:captureAgentObservation});
+window.flight={revision:THREE.REVISION,setQuality,getState:()=>({...state,quality,verticalSpeed,drawCount,viewMode,orbit:{...orbit},flightPlan:flightPlan(),environment:atmosphere.getState(),ocean:water.getState(),camera:camera.position.toArray(),triangles:renderer.info.render.triangles}),reset,setView,setOrbit,setEnvironment,startFlight,setPaused,setFlightAltitude,setFlightRoute,setSimulationSpeed,step(dt){const paused=state.paused;state.paused=false;try{update(dt);}finally{state.paused=paused;}draw();},seek(t){reset();for(let i=0;i<Math.floor(t*30);i++)update(1/30);draw();},setSize(w,h){W=canvas.width=w;H=canvas.height=h;renderer.setSize(Math.round(w*qualities[quality].scale),Math.round(h*qualities[quality].scale),false);camera.aspect=w/h;camera.updateProjectionMatrix();draw();},getCanvas:composeFrame};
+agentBridge=createAgentBridge({scene,renderer,getWorldState:window.flight.getState,setEnvironment,startFlight,setQuality,setPaused,setFlightAltitude,setFlightRoute,setSimulationSpeed,stepSimulation:window.flight.step,captureObservation:captureAgentObservation});
 window.flight.agent=agentBridge;
 window.flight.captureShot=async({eye,target})=>{cockpit.visible=aircraft.visible=false;camera.position.set(...eye);camera.lookAt(...target);vegetation.update(camera,state.time,atmosphere.wind);atmosphere.apply(camera,{immediate:true});sunlight.shadow.needsUpdate=sunlight.intensity>.08;infrastructure.update(atmosphere.daylight,atmosphere.getState().rain,camera);water.update?.(camera,{force:true,daylight:atmosphere.daylight});seaUniforms.eye.value.copy(camera.position);renderer.render(scene,camera);await renderer.backend.device.queue.onSubmittedWorkDone();return renderer.domElement.toDataURL();};
 if(offlineRender||params.has('test'))window.flight.place=values=>{for(const k of ['x','y','z','heading','pitch','roll'])if(Number.isFinite(values[k]))state[k]=values[k];draw();};

@@ -1,0 +1,23 @@
+{
+  "checkedAt": "2026-09-23T18:18:12.102Z",
+  "protocol": "0.3.0",
+  "before": {
+    "x": 2730,
+    "y": 200,
+    "z": -2030,
+    "time": 5
+  },
+  "after": {
+    "x": 2688.322322260994,
+    "y": 249.9876805072858,
+    "z": -2340.9795954371984,
+    "time": 9
+  },
+  "pausedStepAdvanced": true,
+  "routeSteered": true,
+  "altitudeClimbed": true,
+  "invalidCommandsRejected": true,
+  "checkpointRestored": true,
+  "resetClearedPlan": true,
+  "rawImagesPersisted": false
+}
