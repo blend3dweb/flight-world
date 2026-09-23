@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-20T14:57:58.002Z",
+  "checkedAt": "2026-09-23T16:56:33.172Z",
   "protocol": "0.2.0",
   "model": "qwen2.5vl:3b",
   "requested": {
@@ -10,7 +10,7 @@
   "target": {
     "object": {
       "id": 282,
-      "uuid": "b93a7c8f-1ed8-47fa-8c81-8815b887cd2a",
+      "uuid": "281901a1-f0a9-4670-850b-cbfb7c9ce382",
       "name": "Bridge deck",
       "type": "Mesh",
       "semantic": "bridge",
@@ -100,7 +100,7 @@
       },
       "center": {
         "id": 283,
-        "uuid": "ef4551f5-b71a-4497-8dc6-ed99af56a956",
+        "uuid": "01db6a67-1092-4d13-9c73-c02c11b457f1",
         "name": "Bridge asphalt",
         "type": "Mesh",
         "semantic": "bridge",
@@ -151,14 +151,14 @@
       "perception": "The image depicts a coastal scene with a bridge visible in the distance. The bridge spans across a body of water, connecting two landmasses. The surrounding area includes greenery and small islands. The sky is clear with some clouds, and the overall scene appears to be a coastal landscape with a bridge as a prominent feature.",
       "decision": "pass",
       "metrics": {
-        "wallMs": 9127,
-        "totalMs": 9116.9,
-        "loadMs": 6955,
-        "promptEvalMs": 1342,
-        "evalMs": 742.5,
+        "wallMs": 3855,
+        "totalMs": 3829.7,
+        "loadMs": 18.8,
+        "promptEvalMs": 2095,
+        "evalMs": 1468.3,
         "promptTokens": 1143,
         "outputTokens": 66,
-        "outputTokensPerSecond": 88.89,
+        "outputTokensPerSecond": 44.95,
         "doneReason": "stop",
         "pipeline": "perception-then-deterministic-structure"
       }
@@ -183,7 +183,7 @@
       },
       "center": {
         "id": 5,
-        "uuid": "60282873-a3e8-4ef6-b627-c23265371d5d",
+        "uuid": "26b43022-ba19-45e8-ae20-4dd20dc3c147",
         "name": "Ocean — geometric waves and city reflection",
         "type": "Mesh",
         "semantic": "ocean",
@@ -233,14 +233,14 @@
       "perception": "The image depicts an aerial view of a coastal area with several islands and a bridge connecting two of them. The bridge is visible as a straight line connecting two landmasses. The surrounding water is calm, and the sky is clear with some clouds. The islands are green, indicating vegetation, and the bridge is a lighter color, possibly white or light gray. The overall scene is well-rendered, with clear details in the landscape and water.",
       "decision": "pass",
       "metrics": {
-        "wallMs": 2278,
-        "totalMs": 2273.8,
-        "loadMs": 29.2,
-        "promptEvalMs": 1262.5,
-        "evalMs": 905,
+        "wallMs": 3706,
+        "totalMs": 3696.6,
+        "loadMs": 7.6,
+        "promptEvalMs": 1510.9,
+        "evalMs": 1914.2,
         "promptTokens": 1143,
         "outputTokens": 90,
-        "outputTokensPerSecond": 99.45,
+        "outputTokensPerSecond": 47.02,
         "doneReason": "stop",
         "pipeline": "perception-then-deterministic-structure"
       }
@@ -265,7 +265,7 @@
       },
       "center": {
         "id": 283,
-        "uuid": "ef4551f5-b71a-4497-8dc6-ed99af56a956",
+        "uuid": "01db6a67-1092-4d13-9c73-c02c11b457f1",
         "name": "Bridge asphalt",
         "type": "Mesh",
         "semantic": "bridge",
@@ -316,14 +316,14 @@
       "perception": "The image depicts an aerial view of a coastal area with a bridge visible. The bridge spans across a body of water, connecting two land masses. The surrounding area includes greenery and some developed areas, possibly indicating a town or city. The bridge is clearly identifiable and does not appear to be a severe rendering defect.",
       "decision": "pass",
       "metrics": {
-        "wallMs": 2054,
-        "totalMs": 2049.4,
-        "loadMs": 12.1,
-        "promptEvalMs": 1277.6,
-        "evalMs": 649.5,
+        "wallMs": 3952,
+        "totalMs": 3927.1,
+        "loadMs": 32.6,
+        "promptEvalMs": 1885,
+        "evalMs": 1750.8,
         "promptTokens": 1143,
         "outputTokens": 64,
-        "outputTokensPerSecond": 98.53,
+        "outputTokensPerSecond": 36.55,
         "doneReason": "stop",
         "pipeline": "perception-then-deterministic-structure"
       }
@@ -348,7 +348,7 @@
       },
       "center": {
         "id": 5,
-        "uuid": "60282873-a3e8-4ef6-b627-c23265371d5d",
+        "uuid": "26b43022-ba19-45e8-ae20-4dd20dc3c147",
         "name": "Ocean — geometric waves and city reflection",
         "type": "Mesh",
         "semantic": "ocean",
@@ -398,14 +398,14 @@
       "perception": "The image depicts a coastal scene with a bridge visible in the distance. The bridge spans across a body of water, connecting two landmasses. The surrounding area includes greenery and possibly some buildings or structures near the water's edge. The sky is clear with some clouds, and the overall scene appears to be a coastal landscape with a bridge as a prominent feature.",
       "decision": "pass",
       "metrics": {
-        "wallMs": 2177,
-        "totalMs": 2173.1,
-        "loadMs": 17.5,
-        "promptEvalMs": 1230.6,
-        "evalMs": 784.9,
+        "wallMs": 3536,
+        "totalMs": 3529.5,
+        "loadMs": 8.2,
+        "promptEvalMs": 1667.5,
+        "evalMs": 1621.2,
         "promptTokens": 1143,
         "outputTokens": 74,
-        "outputTokensPerSecond": 94.28,
+        "outputTokensPerSecond": 45.65,
         "doneReason": "stop",
         "pipeline": "perception-then-deterministic-structure"
       }

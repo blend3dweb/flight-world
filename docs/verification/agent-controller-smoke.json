@@ -1,19 +1,19 @@
 {
-  "checkedAt": "2026-09-20T15:28:07.834Z",
+  "checkedAt": "2026-09-23T17:00:33.490Z",
   "protocol": "0.2.0",
   "apiHost": "127.0.0.1",
   "baseline": {
-    "id": "b6cd14aa-e1a8-4e41-a318-0e089385bd5d",
+    "id": "c13cff6f-9710-490a-91c9-63e77671a7e1",
     "status": "complete",
     "waypoints": [
       {
         "id": "city-overview",
         "center": {
           "id": 89,
-          "uuid": "d84392e3-e01f-4476-9a89-6dc7be79d560",
+          "uuid": "1efa731c-e0a7-480f-9b36-5402c38ab002",
           "name": "Irregular sidewalk block",
           "type": "Mesh",
-          "semantic": "airport",
+          "semantic": "road",
           "module": "city.js",
           "visible": true,
           "position": [
@@ -62,7 +62,7 @@
         "id": "bridge",
         "center": {
           "id": 5,
-          "uuid": "ac72a9ba-ee52-4cbd-9087-d21c11b3a9d7",
+          "uuid": "1783a791-61e2-48b8-820f-5eaa07b68523",
           "name": "Ocean — geometric waves and city reflection",
           "type": "Mesh",
           "semantic": "ocean",
@@ -113,8 +113,8 @@
     ]
   },
   "recheck": {
-    "id": "84e114f3-a00b-4d5f-8a4a-5b761b1c2cae",
-    "baselineId": "b6cd14aa-e1a8-4e41-a318-0e089385bd5d",
+    "id": "7c5f279c-c249-4e87-bf29-629013f61ac7",
+    "baselineId": "c13cff6f-9710-490a-91c9-63e77671a7e1",
     "status": "complete",
     "comparison": [
       {
@@ -136,17 +136,17 @@
     ]
   },
   "fullRoute": {
-    "id": "c0ca029c-adf6-4b3c-a5c1-509089b6ec23",
+    "id": "50bc2348-3472-47fb-92c5-fd259ac8d1ec",
     "status": "complete",
     "waypoints": [
       {
         "id": "city-overview",
         "center": {
           "id": 89,
-          "uuid": "d84392e3-e01f-4476-9a89-6dc7be79d560",
+          "uuid": "1efa731c-e0a7-480f-9b36-5402c38ab002",
           "name": "Irregular sidewalk block",
           "type": "Mesh",
-          "semantic": "airport",
+          "semantic": "road",
           "module": "city.js",
           "visible": true,
           "position": [
@@ -211,10 +211,10 @@
         "id": "city-night",
         "center": {
           "id": 193,
-          "uuid": "07e7eb32-f9a8-4e84-b5f8-6dd5ae5400d2",
+          "uuid": "838eac52-c7f8-4b25-bc74-ee8c96430403",
           "name": "Roads",
           "type": "Mesh",
-          "semantic": "airport",
+          "semantic": "road",
           "module": "city.js",
           "visible": true,
           "position": [
@@ -280,7 +280,7 @@
         "id": "bridge-rain",
         "center": {
           "id": 5,
-          "uuid": "ac72a9ba-ee52-4cbd-9087-d21c11b3a9d7",
+          "uuid": "1783a791-61e2-48b8-820f-5eaa07b68523",
           "name": "Ocean — geometric waves and city reflection",
           "type": "Mesh",
           "semantic": "ocean",
@@ -348,10 +348,10 @@
         "id": "airport",
         "center": {
           "id": 298,
-          "uuid": "5925bd69-4759-4c4e-b90f-a157d4f92775",
+          "uuid": "d9294f3d-8f34-4f10-a7b2-eac5b57e797d",
           "name": "Apron",
           "type": "Mesh",
-          "semantic": "airport",
+          "semantic": "city",
           "module": "city.js",
           "visible": true,
           "position": [
@@ -417,7 +417,7 @@
         "id": "islands-snow",
         "center": {
           "id": 25,
-          "uuid": "2fbc45ac-93d4-4850-a5ac-9a0c2a98be69",
+          "uuid": "6ab7783d-df4f-49c7-a6cb-6c4334420e8c",
           "name": "Forest distant 3",
           "type": "Mesh",
           "semantic": "vegetation",
@@ -486,7 +486,7 @@
         "id": "ocean-sunset",
         "center": {
           "id": 6,
-          "uuid": "5752a028-0e83-4d96-bb68-9057425b554c",
+          "uuid": "bae99b9a-d595-4f66-8f2b-1ae677d0d868",
           "name": "Mesh",
           "type": "Mesh",
           "semantic": "world",

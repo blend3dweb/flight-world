@@ -1,0 +1,1065 @@
+{
+  "checkedAt": "2026-09-23T16:52:23.827Z",
+  "protocol": "0.2.0",
+  "model": "qwen2.5vl:3b",
+  "cycle": {
+    "id": "7904f7f0-a2d8-4900-a00f-c7e120440e00",
+    "createdAt": "2026-09-20T17:00:48.389Z",
+    "updatedAt": "2026-09-23T16:51:07.711Z",
+    "status": "verified",
+    "inspectionRunId": "b72f8421-b8d5-413a-9a2f-abdc10885c41",
+    "target": {
+      "object": {
+        "id": 76,
+        "uuid": "b7041eaf-da14-4a12-bbcf-ffc6b23b98b9",
+        "name": "Oceania — city, airport and harbour",
+        "type": "Group",
+        "semantic": "airport",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          0,
+          0,
+          0
+        ]
+      },
+      "bounds": {
+        "center": [
+          231.359,
+          89.469,
+          -2635.91
+        ],
+        "size": [
+          5757.283,
+          178.938,
+          3268.181
+        ],
+        "radius": 3311.319
+      },
+      "hierarchy": [
+        "Oceania — city, airport and harbour"
+      ],
+      "geometry": null,
+      "materials": [],
+      "lod": [],
+      "source": "city.js"
+    },
+    "request": {
+      "id": null,
+      "name": null,
+      "semantic": "airport"
+    },
+    "settings": {
+      "views": 3,
+      "startAzimuth": 0,
+      "elevation": 0.28,
+      "distanceFactor": 2.6,
+      "minimumDistance": 20,
+      "maxExtraViews": 1
+    },
+    "initialDecision": "reinspect",
+    "evidence": [
+      {
+        "view": 1,
+        "reason": "scheduled",
+        "center": {
+          "id": 5,
+          "uuid": "833bac25-3ef1-4420-acdf-af783377cefa",
+          "name": "Ocean — geometric waves and city reflection",
+          "type": "Mesh",
+          "semantic": "ocean",
+          "module": "ocean.js",
+          "visible": true,
+          "position": [
+            -1835.778,
+            0,
+            -1888.44
+          ],
+          "vertices": 37249
+        },
+        "finding": {
+          "observationId": "b72f8421-b8d5-413a-9a2f-abdc10885c41:view-2",
+          "decision": "reinspect",
+          "summary": "The image depicts a body of water with several small islands or landmasses floating above it. The sky is visible in the background, with some clouds scattered across it. There are no visible airport structures in the image.",
+          "defects": [
+            {
+              "category": "geometry",
+              "severity": "high",
+              "confidence": 0.9,
+              "description": "The direct vision pass reported a visible regression or a missing required category.",
+              "pixel": null,
+              "objectId": null,
+              "semantic": null,
+              "module": null,
+              "evidence": [
+                "The image depicts a body of water with several small islands or landmasses floating above it. The sky is visible in the background, with some clouds scattered across it. There are no visible airport structures in the image."
+              ],
+              "recommendedAction": "Use object-ID and another viewpoint to localize the regression before changing code."
+            }
+          ]
+        }
+      },
+      {
+        "view": 3,
+        "reason": "reinspect-follow-up",
+        "center": {
+          "id": 5,
+          "uuid": "833bac25-3ef1-4420-acdf-af783377cefa",
+          "name": "Ocean — geometric waves and city reflection",
+          "type": "Mesh",
+          "semantic": "ocean",
+          "module": "ocean.js",
+          "visible": true,
+          "position": [
+            -1835.778,
+            0,
+            -1888.44
+          ],
+          "vertices": 37249
+        },
+        "finding": {
+          "observationId": "b72f8421-b8d5-413a-9a2f-abdc10885c41:view-4",
+          "decision": "reinspect",
+          "summary": "The image depicts a series of islands in a body of water. The islands are covered with green vegetation, and there are some small blue dots that could represent water or clouds. There is no visible airport in the image.",
+          "defects": [
+            {
+              "category": "geometry",
+              "severity": "high",
+              "confidence": 0.9,
+              "description": "The direct vision pass reported a visible regression or a missing required category.",
+              "pixel": null,
+              "objectId": null,
+              "semantic": null,
+              "module": null,
+              "evidence": [
+                "The image depicts a series of islands in a body of water. The islands are covered with green vegetation, and there are some small blue dots that could represent water or clouds. There is no visible airport in the image."
+              ],
+              "recommendedAction": "Use object-ID and another viewpoint to localize the regression before changing code."
+            }
+          ]
+        }
+      }
+    ],
+    "review": {
+      "at": "2026-09-23T16:49:12.551Z",
+      "reviewer": "codex",
+      "decision": "approve-fix",
+      "rationale": "The first recheck confirmed the semantic classifier update, but the loaded WebGPU city root is still classified as airport. The prior root city.js file is not used by the active scene. Approve only the actual WebGPU city module to assign the root semantic explicitly.",
+      "proposedFiles": [
+        "webgpu/city.js"
+      ],
+      "beforeFiles": [
+        {
+          "file": "webgpu/city.js",
+          "exists": true,
+          "bytes": 27133,
+          "sha256": "bfe52198be28f37e196bf28aef660fe2dc0887a8209ca235df4d93ee24056b23"
+        }
+      ]
+    },
+    "fix": {
+      "at": "2026-09-23T16:49:34.884Z",
+      "reviewer": "codex",
+      "summary": "Assigned the active WebGPU Oceania root an explicit city semantic so airport children are selected by their own labels instead of the parent group name.",
+      "commit": null,
+      "files": [
+        {
+          "file": "webgpu/city.js",
+          "exists": true,
+          "bytes": 27189,
+          "sha256": "406fe59223938ca7ac7f64917382be20346b33e6427d13dd9e5e3d885fc8ffe3"
+        }
+      ],
+      "changed": [
+        "webgpu/city.js"
+      ]
+    },
+    "recheck": {
+      "at": "2026-09-23T16:51:07.711Z",
+      "inspectionRunId": "7393b1c1-ab18-48ae-83db-0af06292a94c",
+      "decision": "pass",
+      "views": 3
+    },
+    "history": [
+      {
+        "at": "2026-09-20T17:00:48.389Z",
+        "event": "finding-created",
+        "decision": "reinspect"
+      },
+      {
+        "at": "2026-09-20T17:00:57.802Z",
+        "event": "codex-review",
+        "decision": "approve-fix",
+        "rationale": "Qwen repeatedly reports that the airport is absent from views 2-4. Object data confirms that the whole Oceania city group is incorrectly classified as airport because classification matches parent labels before the child own name. Approve a bounded semantic-catalog fix."
+      },
+      {
+        "at": "2026-09-20T17:01:31.057Z",
+        "event": "fix-recorded",
+        "files": [
+          "webgpu/agent-bridge.js",
+          "city.js"
+        ],
+        "commit": null
+      },
+      {
+        "at": "2026-09-20T17:01:50.410Z",
+        "event": "recheck-started"
+      },
+      {
+        "at": "2026-09-20T17:02:46.324Z",
+        "event": "recheck-completed",
+        "decision": "reinspect",
+        "inspectionRunId": "a2446f21-92eb-425e-abe1-9dc70f27c8e6"
+      },
+      {
+        "at": "2026-09-23T16:49:12.557Z",
+        "event": "codex-review",
+        "decision": "approve-fix",
+        "rationale": "The first recheck confirmed the semantic classifier update, but the loaded WebGPU city root is still classified as airport. The prior root city.js file is not used by the active scene. Approve only the actual WebGPU city module to assign the root semantic explicitly."
+      },
+      {
+        "at": "2026-09-23T16:49:34.884Z",
+        "event": "fix-recorded",
+        "files": [
+          "webgpu/city.js"
+        ],
+        "commit": null
+      },
+      {
+        "at": "2026-09-23T16:49:50.626Z",
+        "event": "recheck-started"
+      },
+      {
+        "at": "2026-09-23T16:51:07.711Z",
+        "event": "recheck-completed",
+        "decision": "pass",
+        "inspectionRunId": "7393b1c1-ab18-48ae-83db-0af06292a94c"
+      }
+    ]
+  },
+  "initial": {
+    "id": "b72f8421-b8d5-413a-9a2f-abdc10885c41",
+    "target": {
+      "object": {
+        "id": 76,
+        "uuid": "b7041eaf-da14-4a12-bbcf-ffc6b23b98b9",
+        "name": "Oceania — city, airport and harbour",
+        "type": "Group",
+        "semantic": "airport",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          0,
+          0,
+          0
+        ]
+      },
+      "bounds": {
+        "center": [
+          231.359,
+          89.469,
+          -2635.91
+        ],
+        "size": [
+          5757.283,
+          178.938,
+          3268.181
+        ],
+        "radius": 3311.319
+      },
+      "hierarchy": [
+        "Oceania — city, airport and harbour"
+      ],
+      "geometry": null,
+      "materials": [],
+      "lod": [],
+      "source": "city.js"
+    },
+    "decision": "reinspect",
+    "views": [
+      {
+        "index": 0,
+        "reason": "scheduled",
+        "center": {
+          "id": 5,
+          "uuid": "833bac25-3ef1-4420-acdf-af783377cefa",
+          "name": "Ocean — geometric waves and city reflection",
+          "type": "Mesh",
+          "semantic": "ocean",
+          "module": "ocean.js",
+          "visible": true,
+          "position": [
+            -1835.778,
+            0,
+            -1888.44
+          ],
+          "vertices": 37249
+        },
+        "perception": "The image shows an island with a green runway extending from it into the water. The runway is rectangular and appears to be a part of an airport. The surrounding area includes water and some green landmasses. The sky is visible with some clouds. The airport is clearly identifiable.",
+        "decision": "pass",
+        "model": "qwen2.5vl:3b",
+        "wallMs": 2011
+      },
+      {
+        "index": 1,
+        "reason": "scheduled",
+        "center": {
+          "id": 5,
+          "uuid": "833bac25-3ef1-4420-acdf-af783377cefa",
+          "name": "Ocean — geometric waves and city reflection",
+          "type": "Mesh",
+          "semantic": "ocean",
+          "module": "ocean.js",
+          "visible": true,
+          "position": [
+            -1835.778,
+            0,
+            -1888.44
+          ],
+          "vertices": 37249
+        },
+        "perception": "The image depicts a body of water with several small islands or landmasses floating above it. The sky is visible in the background, with some clouds scattered across it. There are no visible airport structures in the image.",
+        "decision": "reinspect",
+        "model": "qwen2.5vl:3b",
+        "wallMs": 1915
+      },
+      {
+        "index": 2,
+        "reason": "scheduled",
+        "center": {
+          "id": 5,
+          "uuid": "833bac25-3ef1-4420-acdf-af783377cefa",
+          "name": "Ocean — geometric waves and city reflection",
+          "type": "Mesh",
+          "semantic": "ocean",
+          "module": "ocean.js",
+          "visible": true,
+          "position": [
+            -1835.778,
+            0,
+            -1888.44
+          ],
+          "vertices": 37249
+        },
+        "perception": "The image depicts a body of water with several small islands or islets. The water appears calm with gentle ripples, and the islands are covered with green vegetation. There are no visible structures or objects that can be identified as an airport. Therefore, the airport is not present in the image.",
+        "decision": "pass",
+        "model": "qwen2.5vl:3b",
+        "wallMs": 2204
+      },
+      {
+        "index": 3,
+        "reason": "reinspect-follow-up",
+        "center": {
+          "id": 5,
+          "uuid": "833bac25-3ef1-4420-acdf-af783377cefa",
+          "name": "Ocean — geometric waves and city reflection",
+          "type": "Mesh",
+          "semantic": "ocean",
+          "module": "ocean.js",
+          "visible": true,
+          "position": [
+            -1835.778,
+            0,
+            -1888.44
+          ],
+          "vertices": 37249
+        },
+        "perception": "The image depicts a series of islands in a body of water. The islands are covered with green vegetation, and there are some small blue dots that could represent water or clouds. There is no visible airport in the image.",
+        "decision": "reinspect",
+        "model": "qwen2.5vl:3b",
+        "wallMs": 1829
+      }
+    ]
+  },
+  "firstRecheck": {
+    "id": "a2446f21-92eb-425e-abe1-9dc70f27c8e6",
+    "target": {
+      "object": {
+        "id": 76,
+        "uuid": "4d3f4738-f2ac-47e1-8172-7c027a17f0a9",
+        "name": "Oceania — city, airport and harbour",
+        "type": "Group",
+        "semantic": "airport",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          0,
+          0,
+          0
+        ]
+      },
+      "bounds": {
+        "center": [
+          231.359,
+          89.469,
+          -2635.91
+        ],
+        "size": [
+          5757.283,
+          178.938,
+          3268.181
+        ],
+        "radius": 3311.319
+      },
+      "hierarchy": [
+        "Oceania — city, airport and harbour"
+      ],
+      "geometry": null,
+      "materials": [],
+      "lod": [],
+      "source": "city.js"
+    },
+    "decision": "reinspect",
+    "views": [
+      {
+        "index": 0,
+        "reason": "scheduled",
+        "center": {
+          "id": 5,
+          "uuid": "74bfff5e-4655-4b92-a96f-60d84b4d02e2",
+          "name": "Ocean — geometric waves and city reflection",
+          "type": "Mesh",
+          "semantic": "ocean",
+          "module": "ocean.js",
+          "visible": true,
+          "position": [
+            -1835.778,
+            0,
+            -1888.44
+          ],
+          "vertices": 37249
+        },
+        "perception": "The image depicts an island surrounded by water. On the island, there is a rectangular structure that appears to be an airport. The airport has a runway and several buildings, including a control tower. The surrounding water is calm, and there are some clouds in the sky. The overall scene is rendered in a realistic style.",
+        "decision": "pass",
+        "model": "qwen2.5vl:3b",
+        "wallMs": 2129
+      },
+      {
+        "index": 1,
+        "reason": "scheduled",
+        "center": {
+          "id": 5,
+          "uuid": "74bfff5e-4655-4b92-a96f-60d84b4d02e2",
+          "name": "Ocean — geometric waves and city reflection",
+          "type": "Mesh",
+          "semantic": "ocean",
+          "module": "ocean.js",
+          "visible": true,
+          "position": [
+            -1835.778,
+            0,
+            -1888.44
+          ],
+          "vertices": 37249
+        },
+        "perception": "The image depicts a body of water with several small islands or landmasses floating above it. The sky is visible in the background, with some clouds scattered across it. There are no visible airport structures in the image.",
+        "decision": "reinspect",
+        "model": "qwen2.5vl:3b",
+        "wallMs": 1902
+      },
+      {
+        "index": 2,
+        "reason": "scheduled",
+        "center": {
+          "id": 5,
+          "uuid": "74bfff5e-4655-4b92-a96f-60d84b4d02e2",
+          "name": "Ocean — geometric waves and city reflection",
+          "type": "Mesh",
+          "semantic": "ocean",
+          "module": "ocean.js",
+          "visible": true,
+          "position": [
+            -1835.778,
+            0,
+            -1888.44
+          ],
+          "vertices": 37249
+        },
+        "perception": "The image depicts a coastal area with several small islands and a body of water. There is no airport visible in the image.",
+        "decision": "reinspect",
+        "model": "qwen2.5vl:3b",
+        "wallMs": 1514
+      },
+      {
+        "index": 3,
+        "reason": "reinspect-follow-up",
+        "center": {
+          "id": 5,
+          "uuid": "74bfff5e-4655-4b92-a96f-60d84b4d02e2",
+          "name": "Ocean — geometric waves and city reflection",
+          "type": "Mesh",
+          "semantic": "ocean",
+          "module": "ocean.js",
+          "visible": true,
+          "position": [
+            -1835.778,
+            0,
+            -1888.44
+          ],
+          "vertices": 37249
+        },
+        "perception": "The image depicts a group of islands in the ocean. The islands are covered with green vegetation, and there are some small blue dots that could represent water or clouds. There is no visible airport in the image.",
+        "decision": "reinspect",
+        "model": "qwen2.5vl:3b",
+        "wallMs": 1772
+      }
+    ]
+  },
+  "verifiedRecheck": {
+    "id": "7393b1c1-ab18-48ae-83db-0af06292a94c",
+    "target": {
+      "object": {
+        "id": 290,
+        "uuid": "153eca66-dd5d-4204-8526-f6a8a3508e89",
+        "name": "Airport grass",
+        "type": "Mesh",
+        "semantic": "airport",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "instances": 1,
+        "vertices": 24
+      },
+      "bounds": {
+        "center": [
+          2500,
+          28.025,
+          -3200
+        ],
+        "size": [
+          1220,
+          0.05,
+          2140
+        ],
+        "radius": 1231.666
+      },
+      "hierarchy": [
+        "Airport grass",
+        "Oceania — city, airport and harbour"
+      ],
+      "geometry": {
+        "type": "BoxGeometry",
+        "vertices": 24,
+        "indices": 36,
+        "instances": 1
+      },
+      "materials": [
+        {
+          "name": null,
+          "type": "MeshStandardMaterial",
+          "color": "#517b48",
+          "roughness": 0.75,
+          "metalness": 0,
+          "opacity": 1,
+          "transparent": false,
+          "side": 0,
+          "map": null
+        }
+      ],
+      "lod": [],
+      "source": "city.js"
+    },
+    "decision": "pass",
+    "views": [
+      {
+        "index": 0,
+        "reason": "scheduled",
+        "center": {
+          "id": 298,
+          "uuid": "f113ec43-7268-4fb0-b42b-a251b86d72c2",
+          "name": "Apron",
+          "type": "Mesh",
+          "semantic": "city",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 1,
+          "vertices": 24
+        },
+        "perception": "The image depicts an island with a rectangular structure that appears to be an airport. The airport is situated on the island, with a runway extending from the center towards the top of the island. The surrounding area is covered with green vegetation, and there are some buildings and vehicles visible near the airport. The sky is clear with some clouds, and the water surrounding the island is calm.",
+        "decision": "pass",
+        "model": "qwen2.5vl:3b",
+        "wallMs": 13116
+      },
+      {
+        "index": 1,
+        "reason": "scheduled",
+        "center": {
+          "id": 298,
+          "uuid": "f113ec43-7268-4fb0-b42b-a251b86d72c2",
+          "name": "Apron",
+          "type": "Mesh",
+          "semantic": "city",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 1,
+          "vertices": 24
+        },
+        "perception": "The image depicts an island with a green area that appears to be an airport. The airport is surrounded by water, and there is a visible runway extending from the airport to the island. The island has a small white building, possibly a control tower or terminal, located near the center of the green area. The surrounding water is calm, and there are some small waves visible. The sky above the island is clear with a few clouds. The overall scene suggests a peaceful and isolated airport setting.",
+        "decision": "pass",
+        "model": "qwen2.5vl:3b",
+        "wallMs": 3762
+      },
+      {
+        "index": 2,
+        "reason": "scheduled",
+        "center": {
+          "id": 298,
+          "uuid": "f113ec43-7268-4fb0-b42b-a251b86d72c2",
+          "name": "Apron",
+          "type": "Mesh",
+          "semantic": "city",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 1,
+          "vertices": 24
+        },
+        "perception": "The image depicts an island with a green surface, which appears to be a computer screen. The island is surrounded by water, and there is a small dot on the screen that resembles a cursor. The island has a sandy perimeter, and there is a small patch of land extending from the main island. The overall scene is somewhat surreal, as the island resembles a computer screen floating in the water.",
+        "decision": "pass",
+        "model": "qwen2.5vl:3b",
+        "wallMs": 3628
+      }
+    ]
+  },
+  "catalog": {
+    "airport": {
+      "count": 27,
+      "examples": [
+        {
+          "id": 290,
+          "uuid": "153eca66-dd5d-4204-8526-f6a8a3508e89",
+          "name": "Airport grass",
+          "type": "Mesh",
+          "semantic": "airport",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 1,
+          "vertices": 24
+        },
+        {
+          "id": 291,
+          "uuid": "228bfd7c-663f-44b0-bc2a-ddc0f599f0d4",
+          "name": "Runway",
+          "type": "Mesh",
+          "semantic": "airport",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 1,
+          "vertices": 24
+        },
+        {
+          "id": 292,
+          "uuid": "551c6320-50c5-4379-80a6-5346f22100b5",
+          "name": "Runway edges",
+          "type": "Mesh",
+          "semantic": "airport",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 2,
+          "vertices": 24
+        },
+        {
+          "id": 293,
+          "uuid": "81f7c046-4e04-43c7-9cdb-133fadc44bcf",
+          "name": "Runway centreline",
+          "type": "Mesh",
+          "semantic": "airport",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 31,
+          "vertices": 24
+        },
+        {
+          "id": 294,
+          "uuid": "fa28a06d-cf74-4f80-8244-b696da6ef07d",
+          "name": "Runway thresholds",
+          "type": "Mesh",
+          "semantic": "airport",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 16,
+          "vertices": 24
+        }
+      ]
+    },
+    "building": {
+      "count": 36,
+      "examples": [
+        {
+          "id": 203,
+          "uuid": "6862c280-ecda-4940-b6c9-c0f454cf392b",
+          "name": "Podiums",
+          "type": "Mesh",
+          "semantic": "building",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 37,
+          "vertices": 24
+        },
+        {
+          "id": 204,
+          "uuid": "24b3804c-7179-4235-ba4c-045c629fd86d",
+          "name": "Towers 0",
+          "type": "Mesh",
+          "semantic": "building",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 31,
+          "vertices": 24
+        },
+        {
+          "id": 205,
+          "uuid": "1b9eac50-c395-4a83-af10-171e3c71577c",
+          "name": "Facade vertical fins",
+          "type": "Mesh",
+          "semantic": "building",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 1724,
+          "vertices": 24
+        },
+        {
+          "id": 206,
+          "uuid": "96749291-7642-492e-acf6-8ed8f07505be",
+          "name": "Facade side fins",
+          "type": "Mesh",
+          "semantic": "building",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 1744,
+          "vertices": 24
+        },
+        {
+          "id": 207,
+          "uuid": "508d4841-6b89-4f3c-9763-5063d5cb27b9",
+          "name": "Facade spandrel bands",
+          "type": "Mesh",
+          "semantic": "building",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 1800,
+          "vertices": 24
+        }
+      ]
+    },
+    "road": {
+      "count": 41,
+      "examples": [
+        {
+          "id": 77,
+          "uuid": "061d34f9-3955-4e96-a936-a2284fe94f2f",
+          "name": "Irregular sidewalk block",
+          "type": "Mesh",
+          "semantic": "road",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "vertices": 36
+        },
+        {
+          "id": 78,
+          "uuid": "6ef8d9d8-1a3c-4fdc-9d5e-ee0acb80e338",
+          "name": "Irregular sidewalk block",
+          "type": "Mesh",
+          "semantic": "road",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "vertices": 36
+        },
+        {
+          "id": 79,
+          "uuid": "c081e144-b745-4c24-8ed0-1abff0f510bf",
+          "name": "Irregular sidewalk block",
+          "type": "Mesh",
+          "semantic": "road",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "vertices": 36
+        },
+        {
+          "id": 80,
+          "uuid": "c08f1980-fc2f-470c-b6ff-d16c45e7b15a",
+          "name": "Irregular sidewalk block",
+          "type": "Mesh",
+          "semantic": "road",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "vertices": 36
+        },
+        {
+          "id": 81,
+          "uuid": "b67cfd16-1609-4f3f-87ae-164c076bdfa8",
+          "name": "Irregular sidewalk block",
+          "type": "Mesh",
+          "semantic": "road",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "vertices": 36
+        }
+      ]
+    },
+    "city": {
+      "count": 52,
+      "examples": [
+        {
+          "id": 76,
+          "uuid": "723c5874-f1ab-4d32-8d6a-fb0651da83db",
+          "name": "Oceania — city, airport and harbour",
+          "type": "Group",
+          "semantic": "city",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": 91,
+          "uuid": "379038f7-e55f-49a3-b71b-07a961d70ad0",
+          "name": "Park lawn",
+          "type": "Mesh",
+          "semantic": "city",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "vertices": 36
+        },
+        {
+          "id": 100,
+          "uuid": "6a2b962c-0a42-4f6e-8bac-b86f28b750fc",
+          "name": "Park lawn",
+          "type": "Mesh",
+          "semantic": "city",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "vertices": 36
+        },
+        {
+          "id": 187,
+          "uuid": "5ea5c516-6ac5-4a52-9816-c068e0e3c851",
+          "name": "Mesh",
+          "type": "Mesh",
+          "semantic": "city",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            2140,
+            41,
+            -3009.91
+          ],
+          "vertices": 24
+        },
+        {
+          "id": 188,
+          "uuid": "738985f7-ae9e-4bd5-bb56-151923975b9c",
+          "name": "Mesh",
+          "type": "Mesh",
+          "semantic": "city",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            2140,
+            41,
+            -3009.8
+          ],
+          "vertices": 4
+        }
+      ]
+    },
+    "vegetation": {
+      "count": 61,
+      "examples": [
+        {
+          "id": 18,
+          "uuid": "7d47b83b-0153-46f5-8979-6410c141069a",
+          "name": "Forest — stable tree LOD, understory and grass",
+          "type": "Group",
+          "semantic": "vegetation",
+          "module": "vegetation.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": 19,
+          "uuid": "5f080ced-7e78-4cde-9d03-b3c180d0c822",
+          "name": "Forest distant 0",
+          "type": "Mesh",
+          "semantic": "vegetation",
+          "module": "vegetation.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 19445,
+          "vertices": 324
+        },
+        {
+          "id": 20,
+          "uuid": "22b16c94-77c3-4631-afb2-3869f3464184",
+          "name": "Forest detailed 0",
+          "type": "Mesh",
+          "semantic": "vegetation",
+          "module": "vegetation.js",
+          "visible": false,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 0,
+          "vertices": 2568
+        },
+        {
+          "id": 21,
+          "uuid": "e5f3ef92-8038-4a94-900a-ef34be6468e5",
+          "name": "Forest distant 1",
+          "type": "Mesh",
+          "semantic": "vegetation",
+          "module": "vegetation.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 19445,
+          "vertices": 384
+        },
+        {
+          "id": 22,
+          "uuid": "73ef2c89-bc73-4243-84a6-5118343879b7",
+          "name": "Forest detailed 1",
+          "type": "Mesh",
+          "semantic": "vegetation",
+          "module": "vegetation.js",
+          "visible": false,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 0,
+          "vertices": 2868
+        }
+      ]
+    }
+  },
+  "gates": {
+    "realVisionModelUsed": true,
+    "initialMissingAirportDetected": true,
+    "firstRecheckStayedOpen": true,
+    "verifiedAfterWebgpuFix": true,
+    "semanticCatalogSeparated": true
+  },
+  "rawImagesPersisted": false,
+  "controllerErrors": []
+}

@@ -34,6 +34,12 @@ async function waitForRoute(base, timeoutMs = 900000) {
 function auditGuardrails() {
   assert.equal(classifyPerception('The bridge does not appear to be a severe rendering defect.'), 'pass');
   assert.equal(classifyPerception('The image is a severe rendering defect. No discernible objects are present.'), 'defect');
+  assert.equal(classifyPerception('There are no visible airport structures in the image.', ['airport']), 'defect');
+  assert.equal(classifyPerception('The image pixels do not contain any vegetation.', ['vegetation']), 'defect');
+  assert.equal(classifyPerception('There is no vegetation visible in the image.', ['vegetation']), 'defect');
+  assert.equal(classifyPerception('The airport is not present in the image.', ['airport']), 'defect');
+  assert.equal(classifyPerception('No visible buildings appear in the image.', ['building']), 'defect');
+  assert.equal(classifyPerception('There is no airport visible in the image.', ['vegetation']), 'pass');
   const finding = {
     observationId: 'wrong-id',
     decision: 'dispatch-to-codex',

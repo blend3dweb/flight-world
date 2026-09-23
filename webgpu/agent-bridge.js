@@ -5,11 +5,11 @@ const MAX_QUERY_RESULTS = 100;
 const frameVector = new THREE.Vector3();
 
 const semanticRules = [
-  ['aircraft', /aircraft|aero 042|propeller|wing|fuselage|cockpit|float/i, 'aircraft.js'],
+  ['aircraft', /aircraft|aero 042|\bjet\b|propeller|wing|fuselage|cockpit|float/i, 'aircraft.js'],
   ['ocean', /\bocean\b|water|\bsea\b|wake/i, 'ocean.js'],
   ['bridge', /bridge/i, 'city.js'],
   ['airport', /airport|runway|terminal|gate|hangar|taxiway/i, 'city.js'],
-  ['road', /road|street|junction|crossing|lane|asphalt/i, 'city.js'],
+  ['road', /road|street|junction|crossing|lane|asphalt|sidewalk|promenade|\bpath/i, 'city.js'],
   ['vegetation', /forest|tree|grass|shrub|palm|foliage|planter/i, 'vegetation.js'],
   ['building', /building|tower|residence|facade|roof|podium|pavilion|balcon|storefront/i, 'city.js'],
   ['city', /city|oceania|harbour|bench|lamp|vehicle|people|bollard|bus stop|bike rack/i, 'city.js'],
@@ -37,11 +37,15 @@ function objectLabel(object) {
 }
 
 function classify(object) {
-  const explicit = object.userData?.agent;
-  if (explicit?.semantic) return { semantic: explicit.semantic, module: explicit.module ?? null };
-  const label = objectLabel(object);
-  for (const [semantic, expression, module] of semanticRules) {
-    if (expression.test(label)) return { semantic, module };
+  let current = object;
+  while (current) {
+    const explicit = current.userData?.agent;
+    if (explicit?.semantic) return { semantic: explicit.semantic, module: explicit.module ?? null };
+    const label = current.name || '';
+    for (const [semantic, expression, module] of semanticRules) {
+      if (expression.test(label)) return { semantic, module };
+    }
+    current = current.parent;
   }
   return { semantic: object.isLight ? 'light' : object.isCamera ? 'camera' : 'world', module: null };
 }

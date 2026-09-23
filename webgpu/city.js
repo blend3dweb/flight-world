@@ -10,6 +10,7 @@ import {junctions,inset,inside,rectangle,mixQuad,coast} from './urban-plan.js';
 // This module deliberately creates neither cameras nor lights.
 export function createCity(){
  const group=new THREE.Group();group.name='Oceania — city, airport and harbour';
+ group.userData.agent={semantic:'city',module:'city.js'};
  let seed=94;const rand=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
  const batches=new Map(),obj=new THREE.Object3D(),col=new THREE.Color();let placement=null;
  const windowDensity=uniform(.275); // Previously .55: halve occupancy, retain lamp brightness.

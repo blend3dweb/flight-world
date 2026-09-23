@@ -1,16 +1,16 @@
 {
-  "checkedAt": "2026-09-20T15:26:47.605Z",
+  "checkedAt": "2026-09-23T16:58:40.339Z",
   "protocol": "0.2.0",
   "cycle": {
-    "id": "4d3180c4-9cf3-4d98-b256-b96ebbe98538",
-    "createdAt": "2026-09-20T15:26:09.270Z",
-    "updatedAt": "2026-09-20T15:26:47.555Z",
+    "id": "4bdab934-6829-47df-a3dd-f51047b62cdc",
+    "createdAt": "2026-09-23T16:57:40.691Z",
+    "updatedAt": "2026-09-23T16:58:40.130Z",
     "status": "verified",
-    "inspectionRunId": "cc3279ba-b4ff-4eb2-9d49-360ef2934d37",
+    "inspectionRunId": "bec6db90-666a-49ac-885d-70a0e8a9666f",
     "target": {
       "object": {
         "id": 282,
-        "uuid": "469d19b3-f54b-4933-bcbd-02e38c2479fa",
+        "uuid": "abeb3bc1-65d0-44bd-ad7a-bcb1903fa9df",
         "name": "Bridge deck",
         "type": "Mesh",
         "semantic": "bridge",
@@ -83,7 +83,7 @@
         "reason": "scheduled",
         "center": {
           "id": 283,
-          "uuid": "16d54916-c7b1-4e9f-9035-fafd8a06237a",
+          "uuid": "b20a5605-fb2e-4b30-a909-1e4681fa2193",
           "name": "Bridge asphalt",
           "type": "Mesh",
           "semantic": "bridge",
@@ -98,7 +98,7 @@
           "vertices": 24
         },
         "finding": {
-          "observationId": "cc3279ba-b4ff-4eb2-9d49-360ef2934d37:view-1",
+          "observationId": "bec6db90-666a-49ac-885d-70a0e8a9666f:view-1",
           "decision": "dispatch-to-codex",
           "summary": "Bridge geometry must be checked in source.",
           "defects": [
@@ -124,7 +124,7 @@
         "reason": "scheduled",
         "center": {
           "id": 5,
-          "uuid": "eb5ea099-f6ef-49ac-bcd7-199dbf84c0ef",
+          "uuid": "f4810f51-5424-40ab-9c88-80582cb7d560",
           "name": "Ocean — geometric waves and city reflection",
           "type": "Mesh",
           "semantic": "ocean",
@@ -138,7 +138,7 @@
           "vertices": 37249
         },
         "finding": {
-          "observationId": "cc3279ba-b4ff-4eb2-9d49-360ef2934d37:view-2",
+          "observationId": "bec6db90-666a-49ac-885d-70a0e8a9666f:view-2",
           "decision": "dispatch-to-codex",
           "summary": "Bridge geometry must be checked in source.",
           "defects": [
@@ -164,7 +164,7 @@
         "reason": "scheduled",
         "center": {
           "id": 5,
-          "uuid": "eb5ea099-f6ef-49ac-bcd7-199dbf84c0ef",
+          "uuid": "f4810f51-5424-40ab-9c88-80582cb7d560",
           "name": "Ocean — geometric waves and city reflection",
           "type": "Mesh",
           "semantic": "ocean",
@@ -178,7 +178,7 @@
           "vertices": 37249
         },
         "finding": {
-          "observationId": "cc3279ba-b4ff-4eb2-9d49-360ef2934d37:view-3",
+          "observationId": "bec6db90-666a-49ac-885d-70a0e8a9666f:view-3",
           "decision": "dispatch-to-codex",
           "summary": "Bridge geometry must be checked in source.",
           "defects": [
@@ -201,7 +201,7 @@
       }
     ],
     "review": {
-      "at": "2026-09-20T15:26:09.282Z",
+      "at": "2026-09-23T16:57:40.707Z",
       "reviewer": "codex",
       "decision": "approve-fix",
       "rationale": "The deterministic finding is linked to city.js; approve a bounded test change and require reinspection.",
@@ -218,7 +218,7 @@
       ]
     },
     "fix": {
-      "at": "2026-09-20T15:26:09.319Z",
+      "at": "2026-09-23T16:57:40.721Z",
       "reviewer": "codex",
       "summary": "Created the bounded audit artifact approved by Codex.",
       "commit": "audit-only",
@@ -235,25 +235,25 @@
       ]
     },
     "recheck": {
-      "at": "2026-09-20T15:26:47.555Z",
-      "inspectionRunId": "6499ced1-628f-4684-9151-e32f3c24614c",
+      "at": "2026-09-23T16:58:40.130Z",
+      "inspectionRunId": "43a43208-9029-4fe4-9e6c-3dae7c701d4b",
       "decision": "pass",
       "views": 3
     },
     "history": [
       {
-        "at": "2026-09-20T15:26:09.270Z",
+        "at": "2026-09-23T16:57:40.691Z",
         "event": "finding-created",
         "decision": "dispatch-to-codex"
       },
       {
-        "at": "2026-09-20T15:26:09.282Z",
+        "at": "2026-09-23T16:57:40.707Z",
         "event": "codex-review",
         "decision": "approve-fix",
         "rationale": "The deterministic finding is linked to city.js; approve a bounded test change and require reinspection."
       },
       {
-        "at": "2026-09-20T15:26:09.319Z",
+        "at": "2026-09-23T16:57:40.721Z",
         "event": "fix-recorded",
         "files": [
           "tmp/agent-bridge/cycle-audit-fix.txt"
@@ -261,14 +261,14 @@
         "commit": "audit-only"
       },
       {
-        "at": "2026-09-20T15:26:09.333Z",
+        "at": "2026-09-23T16:57:40.745Z",
         "event": "recheck-started"
       },
       {
-        "at": "2026-09-20T15:26:47.555Z",
+        "at": "2026-09-23T16:58:40.130Z",
         "event": "recheck-completed",
         "decision": "pass",
-        "inspectionRunId": "6499ced1-628f-4684-9151-e32f3c24614c"
+        "inspectionRunId": "43a43208-9029-4fe4-9e6c-3dae7c701d4b"
       }
     ]
   },

@@ -85,12 +85,24 @@ function applyPerceptionGate(finding, perception, decision) {
   return { evaluated: true, applied: true, decision };
 }
 
-function classifyPerception(perception) {
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function classifyPerception(perception, expected = []) {
   const text = String(perception ?? '');
   const severe = /severe rendering defect/is.test(text)
     && !/(?:not|isn't|is not|doesn't|does not|no)\s+(?:appear\s+to\s+be\s+)?(?:a\s+)?severe rendering defect/is.test(text);
   const missing = /no discernible objects?|required objects?.{0,80}(?:missing|not visible|absent)|(?:missing|lacks?) (?:the )?(?:required )?(?:city|buildings?|roads?|terrain|bridge|airport|vegetation|ocean)/is.test(text);
-  return severe || missing ? 'defect' : 'pass';
+  const missingExpected = expected.some(value => {
+    const category = value === 'city' ? 'cit(?:y|ies)' : `${escapeRegExp(value)}(?:s|es)?`;
+    return new RegExp([
+      `(?:no|without)\\s+(?:visible\\s+)?(?:[a-z]+\\s+){0,3}${category}\\b`,
+      `(?:does|do|did)\\s+not\\s+(?:contain|show|include|depict)\\s+(?:any\\s+)?(?:[a-z]+\\s+){0,2}${category}\\b`,
+      `\\b${category}\\b.{0,80}\\b(?:not visible|not present|missing|absent)\\b`,
+    ].join('|'), 'is').test(text);
+  });
+  return severe || missing || missingExpected ? 'defect' : 'pass';
 }
 
 function validateFinding(value, expectedObservationId, objects, policy) {
@@ -271,7 +283,7 @@ class OllamaVisionDispatcher {
       const perceptionBody = await perceptionResponse.json();
       perception = String(perceptionBody.message?.content ?? '').trim().slice(0, 8000);
       if (!perception) throw new Error('Ollama perception pass returned no text');
-      perceptionDecision = classifyPerception(perception);
+      perceptionDecision = classifyPerception(perception, expected);
       perceptionMetrics = modelMetrics(perceptionBody, Date.now() - perceptionStarted);
     }
     let finding;
