@@ -149,7 +149,8 @@ export function createAgentBridge({
     if (Number.isInteger(id) && objects.has(id)) return objects.get(id);
     const matches = queryObjects({ name, semantic, visible, limit: MAX_QUERY_RESULTS });
     if (!matches.length) throw new Error('Target object was not found');
-    const ranked = matches.map(match => {
+    const exact = typeof name === 'string' ? matches.filter(match => match.name.toLowerCase() === name.trim().toLowerCase()) : [];
+    const ranked = (exact.length ? exact : matches).map(match => {
       const object = objects.get(match.id);
       return { object, radius: boundsFor(object).radius };
     }).sort((a, b) => b.radius - a.radius);

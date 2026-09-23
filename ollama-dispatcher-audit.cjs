@@ -39,6 +39,8 @@ function auditGuardrails() {
   assert.equal(classifyPerception('There is no vegetation visible in the image.', ['vegetation']), 'defect');
   assert.equal(classifyPerception('The airport is not present in the image.', ['airport']), 'defect');
   assert.equal(classifyPerception('No visible buildings appear in the image.', ['building']), 'defect');
+  assert.equal(classifyPerception('It is not possible to determine the presence of an airport.', ['airport']), 'defect');
+  assert.equal(classifyPerception('The frame is very dark and lacks visible details.', ['airport']), 'defect');
   assert.equal(classifyPerception('There is no airport visible in the image.', ['vegetation']), 'pass');
   const finding = {
     observationId: 'wrong-id',

@@ -5,6 +5,7 @@ const { spawn } = require('node:child_process');
 const crypto = require('node:crypto');
 const { chromium } = require('C:/Users/sva/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 const { OllamaVisionDispatcher } = require('./ollama-vision-dispatcher.cjs');
+const { planMission } = require('./agent-mission-planner.cjs');
 
 const root = __dirname;
 const defaults = {
@@ -91,7 +92,8 @@ class FlightAgentController {
     this.recoveryPromise = null;
     this.stopping = false;
     this.cancelRoute = false;
-    this.state = { status: 'created', startedAt: null, api: null, scene: this.options.origin, route: null, inspection: null, cycle: null, recovery: { count: 0, last: null }, errors: [] };
+    this.missionPromise = null;
+    this.state = { status: 'created', startedAt: null, api: null, scene: this.options.origin, route: null, inspection: null, cycle: null, mission: null, recovery: { count: 0, last: null }, errors: [] };
     this.routes = JSON.parse(fs.readFileSync(this.options.routeFile, 'utf8'));
     this.dispatcher = new OllamaVisionDispatcher({ configPath: this.options.modelConfigFile });
     this.memory = this.loadMemory();
@@ -105,10 +107,12 @@ class FlightAgentController {
         if (!Array.isArray(parsed.inspectionRuns)) parsed.inspectionRuns = [];
         if (!Array.isArray(parsed.recoveries)) parsed.recoveries = [];
         if (!Array.isArray(parsed.developmentCycles)) parsed.developmentCycles = [];
+        if (!Array.isArray(parsed.missions)) parsed.missions = [];
+        for (const mission of parsed.missions) if (mission.status === 'running') mission.status = 'interrupted';
         return parsed;
       }
     } catch {}
-    return { version: 1, updatedAt: null, sessions: [], routeRuns: [], inspectionRuns: [], recoveries: [], developmentCycles: [], safeCheckpoint: null };
+    return { version: 1, updatedAt: null, sessions: [], routeRuns: [], inspectionRuns: [], recoveries: [], developmentCycles: [], missions: [], safeCheckpoint: null };
   }
 
   saveMemory() {
@@ -363,6 +367,8 @@ class FlightAgentController {
         distanceFactor: settings.distanceFactor ?? 2.4,
         minimumDistance: settings.minimumDistance ?? 20,
         maxExtraViews: settings.maxExtraViews ?? 2,
+        orbitAnchor: settings.orbitAnchor ?? null,
+        orbitRadius: settings.orbitRadius ?? null,
         analyze: true,
         createCycle: false,
       });
@@ -380,6 +386,112 @@ class FlightAgentController {
       this.state.cycle = { id: cycle.id, status: cycle.status };
       this.saveMemory();
       throw error;
+    }
+  }
+
+  mission(id) {
+    const mission = this.memory.missions.find(item => item.id === id);
+    if (!mission) throw new Error(`Mission was not found: ${id}`);
+    return mission;
+  }
+
+  createMission(request) {
+    if (this.missionPromise || this.state.route?.status === 'running' || this.state.inspection?.status === 'running') {
+      throw new Error('Another mission, route, or inspection is running');
+    }
+    const plan = planMission(request, this.routes);
+    const mission = {
+      id: crypto.randomUUID(), createdAt: now(), updatedAt: now(),
+      status: 'planned', plan, attempts: 0, selection: null,
+      inspectionRunId: null, developmentCycleId: null, decision: null,
+      history: [{ at: now(), event: 'planned', reason: plan.selectionReason }],
+    };
+    this.memory.missions.push(mission);
+    this.memory.missions = this.memory.missions.slice(-50);
+    this.saveMemory();
+    this.launchMission(mission);
+    return mission;
+  }
+
+  launchMission(mission) {
+    if (this.missionPromise) throw new Error('Another mission is running');
+    this.missionPromise = this.executeMission(mission).finally(() => { this.missionPromise = null; });
+    this.missionPromise.catch(() => {});
+  }
+
+  resumeMission(id) {
+    const mission = this.mission(id);
+    if (this.missionPromise || !['interrupted', 'stopped', 'failed'].includes(mission.status)) {
+      throw new Error(`Mission cannot resume from status: ${mission.status}`);
+    }
+    this.launchMission(mission);
+    return mission;
+  }
+
+  stopMission(id) {
+    const mission = this.mission(id);
+    if (mission.status !== 'running') throw new Error(`Mission cannot stop from status: ${mission.status}`);
+    mission.status = 'stopping';
+    mission.updatedAt = now();
+    mission.history.push({ at: now(), event: 'stop-requested' });
+    this.cancelRoute = true;
+    this.state.mission = { id, status: mission.status };
+    this.saveMemory();
+    return mission;
+  }
+
+  async executeMission(mission) {
+    const plan = mission.plan;
+    mission.status = 'running';
+    mission.attempts++;
+    mission.updatedAt = now();
+    mission.history.push({ at: now(), event: 'started', attempt: mission.attempts });
+    this.state.mission = { id: mission.id, status: mission.status };
+    this.saveMemory();
+    try {
+      const waypoint = this.routeDefinition('oceania-inspection').waypoints.find(item => item.id === plan.waypoint);
+      await this.execute({ type: 'simulation.pause', payload: { paused: true } });
+      await this.execute({ type: 'observer.set', payload: { position: waypoint.position, target: waypoint.target, fov: 58 } });
+      await this.execute({ type: 'environment.set', payload: plan.environment });
+      const matches = (await this.execute({
+        type: 'world.query', payload: { semantic: plan.semantic, name: plan.preferredName, visible: true, limit: 20 },
+      })).result;
+      if (!matches.length) throw new Error(`No visible ${plan.semantic} object matches ${plan.preferredName}`);
+      const selected = matches.find(item => item.name === plan.preferredName) ?? matches[0];
+      mission.selection = {
+        object: selected, candidateCount: matches.length,
+        reason: `Visible ${plan.semantic} object matching ${plan.preferredName} in scene catalog.`,
+      };
+      mission.history.push({ at: now(), event: 'object-selected', object: selected.name, semantic: selected.semantic });
+      this.saveMemory();
+      if (mission.status === 'stopping') {
+        mission.status = 'stopped';
+        return mission;
+      }
+      const run = await this.inspectObjectTour({
+        name: selected.name, semantic: plan.semantic, views: plan.views,
+        maxExtraViews: plan.maxExtraViews, orbitAnchor: plan.orbitAnchor,
+        orbitRadius: plan.orbitRadius, analyze: true, missionId: mission.id,
+      });
+      mission.inspectionRunId = run.id;
+      mission.developmentCycleId = run.developmentCycleId ?? null;
+      mission.decision = run.decision;
+      mission.status = run.status === 'cancelled' || mission.status === 'stopping'
+        ? 'stopped' : run.status === 'complete' ? 'complete' : 'failed';
+      mission.history.push({
+        at: now(), event: mission.status === 'complete' ? 'inspection-completed' : 'inspection-stopped',
+        decision: run.decision, views: run.views.length, cycleId: mission.developmentCycleId,
+      });
+      return mission;
+    } catch (error) {
+      mission.status = mission.status === 'stopping' ? 'stopped' : 'failed';
+      mission.error = error.message;
+      mission.history.push({ at: now(), event: 'failed', error: error.message });
+      throw error;
+    } finally {
+      mission.updatedAt = now();
+      this.state.mission = { id: mission.id, status: mission.status };
+      this.saveMemory();
     }
   }
 
@@ -444,12 +556,16 @@ class FlightAgentController {
     return this.dispatcher.analyze(observation, { ...context, center: identification.result.hit });
   }
 
-  async inspectObjectTour({ id, name, semantic, views = 4, analyze = true, startAzimuth = 0, elevation = 0.3, distanceFactor = 2.4, minimumDistance = 20, maxExtraViews = 2, createCycle = true } = {}) {
+  async inspectObjectTour({ id, name, semantic, views = 4, analyze = true, startAzimuth = 0, elevation = 0.3, distanceFactor = 2.4, minimumDistance = 20, maxExtraViews = 2, orbitAnchor = null, orbitRadius = null, createCycle = true, missionId = null } = {}) {
+    if (this.missionPromise && missionId !== this.state.mission?.id) throw new Error('A mission is already running');
     if (this.state.route?.status === 'running') throw new Error('A route is already running');
     if (this.state.inspection?.status === 'running') throw new Error('Another object inspection is already running');
     if (!id && !name && !semantic) throw new Error('Object inspection requires id, name, or semantic');
     const viewCount = Math.max(3, Math.min(8, Math.floor(Number(views) || 4)));
     const extraLimit = analyze === true ? Math.max(0, Math.min(4, Math.floor(Number(maxExtraViews) || 0))) : 0;
+    if (orbitAnchor !== null && (!Array.isArray(orbitAnchor) || orbitAnchor.length !== 3 || orbitAnchor.some(value => !Number.isFinite(value)) || !Number.isFinite(orbitRadius) || orbitRadius < 20 || orbitRadius > 5000)) {
+      throw new Error('Orbit anchor requires three finite coordinates and radius 20–5000');
+    }
     const run = {
       id: crypto.randomUUID(),
       startedAt: now(),
@@ -459,7 +575,7 @@ class FlightAgentController {
       analyze: analyze === true,
       requestedViews: viewCount,
       maxExtraViews: extraLimit,
-      settings: { views: viewCount, startAzimuth: Number(startAzimuth), elevation: Number(elevation), distanceFactor: Number(distanceFactor), minimumDistance: Number(minimumDistance), maxExtraViews: extraLimit },
+      settings: { views: viewCount, startAzimuth: Number(startAzimuth), elevation: Number(elevation), distanceFactor: Number(distanceFactor), minimumDistance: Number(minimumDistance), maxExtraViews: extraLimit, orbitAnchor, orbitRadius },
       target: null,
       views: [],
       decision: analyze === true ? 'pending' : 'not-analyzed',
@@ -490,10 +606,22 @@ class FlightAgentController {
         if (this.cancelRoute) { run.status = 'cancelled'; break; }
         const plan = plannedViews[cursor];
         const index = run.views.length;
-        const orbit = await this.execute({
-          type: 'observer.orbitObject',
-          payload: { id: inspection.result.object.id, azimuth: plan.azimuth, elevation: plan.elevation, distanceFactor, minimumDistance },
-        });
+        const orbit = orbitAnchor
+          ? await this.execute({
+            type: 'observer.set',
+            payload: {
+              position: [
+                orbitAnchor[0] + Math.cos(plan.azimuth) * orbitRadius,
+                orbitAnchor[1] + Math.max(0.1, plan.elevation) * orbitRadius,
+                orbitAnchor[2] + Math.sin(plan.azimuth) * orbitRadius,
+              ],
+              target: orbitAnchor, fov: 58,
+            },
+          })
+          : await this.execute({
+            type: 'observer.orbitObject',
+            payload: { id: inspection.result.object.id, azimuth: plan.azimuth, elevation: plan.elevation, distanceFactor, minimumDistance },
+          });
         const observation = await this.observe({ visual: true, sensors: ['rgb', 'depth', 'normal', 'objectId'], width, height, quality: 0.72 });
         const identification = await this.execute({ type: 'world.identifyPixel', payload: { x: Math.floor(width / 2), y: Math.floor(height / 2), width, height } });
         const entry = {
@@ -503,7 +631,7 @@ class FlightAgentController {
           rootView: plan.rootView,
           azimuth: Number(plan.azimuth.toFixed(6)),
           elevation: Number(plan.elevation.toFixed(6)),
-          observer: orbit.result.observer,
+          observer: orbitAnchor ? orbit.result : orbit.result.observer,
           center: identification.result.hit,
           observation: summarizeObservation(observation),
         };
@@ -566,6 +694,7 @@ class FlightAgentController {
   }
 
   async runRoute(name, { recheck = false, analyze = false } = {}) {
+    if (this.missionPromise) throw new Error('A mission is already running');
     if (this.state.route?.status === 'running') throw new Error('Another route is already running');
     if (this.state.inspection?.status === 'running') throw new Error('An object inspection is already running');
     const definition = this.routeDefinition(name);
@@ -634,10 +763,23 @@ class FlightAgentController {
     if (request.method === 'GET' && url.pathname === '/state') return json(response, 200, this.state);
     if (request.method === 'GET' && url.pathname === '/memory') return json(response, 200, this.memory);
     if (request.method === 'GET' && url.pathname === '/cycles') return json(response, 200, { cycles: this.memory.developmentCycles });
+    if (request.method === 'GET' && url.pathname === '/missions') return json(response, 200, { missions: this.memory.missions });
     if (request.method === 'GET' && url.pathname === '/model') return json(response, 200, await this.dispatcher.status());
     if (request.method === 'POST' && url.pathname === '/command') return json(response, 200, await this.execute(await readBody(request)));
     if (request.method === 'POST' && url.pathname === '/observe') return json(response, 200, await this.observe(await readBody(request)));
     if (request.method === 'POST' && url.pathname === '/model/analyze') return json(response, 200, await this.inspectWithModel(await readBody(request)));
+    if (request.method === 'POST' && url.pathname === '/mission/start') {
+      const mission = this.createMission(await readBody(request));
+      return json(response, 202, { ok: true, id: mission.id, status: mission.status, plan: mission.plan });
+    }
+    if (request.method === 'POST' && url.pathname === '/mission/resume') {
+      const mission = this.resumeMission((await readBody(request)).id);
+      return json(response, 202, { ok: true, id: mission.id, status: mission.status });
+    }
+    if (request.method === 'POST' && url.pathname === '/mission/stop') {
+      const mission = this.stopMission((await readBody(request)).id);
+      return json(response, 200, { ok: true, id: mission.id, status: mission.status });
+    }
     if (request.method === 'POST' && url.pathname === '/cycle/review') return json(response, 200, this.reviewDevelopmentCycle(await readBody(request)));
     if (request.method === 'POST' && url.pathname === '/cycle/fix') return json(response, 200, this.recordDevelopmentFix(await readBody(request)));
     if (request.method === 'POST' && url.pathname === '/cycle/recheck') {

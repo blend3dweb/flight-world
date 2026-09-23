@@ -1,0 +1,451 @@
+{
+  "checkedAt": "2026-09-23T17:37:30.023Z",
+  "protocol": "0.2.0",
+  "model": "qwen2.5vl:3b",
+  "missions": [
+    {
+      "id": "514e3812-5f05-4e5c-8e69-14757b2d549e",
+      "goal": "Проверь аэропорт ночью",
+      "status": "complete",
+      "plan": {
+        "goal": "Проверь аэропорт ночью",
+        "semantic": "airport",
+        "waypoint": "airport",
+        "preferredName": "Runway",
+        "selectionReason": "Goal matches airport; airport supplies a known view of this area.",
+        "environment": {
+          "hour": 0.5,
+          "weather": "sun",
+          "cycle": false,
+          "autoWeather": false,
+          "immediate": true
+        },
+        "views": 3,
+        "maxExtraViews": 2,
+        "orbitAnchor": null,
+        "orbitRadius": null
+      },
+      "selected": {
+        "object": {
+          "id": 291,
+          "uuid": "6a4fb392-4b7c-4f90-a3f0-82aa8738afff",
+          "name": "Runway",
+          "type": "Mesh",
+          "semantic": "airport",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 1,
+          "vertices": 24
+        },
+        "candidateCount": 6,
+        "reason": "Visible airport object matching Runway in scene catalog."
+      },
+      "decision": "reinspect",
+      "developmentCycleId": "bc4b4a53-ca51-48ae-89b3-f9070c0d8315",
+      "attempts": 2,
+      "history": [
+        {
+          "at": "2026-09-23T17:34:30.757Z",
+          "event": "planned",
+          "reason": "Goal matches airport; airport supplies a known view of this area."
+        },
+        {
+          "at": "2026-09-23T17:34:30.759Z",
+          "event": "started",
+          "attempt": 1
+        },
+        {
+          "at": "2026-09-23T17:34:30.769Z",
+          "event": "stop-requested"
+        },
+        {
+          "at": "2026-09-23T17:34:30.814Z",
+          "event": "object-selected",
+          "object": "Runway",
+          "semantic": "airport"
+        },
+        {
+          "at": "2026-09-23T17:34:31.215Z",
+          "event": "started",
+          "attempt": 2
+        },
+        {
+          "at": "2026-09-23T17:34:37.024Z",
+          "event": "object-selected",
+          "object": "Runway",
+          "semantic": "airport"
+        },
+        {
+          "at": "2026-09-23T17:35:27.763Z",
+          "event": "inspection-completed",
+          "decision": "reinspect",
+          "views": 5,
+          "cycleId": "bc4b4a53-ca51-48ae-89b3-f9070c0d8315"
+        }
+      ],
+      "inspection": {
+        "id": "f3ea63f2-9b77-4307-9ff2-7b8775e605c6",
+        "status": "complete",
+        "target": {
+          "id": 291,
+          "uuid": "6a4fb392-4b7c-4f90-a3f0-82aa8738afff",
+          "name": "Runway",
+          "type": "Mesh",
+          "semantic": "airport",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 1,
+          "vertices": 24
+        },
+        "environment": {
+          "hour": 0.5,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 0.05,
+          "daylight": 0,
+          "fogDensity": 0.00003,
+          "wind": 0.7,
+          "reflectionUpdates": 3,
+          "pmremUpdates": 3,
+          "captureFace": -1
+        },
+        "views": [
+          {
+            "index": 0,
+            "reason": "scheduled",
+            "decision": "reinspect",
+            "perception": "The image is heavily pixelated and lacks clear details, making it difficult to discern specific objects or features. Therefore, it is not possible to accurately describe the airport or any other objects present in the image.",
+            "model": "qwen2.5vl:3b",
+            "center": "airport"
+          },
+          {
+            "index": 1,
+            "reason": "scheduled",
+            "decision": "reinspect",
+            "perception": "The image is very dark and lacks visible details. There is no clear indication of an airport or any other objects. The image appears to be a severe rendering defect.",
+            "model": "qwen2.5vl:3b",
+            "center": "airport"
+          },
+          {
+            "index": 2,
+            "reason": "scheduled",
+            "decision": "reinspect",
+            "perception": "The image is very dark and lacks visible details. It is not possible to determine the presence of an airport or any other objects in the image.",
+            "model": "qwen2.5vl:3b",
+            "center": "airport"
+          },
+          {
+            "index": 3,
+            "reason": "reinspect-follow-up",
+            "decision": "reinspect",
+            "perception": "The image is severely dark and lacks visible details. Therefore, it is not possible to determine the presence or absence of an airport.",
+            "model": "qwen2.5vl:3b",
+            "center": "airport"
+          },
+          {
+            "index": 4,
+            "reason": "reinspect-follow-up",
+            "decision": "reinspect",
+            "perception": "The image is severely dark and lacks visible details. It is not possible to determine the presence of an airport or any other objects within the image.",
+            "model": "qwen2.5vl:3b",
+            "center": "airport"
+          }
+        ]
+      }
+    },
+    {
+      "id": "c6497b28-5480-4941-a1c2-e6fb719286c1",
+      "goal": "Проверь мост под дождём",
+      "status": "complete",
+      "plan": {
+        "goal": "Проверь мост под дождём",
+        "semantic": "bridge",
+        "waypoint": "bridge-rain",
+        "preferredName": "Bridge deck",
+        "selectionReason": "Goal matches bridge; bridge-rain supplies a known view of this area.",
+        "environment": {
+          "hour": 17.8,
+          "weather": "rain",
+          "cycle": false,
+          "autoWeather": false,
+          "immediate": true
+        },
+        "views": 3,
+        "maxExtraViews": 2,
+        "orbitAnchor": null,
+        "orbitRadius": null
+      },
+      "selected": {
+        "object": {
+          "id": 282,
+          "uuid": "855c0c02-19e9-4f02-98d0-52c190b6fd33",
+          "name": "Bridge deck",
+          "type": "Mesh",
+          "semantic": "bridge",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 90,
+          "vertices": 24
+        },
+        "candidateCount": 1,
+        "reason": "Visible bridge object matching Bridge deck in scene catalog."
+      },
+      "decision": "pass",
+      "developmentCycleId": null,
+      "attempts": 1,
+      "history": [
+        {
+          "at": "2026-09-23T17:35:28.173Z",
+          "event": "planned",
+          "reason": "Goal matches bridge; bridge-rain supplies a known view of this area."
+        },
+        {
+          "at": "2026-09-23T17:35:28.184Z",
+          "event": "started",
+          "attempt": 1
+        },
+        {
+          "at": "2026-09-23T17:35:28.257Z",
+          "event": "object-selected",
+          "object": "Bridge deck",
+          "semantic": "bridge"
+        },
+        {
+          "at": "2026-09-23T17:36:06.645Z",
+          "event": "inspection-completed",
+          "decision": "pass",
+          "views": 3,
+          "cycleId": null
+        }
+      ],
+      "inspection": {
+        "id": "847e110a-149f-4d52-9203-5d9cec2ebfd5",
+        "status": "complete",
+        "target": {
+          "id": 282,
+          "uuid": "855c0c02-19e9-4f02-98d0-52c190b6fd33",
+          "name": "Bridge deck",
+          "type": "Mesh",
+          "semantic": "bridge",
+          "module": "city.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 90,
+          "vertices": 24
+        },
+        "environment": {
+          "hour": 17.799999999999997,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "rain",
+          "autoWeather": false,
+          "rain": 1,
+          "snow": 0,
+          "elapsed": 0.05,
+          "daylight": 0.5585715971917644,
+          "fogDensity": 0.00023,
+          "wind": 2,
+          "reflectionUpdates": 4,
+          "pmremUpdates": 4,
+          "captureFace": -1
+        },
+        "views": [
+          {
+            "index": 0,
+            "reason": "scheduled",
+            "decision": "pass",
+            "perception": "The image contains a bridge.",
+            "model": "qwen2.5vl:3b",
+            "center": "bridge"
+          },
+          {
+            "index": 1,
+            "reason": "scheduled",
+            "decision": "pass",
+            "perception": "The image contains a bridge.",
+            "model": "qwen2.5vl:3b",
+            "center": "ocean"
+          },
+          {
+            "index": 2,
+            "reason": "scheduled",
+            "decision": "pass",
+            "perception": "The image is a dark and blurry representation of a landscape. There is a faint outline of a bridge visible in the distance, but it is not clearly defined. The overall quality is low, and the details are not sharp.",
+            "model": "qwen2.5vl:3b",
+            "center": "ocean"
+          }
+        ]
+      }
+    },
+    {
+      "id": "faef8bb7-4437-43a2-a470-63b8cf3b2f0e",
+      "goal": "Проверь растительность и берег днём",
+      "status": "complete",
+      "plan": {
+        "goal": "Проверь растительность и берег днём",
+        "semantic": "vegetation",
+        "waypoint": "islands-snow",
+        "preferredName": "Forest understory",
+        "selectionReason": "Goal matches vegetation; islands-snow supplies a known view of this area.",
+        "environment": {
+          "hour": 11,
+          "weather": "sun",
+          "cycle": false,
+          "autoWeather": false,
+          "immediate": true
+        },
+        "views": 3,
+        "maxExtraViews": 2,
+        "orbitAnchor": [
+          750,
+          70,
+          -900
+        ],
+        "orbitRadius": 900
+      },
+      "selected": {
+        "object": {
+          "id": 27,
+          "uuid": "95c79804-8e90-4396-bb87-6c7b8307558d",
+          "name": "Forest understory",
+          "type": "Mesh",
+          "semantic": "vegetation",
+          "module": "vegetation.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 25927,
+          "vertices": 300
+        },
+        "candidateCount": 1,
+        "reason": "Visible vegetation object matching Forest understory in scene catalog."
+      },
+      "decision": "pass",
+      "developmentCycleId": null,
+      "attempts": 1,
+      "history": [
+        {
+          "at": "2026-09-23T17:36:07.055Z",
+          "event": "planned",
+          "reason": "Goal matches vegetation; islands-snow supplies a known view of this area."
+        },
+        {
+          "at": "2026-09-23T17:36:07.069Z",
+          "event": "started",
+          "attempt": 1
+        },
+        {
+          "at": "2026-09-23T17:36:07.160Z",
+          "event": "object-selected",
+          "object": "Forest understory",
+          "semantic": "vegetation"
+        },
+        {
+          "at": "2026-09-23T17:36:30.637Z",
+          "event": "inspection-completed",
+          "decision": "pass",
+          "views": 3,
+          "cycleId": null
+        }
+      ],
+      "inspection": {
+        "id": "f49394ef-34e5-4203-bd0e-9449c1e8e115",
+        "status": "complete",
+        "target": {
+          "id": 27,
+          "uuid": "95c79804-8e90-4396-bb87-6c7b8307558d",
+          "name": "Forest understory",
+          "type": "Mesh",
+          "semantic": "vegetation",
+          "module": "vegetation.js",
+          "visible": true,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "instances": 25927,
+          "vertices": 300
+        },
+        "environment": {
+          "hour": 11,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 0.05,
+          "daylight": 1,
+          "fogDensity": 0.00003,
+          "wind": 0.7,
+          "reflectionUpdates": 5,
+          "pmremUpdates": 5,
+          "captureFace": -1
+        },
+        "views": [
+          {
+            "index": 0,
+            "reason": "scheduled",
+            "decision": "pass",
+            "perception": "The image depicts a circular island with a green, grassy surface. The island is surrounded by water, and there is a string or cable extending from the island to the mainland. The vegetation on the island is visible and appears to be grass or small plants. The overall scene is rendered in a 3D style, with a clear distinction between the island, the water, and the sky.",
+            "model": "qwen2.5vl:3b",
+            "center": "vegetation"
+          },
+          {
+            "index": 1,
+            "reason": "scheduled",
+            "decision": "pass",
+            "perception": "The image depicts an island with a circular shape, surrounded by water. The island is covered with green vegetation, which appears to be a dense forest. The vegetation is evenly distributed across the island, creating a lush and green landscape. The water surrounding the island is calm, with gentle waves visible. The sky above is clear, with a few clouds scattered in the distance. The overall scene is serene and natural.",
+            "model": "qwen2.5vl:3b",
+            "center": "vegetation"
+          },
+          {
+            "index": 2,
+            "reason": "scheduled",
+            "decision": "pass",
+            "perception": "The image depicts a circular, greenish object floating in the water. The object appears to be a small island or a floating island with a dense green vegetation covering it. The surrounding water is calm with gentle ripples, and there are some reflections of light on the water's surface. The vegetation is visible on the island, indicating that it is part of the island's surface. The overall scene suggests a serene underwater environment.",
+            "model": "qwen2.5vl:3b",
+            "center": "world"
+          }
+        ]
+      }
+    }
+  ],
+  "gates": {
+    "threeLiveMissions": true,
+    "stopAndResume": true,
+    "selectedObjectsMatchGoals": true,
+    "allViewedByQwen": true,
+    "sceneClosureRecovered": true,
+    "interruptedMissionRestored": true
+  },
+  "rawImagesPersisted": false,
+  "controllerErrors": []
+}

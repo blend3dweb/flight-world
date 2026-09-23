@@ -102,7 +102,12 @@ function classifyPerception(perception, expected = []) {
       `\\b${category}\\b.{0,80}\\b(?:not visible|not present|missing|absent)\\b`,
     ].join('|'), 'is').test(text);
   });
-  return severe || missing || missingExpected ? 'defect' : 'pass';
+  const uncertain = expected.length > 0 && (
+    /(?:not possible|impossible|difficult|hard|unable).{0,100}(?:determine|discern|identify|describe)/is.test(text)
+    || /(?:too|very|severely|extremely) dark.{0,100}(?:lack|no clear|cannot|can't)/is.test(text)
+    || expected.some(value => new RegExp(`no clear indication of (?:an? |the )?${escapeRegExp(value)}\\b`, 'i').test(text))
+  );
+  return severe || missing || missingExpected || uncertain ? 'defect' : 'pass';
 }
 
 function validateFinding(value, expectedObservationId, objects, policy) {
