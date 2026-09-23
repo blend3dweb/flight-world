@@ -419,7 +419,7 @@ class FlightAgentController {
     const mission = {
       id: crypto.randomUUID(), createdAt: now(), updatedAt: now(),
       status: 'planned', plan, attempts: 0, selection: null,
-      inspectionRunId: null, developmentCycleId: null, decision: null,
+      inspectionRunId: null, developmentCycleId: null, decision: null, progress: null,
       history: [{ at: now(), event: 'planned', reason: plan.selectionReason }],
     };
     this.memory.missions.push(mission);
@@ -457,6 +457,7 @@ class FlightAgentController {
   }
 
   async executeMission(mission) {
+    if (mission.plan.kind === 'flight-route') return this.executeFlightMission(mission);
     const plan = mission.plan;
     mission.status = 'running';
     mission.attempts++;
@@ -505,6 +506,94 @@ class FlightAgentController {
       mission.history.push({ at: now(), event: 'failed', error: error.message });
       throw error;
     } finally {
+      mission.updatedAt = now();
+      this.state.mission = { id: mission.id, status: mission.status };
+      this.saveMemory();
+    }
+  }
+
+  async executeFlightMission(mission) {
+    const route = this.routeDefinition(mission.plan.route);
+    const checkpoints = route.checkpoints;
+    if (!Array.isArray(checkpoints) || checkpoints.length < 2) throw new Error('Flight mission requires at least two checkpoints');
+    const fresh = mission.attempts === 0;
+    const progress = mission.progress ?? { nextCheckpoint: 0, steps: 0, checkpoints: [] };
+    mission.progress = progress;
+    mission.status = 'running';
+    mission.attempts++;
+    this.cancelRoute = false;
+    this.state.mission = { id: mission.id, status: mission.status };
+    mission.history.push({ at: now(), event: fresh ? 'flight-started' : 'flight-resumed', checkpoint: progress.nextCheckpoint });
+    this.saveMemory();
+    try {
+      if (fresh) await this.execute({ type: 'flight.start', payload: { location: route.flightStart } });
+      await this.execute({ type: 'simulation.pause', payload: { paused: true } });
+      await this.execute({ type: 'environment.set', payload: mission.plan.environment });
+      const remaining = checkpoints.slice(Math.max(1, progress.nextCheckpoint)).map(item => item.flight);
+      await this.execute({ type: 'flight.setRoute', payload: { waypoints: remaining } });
+      for (let index = progress.nextCheckpoint; index < checkpoints.length; index++) {
+        const checkpoint = checkpoints[index];
+        if (this.cancelRoute || mission.status === 'stopping') break;
+        if (checkpoint.flight) {
+          await this.execute({ type: 'observer.followObject', payload: { semantic: 'aircraft', name: 'AERO 042' } });
+          let arrived = false;
+          for (let step = 0; step < 180; step++) {
+            if (this.cancelRoute || mission.status === 'stopping') break;
+            const observation = await this.observe({ visual: false });
+            const world = observation.world;
+            if (!world.auto) {
+              mission.history.push({ at: now(), event: 'manual-override', checkpoint: checkpoint.id });
+              mission.status = 'stopping';
+              break;
+            }
+            const distance = Math.hypot(world.x - checkpoint.flight.x, world.z - checkpoint.flight.z);
+            if (distance < 120) { arrived = true; break; }
+            const seconds = Math.max(.25, Math.min(2, distance / Math.max(world.speed, 40) / 2));
+            await this.execute({ type: 'simulation.step', payload: { seconds } });
+            progress.steps++;
+            if (progress.steps % 4 === 0) this.saveMemory();
+          }
+          if (this.cancelRoute || mission.status === 'stopping') break;
+          if (!arrived) throw new Error(`Aircraft did not reach checkpoint: ${checkpoint.id}`);
+        }
+        await this.execute({ type: 'observer.set', payload: { ...checkpoint.observer, fov: 58 } });
+        const width = this.dispatcher.dispatcher.inputs.rgb.width;
+        const height = this.dispatcher.dispatcher.inputs.rgb.height;
+        const observation = await this.observe({ visual: true, sensors: ['rgb', 'depth', 'normal', 'objectId'], width, height, quality: .72 });
+        const center = (await this.execute({ type: 'world.identifyPixel', payload: { x: Math.floor(width / 2), y: Math.floor(height / 2), width, height } })).result.hit;
+        const expectedObjects = (await this.execute({ type: 'world.query', payload: { semantic: checkpoint.expected[0], visible: true, limit: 5 } })).result;
+        const analysis = await this.dispatcher.analyze(observation, {
+          observationId: `${mission.id}:${checkpoint.id}`, mission: mission.id,
+          expected: checkpoint.expected, center,
+        });
+        const decision = expectedObjects.length ? analysis.finding.decision : 'reinspect';
+        progress.checkpoints.push({
+          id: checkpoint.id, at: now(), decision, expected: checkpoint.expected,
+          visibleMatches: expectedObjects.length, center: center?.object ?? null,
+          observation: summarizeObservation(observation), perception: analysis.perception,
+        });
+        progress.nextCheckpoint = index + 1;
+        mission.history.push({ at: now(), event: 'flight-checkpoint', checkpoint: checkpoint.id, decision, steps: progress.steps });
+        this.saveMemory();
+      }
+      if (this.cancelRoute || mission.status === 'stopping') {
+        mission.status = 'stopped';
+        mission.decision = null;
+        mission.history.push({ at: now(), event: 'flight-stopped', checkpoint: progress.nextCheckpoint });
+      } else {
+        mission.status = 'complete';
+        mission.decision = progress.checkpoints.every(item => item.decision === 'pass') ? 'pass' : 'reinspect';
+        mission.history.push({ at: now(), event: 'flight-completed', decision: mission.decision, steps: progress.steps });
+      }
+      return mission;
+    } catch (error) {
+      mission.status = mission.status === 'stopping' ? 'stopped' : 'failed';
+      mission.error = error.message;
+      mission.history.push({ at: now(), event: 'flight-failed', error: error.message });
+      throw error;
+    } finally {
+      await this.execute({ type: 'flight.setRoute', payload: { waypoints: [] } }).catch(() => {});
+      await this.execute({ type: 'simulation.pause', payload: { paused: true } }).catch(() => {});
       mission.updatedAt = now();
       this.state.mission = { id: mission.id, status: mission.status };
       this.saveMemory();
@@ -718,6 +807,7 @@ class FlightAgentController {
     if (this.state.route?.status === 'running') throw new Error('Another route is already running');
     if (this.state.inspection?.status === 'running') throw new Error('An object inspection is already running');
     const definition = this.routeDefinition(name);
+    if (!Array.isArray(definition.waypoints)) throw new Error(`Route ${name} is a flight mission; use /mission/start`);
     const baseline = recheck ? [...this.memory.routeRuns].reverse().find(run => run.name === name && run.status === 'complete') : null;
     const run = { id: crypto.randomUUID(), name, title: definition.title, recheck, analyze, baselineId: baseline?.id ?? null, startedAt: now(), completedAt: null, status: 'running', waypoints: [], comparison: [] };
     this.memory.routeRuns.push(run);

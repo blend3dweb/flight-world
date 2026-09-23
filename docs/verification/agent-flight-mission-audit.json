@@ -1,0 +1,30 @@
+{
+  "checkedAt": "2026-09-23T19:21:40.492Z",
+  "protocol": "0.3.0",
+  "goal": "Пролети город, мост и аэропорт",
+  "status": "complete",
+  "decision": "pass",
+  "checkpoints": [
+    {
+      "id": "city",
+      "decision": "pass",
+      "visibleMatches": 5
+    },
+    {
+      "id": "bridge",
+      "decision": "pass",
+      "visibleMatches": 5
+    },
+    {
+      "id": "airport",
+      "decision": "pass",
+      "visibleMatches": 5
+    }
+  ],
+  "steps": 31,
+  "stopAndResume": true,
+  "recoveryCount": 1,
+  "rawImagesPersisted": false,
+  "model": "deterministic-fixture",
+  "errors": []
+}

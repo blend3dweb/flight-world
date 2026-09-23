@@ -1,0 +1,104 @@
+{
+  "checkedAt": "2026-09-23T19:24:49.604Z",
+  "protocol": "0.3.0",
+  "model": "qwen2.5vl:3b",
+  "goal": "Пролети город, мост и аэропорт",
+  "status": "complete",
+  "decision": "pass",
+  "steps": 31,
+  "checkpoints": [
+    {
+      "id": "city",
+      "decision": "pass",
+      "expected": [
+        "city"
+      ],
+      "visibleMatches": 5,
+      "center": {
+        "id": 89,
+        "uuid": "d32eb6ee-7690-4a80-9f2c-6c289b1f7cdd",
+        "name": "Irregular sidewalk block",
+        "type": "Mesh",
+        "semantic": "road",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "vertices": 36
+      },
+      "hour": 11,
+      "flight": [
+        -1730,
+        350,
+        -1000
+      ],
+      "perception": "The image depicts a city situated on a peninsula surrounded by water. The city is composed of numerous blue and white buildings, indicating residential or commercial structures. The surrounding area includes greenery, including trees and grassy areas, and there are also some roads and pathways visible. The water is calm, and there are small islands or peninsulas in the distance. The sky is partly cloudy, suggesting a typical day. The overall scene is a clear and detailed representation of a cityscape."
+    },
+    {
+      "id": "bridge",
+      "decision": "pass",
+      "expected": [
+        "bridge"
+      ],
+      "visibleMatches": 5,
+      "center": {
+        "id": 5,
+        "uuid": "db3472b2-c930-4bbe-b53d-749aace59942",
+        "name": "Ocean — geometric waves and city reflection",
+        "type": "Mesh",
+        "semantic": "ocean",
+        "module": "ocean.js",
+        "visible": true,
+        "position": [
+          192.603,
+          0,
+          -1961.484
+        ],
+        "vertices": 37249
+      },
+      "hour": 11,
+      "flight": [
+        192.6028868479165,
+        449.4109815213355,
+        -1961.4842588137792
+      ],
+      "perception": "The image depicts a body of water with a bridge spanning across it. The bridge is clearly visible, connecting two landmasses on either side of the water. The surrounding area includes greenery and some distant hills or islands. The sky is partly cloudy, and the overall scene appears to be a realistic rendering of a coastal landscape."
+    },
+    {
+      "id": "airport",
+      "decision": "pass",
+      "expected": [
+        "airport"
+      ],
+      "visibleMatches": 5,
+      "center": {
+        "id": 298,
+        "uuid": "b5faa45e-2838-4a0b-80d9-26328dbfb219",
+        "name": "Apron",
+        "type": "Mesh",
+        "semantic": "city",
+        "module": "city.js",
+        "visible": true,
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "instances": 1,
+        "vertices": 24
+      },
+      "hour": 11,
+      "flight": [
+        2657.279955743508,
+        499.90191630207426,
+        -3164.3834605539773
+      ],
+      "perception": "The image depicts an airport with several buildings and structures. The airport is surrounded by green fields and is situated near a body of water with islands in the background. The runway is clearly visible, extending from the airport buildings towards the water. The overall scene is well-rendered, with clear distinctions between the airport, the surrounding fields, and the water."
+    }
+  ],
+  "rawImagesPersisted": false,
+  "errors": []
+}

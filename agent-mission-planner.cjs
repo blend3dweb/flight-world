@@ -13,6 +13,18 @@ function planMission(input, routes) {
   const request = typeof input === 'string' ? { goal: input } : input ?? {};
   const goal = String(request.goal ?? '').trim();
   if (!goal || goal.length > 500) throw new Error('Mission goal must contain 1–500 characters');
+  if (request.kind === 'flight-route' || /пролет|прол[её]т|полет|пол[её]т|лети|лететь|fly|flight/i.test(goal)) {
+    const route = routes.routes?.['city-bridge-airport'];
+    if (!route?.checkpoints?.length) throw new Error('City–bridge–airport flight route is missing');
+    const hour = request.hour ?? (/ноч|night/i.test(goal) ? 0.5 : /вечер|закат|sunset/i.test(goal) ? 18.5 : 11);
+    const weather = request.weather ?? WEATHER.find(([, pattern]) => pattern.test(goal))?.[0] ?? 'sun';
+    if (!Number.isFinite(hour) || hour < 0 || hour >= 24 || !['sun', 'rain', 'snow'].includes(weather)) throw new Error('Unsupported flight environment');
+    return {
+      kind: 'flight-route', goal, route: 'city-bridge-airport',
+      selectionReason: 'Flight goal selects the city–bridge–airport route and its visual checkpoints.',
+      environment: { hour, weather, cycle: false, autoWeather: false, immediate: true },
+    };
+  }
   const semantic = request.semantic || Object.entries(TARGETS).find(([, item]) => item.terms.test(goal))?.[0];
   const target = TARGETS[semantic];
   if (!target) throw new Error('Mission target must be airport, bridge, or vegetation');
@@ -29,7 +41,7 @@ function planMission(input, routes) {
   const views = request.views ?? 3;
   if (!Number.isInteger(views) || views < 3 || views > 8) throw new Error('Mission views must be 3–8');
   return {
-    goal, semantic, waypoint: waypoint.id, preferredName: target.name,
+    kind: 'inspection', goal, semantic, waypoint: waypoint.id, preferredName: target.name,
     selectionReason: `Goal matches ${semantic}; ${waypoint.id} supplies a known view of this area.`,
     environment: { hour, weather, cycle: false, autoWeather: false, immediate: true },
     views, maxExtraViews: 2,

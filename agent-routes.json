@@ -1,6 +1,15 @@
 {
   "version": 1,
   "routes": {
+    "city-bridge-airport": {
+      "title": "Пролёт через город, мост и аэропорт",
+      "flightStart": "city",
+      "checkpoints": [
+        { "id": "city", "flight": null, "observer": { "position": [-1350, 430, -720], "target": [-2000, 60, -1900] }, "expected": ["city"] },
+        { "id": "bridge", "flight": { "x": 250, "y": 450, "z": -1988 }, "observer": { "position": [640, 330, -1120], "target": [250, 70, -1988] }, "expected": ["bridge"] },
+        { "id": "airport", "flight": { "x": 2730, "y": 500, "z": -3200 }, "observer": { "position": [3500, 520, -2500], "target": [2500, 35, -3300] }, "expected": ["airport"] }
+      ]
+    },
     "smoke": {
       "title": "Короткая проверка Agent Controller",
       "waypoints": [

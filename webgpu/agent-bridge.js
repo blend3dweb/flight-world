@@ -8,7 +8,7 @@ const semanticRules = [
   ['aircraft', /aircraft|aero 042|\bjet\b|propeller|wing|fuselage|cockpit|float/i, 'aircraft.js'],
   ['ocean', /\bocean\b|water|\bsea\b|wake/i, 'ocean.js'],
   ['bridge', /bridge/i, 'city.js'],
-  ['airport', /airport|runway|terminal|gate|hangar|taxiway/i, 'city.js'],
+  ['airport', /airport|runway|terminal|gate|hangar|taxiway|apron/i, 'city.js'],
   ['road', /road|street|junction|crossing|lane|asphalt|sidewalk|promenade|\bpath/i, 'city.js'],
   ['vegetation', /forest|tree|grass|shrub|palm|foliage|planter/i, 'vegetation.js'],
   ['building', /building|tower|residence|facade|roof|podium|pavilion|balcon|storefront/i, 'city.js'],
