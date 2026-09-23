@@ -63,6 +63,7 @@ async function waitForCycle(base, id, timeoutMs = 180000) {
     const base = state.api;
     let phase = 'finding';
     controller.dispatcher.analyze = async (_observation, context) => fakeInspection(context.observationId, phase === 'finding' ? 'dispatch-to-codex' : 'pass');
+    await controller.execute({ type: 'environment.set', payload: { hour: 0.5, weather: 'sun', cycle: false, autoWeather: false, immediate: true } });
 
     const initial = await controller.inspectObjectTour({ semantic: 'bridge', views: 3, analyze: true, maxExtraViews: 0 });
     assert.equal(initial.decision, 'dispatch-to-codex');
@@ -70,6 +71,7 @@ async function waitForCycle(base, id, timeoutMs = 180000) {
     let cycle = controller.developmentCycle(initial.developmentCycleId);
     assert.equal(cycle.status, 'awaiting-codex-review');
     assert.equal(cycle.evidence.length, 3);
+    assert.equal(cycle.environment.hour, 0.5);
 
     const deniedReview = await fetch(`${base}/cycle/review`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -107,11 +109,14 @@ async function waitForCycle(base, id, timeoutMs = 180000) {
     assert.deepEqual(cycle.fix.changed, [fixRelative]);
 
     phase = 'verified';
+    await controller.execute({ type: 'environment.set', payload: { hour: 11, weather: 'sun', cycle: false, autoWeather: false, immediate: true } });
     const recheck = await request(base, '/cycle/recheck', 'POST', { id: cycle.id });
     assert.equal(recheck.status, 202);
     cycle = await waitForCycle(base, cycle.id);
     assert.equal(cycle.status, 'verified');
     assert.equal(cycle.recheck.decision, 'pass');
+    const repeated = controller.memory.inspectionRuns.find(item => item.id === cycle.recheck.inspectionRunId);
+    assert.equal(repeated.views[0].observation.world.environment.hour, 0.5, 'Recheck must restore the original night conditions');
     assert.equal(controller.memory.developmentCycles.length, 1, 'Recheck must not open a nested cycle');
     assert.deepEqual(cycle.history.map(item => item.event), ['finding-created', 'codex-review', 'fix-recorded', 'recheck-started', 'recheck-completed']);
     assert.equal(state.errors.length, 0);
@@ -129,6 +134,7 @@ async function waitForCycle(base, id, timeoutMs = 180000) {
         unchangedFixRejected: true,
         changedFileHashRecorded: Boolean(cycle.fix.files[0].sha256),
         nestedCyclePrevented: controller.memory.developmentCycles.length === 1,
+        originalEnvironmentRestored: repeated.views[0].observation.world.environment.hour === 0.5,
       },
       rawImagesPersisted: false,
       controllerErrors: state.errors,

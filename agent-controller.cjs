@@ -261,6 +261,7 @@ class FlightAgentController {
       target: run.target,
       request: run.requested,
       settings: run.settings,
+      environment: run.views[0]?.observation?.world?.environment ?? null,
       initialDecision: run.decision,
       evidence: nonPassViews.map(view => ({
         view: view.index,
@@ -357,6 +358,15 @@ class FlightAgentController {
     this.saveMemory();
     try {
       await this.refreshScene();
+      const sourceRun = this.memory.inspectionRuns.find(run => run.id === cycle.inspectionRunId);
+      const environment = cycle.environment ?? sourceRun?.views[0]?.observation?.world?.environment;
+      if (!environment || !Number.isFinite(environment.hour) || !['sun', 'rain', 'snow'].includes(environment.weather)) {
+        throw new Error('Original inspection environment is unavailable; recheck cannot be compared');
+      }
+      await this.execute({ type: 'environment.set', payload: {
+        hour: environment.hour, weather: environment.weather,
+        cycle: false, autoWeather: false, immediate: true,
+      } });
       const settings = cycle.settings ?? {};
       const run = await this.inspectObjectTour({
         name: cycle.target.object.name,
@@ -592,6 +602,10 @@ class FlightAgentController {
       const inspection = await this.execute({ type: 'world.inspectObject', payload: { id, name, semantic, visible: false } });
       run.target = inspection.result;
       this.state.inspection.target = inspection.result.object;
+      const bounds = inspection.result.bounds;
+      const runwayLike = inspection.result.object.semantic === 'airport' && bounds &&
+        Math.max(bounds.size[0], bounds.size[2]) / Math.max(1, Math.min(bounds.size[0], bounds.size[2])) > 10;
+      const orbitDistanceFactor = runwayLike ? Math.min(Number(distanceFactor), 1.2) : distanceFactor;
       const width = this.dispatcher.dispatcher.inputs.rgb.width;
       const height = this.dispatcher.dispatcher.inputs.rgb.height;
       const plannedViews = Array.from({ length: viewCount }, (_, index) => ({
@@ -620,7 +634,7 @@ class FlightAgentController {
           })
           : await this.execute({
             type: 'observer.orbitObject',
-            payload: { id: inspection.result.object.id, azimuth: plan.azimuth, elevation: plan.elevation, distanceFactor, minimumDistance },
+            payload: { id: inspection.result.object.id, azimuth: plan.azimuth, elevation: plan.elevation, distanceFactor: orbitDistanceFactor, minimumDistance },
           });
         const observation = await this.observe({ visual: true, sensors: ['rgb', 'depth', 'normal', 'objectId'], width, height, quality: 0.72 });
         const identification = await this.execute({ type: 'world.identifyPixel', payload: { x: Math.floor(width / 2), y: Math.floor(height / 2), width, height } });

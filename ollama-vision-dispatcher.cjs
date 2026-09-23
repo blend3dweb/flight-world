@@ -93,12 +93,13 @@ function classifyPerception(perception, expected = []) {
   const text = String(perception ?? '');
   const severe = /severe rendering defect/is.test(text)
     && !/(?:not|isn't|is not|doesn't|does not|no)\s+(?:appear\s+to\s+be\s+)?(?:a\s+)?severe rendering defect/is.test(text);
-  const missing = /no discernible objects?|required objects?.{0,80}(?:missing|not visible|absent)|(?:missing|lacks?) (?:the )?(?:required )?(?:city|buildings?|roads?|terrain|bridge|airport|vegetation|ocean)/is.test(text);
+  const missing = /no discernible objects?|no visible objects? or structures?|required objects?.{0,80}(?:missing|not (?:visibly )?(?:visible|present)|absent)|(?:missing|lacks?) (?:the )?(?:required )?(?:city|buildings?|roads?|terrain|bridge|airport|vegetation|ocean)/is.test(text);
   const missingExpected = expected.some(value => {
     const category = value === 'city' ? 'cit(?:y|ies)' : `${escapeRegExp(value)}(?:s|es)?`;
     return new RegExp([
       `(?:no|without)\\s+(?:visible\\s+)?(?:[a-z]+\\s+){0,3}${category}\\b`,
       `(?:does|do|did)\\s+not\\s+(?:contain|show|include|depict)\\s+(?:any\\s+)?(?:[a-z]+\\s+){0,2}${category}\\b`,
+      `(?:no|without)\\s+(?:(?:visible|identifiable)\\s+)?(?:objects?|structures?|features?).{0,100}(?:resemble|indicat(?:e|ing)|presence of).{0,40}${category}\\b`,
       `\\b${category}\\b.{0,80}\\b(?:not visible|not present|missing|absent)\\b`,
     ].join('|'), 'is').test(text);
   });

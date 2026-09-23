@@ -344,8 +344,8 @@ const outputCanvas=document.createElement('canvas'),outputContext=outputCanvas.g
 function composeFrame(){if(outputCanvas.width!==W||outputCanvas.height!==H){outputCanvas.width=W;outputCanvas.height=H;}outputContext.drawImage(renderer.domElement,0,0,W,H);outputContext.drawImage(canvas,0,0,W,H);return outputCanvas;}
 const agentCanvas=document.createElement('canvas'),agentContext=agentCanvas.getContext('2d',{alpha:false});
 function agentImage(pixels,width,height,mimeType='image/png',quality=.72){
-  const image=new Uint8ClampedArray(pixels.length),row=width*4;
-  for(let y=0;y<height;y++)image.set(pixels.subarray((height-1-y)*row,(height-y)*row),y*row);
+  // WebGPU readRenderTargetPixelsAsync already returns rows from top to bottom.
+  const image=new Uint8ClampedArray(pixels);
   agentCanvas.width=width;agentCanvas.height=height;agentContext.putImageData(new ImageData(image,width,height),0,0);
   let luminance=0,luminanceSquared=0,samples=0;
   for(let i=0;i<image.length;i+=64){const value=image[i]*.2126+image[i+1]*.7152+image[i+2]*.0722;luminance+=value;luminanceSquared+=value*value;samples++;}

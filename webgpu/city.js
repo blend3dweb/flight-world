@@ -23,6 +23,9 @@ export function createCity(){
  m.leaf.side=THREE.DoubleSide;
  const glow=new THREE.MeshStandardMaterial({color:'#fff0be',emissive:'#ffd394',emissiveIntensity:0,roughness:.6});
  const runwayLight=new THREE.MeshStandardMaterial({color:'#b9efff',emissive:'#b9e8ff',emissiveIntensity:0});
+ const airportApron=mat('#b5c1b9');airportApron.emissive.set('#b6d5d8');
+ const airportTerminal=mat('#396d79',.21,.55);airportTerminal.emissive.set('#b8e1ec');
+ const airportRoof=mat('#eee8d6');airportRoof.emissive.set('#d2e5df');
  const facades=[0,1,2,3].map(i=>makeFacade(i,windowDensity));
  const towerMats=facades.map(f=>[f,f,m.roof,m.roof,f,f]);
  function put(name,geometry,material,x,y,z,w,h,d,rot=0,color){
@@ -231,9 +234,9 @@ export function createCity(){
  b('Taxiway',m.asphalt,2585,AY+.09,A.z,22,.18,1650);
  for(const z of [A.z-750,A.z-250,A.z+250,A.z+750]){b('Taxiway',m.asphalt,2657,AY+.10,z,166,.2,22);b('Taxi lines',m.yellow,2657,AY+.23,z,166,.018,.23);}
  b('Taxi lines',m.yellow,2585,AY+.21,A.z,.25,.018,1620);
- b('Apron',m.concrete,2390,AY+.1,A.z,335,.2,620);
- b('Terminal glass',m.glass,2140,AY+9,A.z,105,18,380);
- b('Terminal roof',m.white,2140,AY+18.5,A.z,123,1.1,403);
+ b('Apron',airportApron,2390,AY+.1,A.z,335,.2,620);
+ b('Terminal glass',airportTerminal,2140,AY+9,A.z,105,18,380);
+ b('Terminal roof',airportRoof,2140,AY+18.5,A.z,123,1.1,403);
  b('Terminal landside spine',m.stone,2087,AY+4.5,A.z,2.2,9,382);
  for(let z=A.z-176;z<=A.z+176;z+=44){b('Terminal landside portals',m.white,2084.8,AY+6,z,.7,12,28);b('Terminal landside glazing',m.glass,2084.35,AY+6,z,.12,10.8,24);}
  b('Terminal departure canopy',m.accent,2068,AY+8.4,A.z,35,.6,350);
@@ -284,7 +287,7 @@ export function createCity(){
  }
  const towerMesh=batches.get('Towers 0').mesh;
  const closeDetail=/People|Bench|Litter|Planter|Bike rack|Bus stop|Bollard|Door handle|Storefront mullion|Parking bay/;
- function update(daylight,rain,camera){if(camera)for(const [name,data] of batches){const mesh=data.mesh,bounds=mesh.boundingSphere,range=closeDetail.test(name)?1800:6000;mesh.visible=!bounds||bounds.center.distanceTo(camera.position)<range+bounds.radius;}for(const f of facades)f.emissiveIntensity=(1-daylight)*1.8;glow.emissiveIntensity=(1-daylight)*3;runwayLight.emissiveIntensity=(1-daylight)*4;m.asphalt.roughness=.92-rain*.63;m.concrete.roughness=.88-rain*.33;}
+ function update(daylight,rain,camera){if(camera)for(const [name,data] of batches){const mesh=data.mesh,bounds=mesh.boundingSphere,range=closeDetail.test(name)?1800:6000;mesh.visible=!bounds||bounds.center.distanceTo(camera.position)<range+bounds.radius;}for(const f of facades)f.emissiveIntensity=(1-daylight)*1.8;glow.emissiveIntensity=(1-daylight)*3;runwayLight.emissiveIntensity=(1-daylight)*4;airportApron.emissiveIntensity=(1-daylight)*.55;airportTerminal.emissiveIntensity=(1-daylight)*.7;airportRoof.emissiveIntensity=(1-daylight)*.3;m.asphalt.roughness=.92-rain*.63;m.concrete.roughness=.88-rain*.33;}
  function clearance(x,z){let y=-Infinity;for(const v of buildings)if(inside([x,z],v.footprint))y=Math.max(y,v.y+v.h+12);if(x>=bridge.x0&&x<=bridge.x1&&Math.abs(z-bridge.z)<22){y=Math.max(y,bridgeY(x)+2);for(const tx of [-430,780])if(Math.abs(x-tx)<14)y=Math.max(y,bridgeY(tx)+80);}return y;}
  return {group,stats,buildings,roads,blocks,entrances,benchPositions,windowDensity,towerMesh,roofMat:m.roof,update,clearance,bridge,bridgeY};
 }
