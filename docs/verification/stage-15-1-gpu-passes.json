@@ -1,0 +1,1468 @@
+{
+  "date": "2026-10-04T13:25:37.096Z",
+  "viewport": {
+    "width": 1920,
+    "height": 1080
+  },
+  "quality": "high",
+  "environment": {
+    "hour": 10,
+    "cycle": false,
+    "weather": "sun"
+  },
+  "result": {
+    "available": true,
+    "elapsedMs": 11202,
+    "totalLastFrameMs": 6.553599999999999,
+    "timestampFrames": [
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140,
+      141,
+      142,
+      143,
+      144,
+      145,
+      146,
+      147,
+      148
+    ],
+    "byPass": {
+      "main": {
+        "count": 43,
+        "totalGpuMs": 449.5769600000003
+      },
+      "output-transform": {
+        "count": 43,
+        "totalGpuMs": 9.109503999999992
+      },
+      "sun-shadow": {
+        "count": 14,
+        "totalGpuMs": 1.441792
+      },
+      "ocean-reflection": {
+        "count": 14,
+        "totalGpuMs": 123.01107200000003
+      },
+      "sky-cubemap": {
+        "count": 6,
+        "totalGpuMs": 0.32767999999999997
+      }
+    },
+    "entries": [
+      {
+        "uid": "r:1:3:f106",
+        "gpuMs": 20.119552,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:7:f106",
+        "gpuMs": 0.524288,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f107",
+        "gpuMs": 18.874368,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:4:f107",
+        "gpuMs": 0.131072,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Shadow Map [ ID: 15 ]",
+        "sceneType": "Scene",
+        "cameraType": "OrthographicCamera",
+        "targetType": "RenderTarget",
+        "pass": "sun-shadow"
+      },
+      {
+        "uid": "r:3:7:f107",
+        "gpuMs": 0.524288,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f108",
+        "gpuMs": 18.743296,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:5:f108",
+        "gpuMs": 15.532032,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Scene [ Reflector ]",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "ocean-reflection"
+      },
+      {
+        "uid": "r:3:7:f108",
+        "gpuMs": 0.524288,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f109",
+        "gpuMs": 24.838144,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:7:f109",
+        "gpuMs": 0.524288,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f110",
+        "gpuMs": 18.874368,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:4:f110",
+        "gpuMs": 0.32768,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Shadow Map [ ID: 15 ]",
+        "sceneType": "Scene",
+        "cameraType": "OrthographicCamera",
+        "targetType": "RenderTarget",
+        "pass": "sun-shadow"
+      },
+      {
+        "uid": "r:3:7:f110",
+        "gpuMs": 0.524288,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f111",
+        "gpuMs": 9.568256,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:5:f111",
+        "gpuMs": 15.138816,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Scene [ Reflector ]",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "ocean-reflection"
+      },
+      {
+        "uid": "r:3:7:f111",
+        "gpuMs": 0.131072,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f112",
+        "gpuMs": 6.684672,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:7:f112",
+        "gpuMs": 0.065536,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f113",
+        "gpuMs": 6.684672,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:4:f113",
+        "gpuMs": 0,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Shadow Map [ ID: 15 ]",
+        "sceneType": "Scene",
+        "cameraType": "OrthographicCamera",
+        "targetType": "RenderTarget",
+        "pass": "sun-shadow"
+      },
+      {
+        "uid": "r:3:7:f113",
+        "gpuMs": 0.131072,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f114",
+        "gpuMs": 20.250624,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:5:f114",
+        "gpuMs": 10.15808,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Scene [ Reflector ]",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "ocean-reflection"
+      },
+      {
+        "uid": "r:3:7:f114",
+        "gpuMs": 0.524288,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f115",
+        "gpuMs": 20.447232,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:7:f115",
+        "gpuMs": 0.524288,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f116",
+        "gpuMs": 19.922944,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:4:f116",
+        "gpuMs": 0.32768,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Shadow Map [ ID: 15 ]",
+        "sceneType": "Scene",
+        "cameraType": "OrthographicCamera",
+        "targetType": "RenderTarget",
+        "pass": "sun-shadow"
+      },
+      {
+        "uid": "r:3:7:f116",
+        "gpuMs": 0.524288,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f117",
+        "gpuMs": 18.939904,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:5:f117",
+        "gpuMs": 16.515072,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Scene [ Reflector ]",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "ocean-reflection"
+      },
+      {
+        "uid": "r:3:7:f117",
+        "gpuMs": 0.786432,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f118",
+        "gpuMs": 23.003136,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:7:f118",
+        "gpuMs": 0.524288,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f119",
+        "gpuMs": 19.529728,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:4:f119",
+        "gpuMs": 0.131072,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Shadow Map [ ID: 15 ]",
+        "sceneType": "Scene",
+        "cameraType": "OrthographicCamera",
+        "targetType": "RenderTarget",
+        "pass": "sun-shadow"
+      },
+      {
+        "uid": "r:3:7:f119",
+        "gpuMs": 0.524288,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f120",
+        "gpuMs": 15.466496,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:5:f120",
+        "gpuMs": 15.532032,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Scene [ Reflector ]",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "ocean-reflection"
+      },
+      {
+        "uid": "r:3:7:f120",
+        "gpuMs": 0.131072,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f121",
+        "gpuMs": 7.340032,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:7:f121",
+        "gpuMs": 0.131072,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f122",
+        "gpuMs": 7.012352,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:4:f122",
+        "gpuMs": 0,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Shadow Map [ ID: 15 ]",
+        "sceneType": "Scene",
+        "cameraType": "OrthographicCamera",
+        "targetType": "RenderTarget",
+        "pass": "sun-shadow"
+      },
+      {
+        "uid": "r:3:7:f122",
+        "gpuMs": 0.065536,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f123",
+        "gpuMs": 6.88128,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:5:f123",
+        "gpuMs": 5.89824,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Scene [ Reflector ]",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "ocean-reflection"
+      },
+      {
+        "uid": "r:3:7:f123",
+        "gpuMs": 0.131072,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f124",
+        "gpuMs": 6.619136,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:7:f124",
+        "gpuMs": 0.065536,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f125",
+        "gpuMs": 6.619136,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:4:f125",
+        "gpuMs": 0,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Shadow Map [ ID: 15 ]",
+        "sceneType": "Scene",
+        "cameraType": "OrthographicCamera",
+        "targetType": "RenderTarget",
+        "pass": "sun-shadow"
+      },
+      {
+        "uid": "r:3:7:f125",
+        "gpuMs": 0.065536,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f126",
+        "gpuMs": 6.619136,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:5:f126",
+        "gpuMs": 5.505024,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Scene [ Reflector ]",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "ocean-reflection"
+      },
+      {
+        "uid": "r:3:7:f126",
+        "gpuMs": 0.065536,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f127",
+        "gpuMs": 6.619136,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:7:f127",
+        "gpuMs": 0.065536,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f128",
+        "gpuMs": 6.815744,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:4:f128",
+        "gpuMs": 0.065536,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Shadow Map [ ID: 15 ]",
+        "sceneType": "Scene",
+        "cameraType": "OrthographicCamera",
+        "targetType": "RenderTarget",
+        "pass": "sun-shadow"
+      },
+      {
+        "uid": "r:3:7:f128",
+        "gpuMs": 0.131072,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f129",
+        "gpuMs": 6.684672,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:5:f129",
+        "gpuMs": 5.505024,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Scene [ Reflector ]",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "ocean-reflection"
+      },
+      {
+        "uid": "r:3:7:f129",
+        "gpuMs": 0.131072,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:0:f130",
+        "gpuMs": 0,
+        "label": "other-scene",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "CubeRenderTarget",
+        "pass": "sky-cubemap"
+      },
+      {
+        "uid": "r:2:3:f130",
+        "gpuMs": 6.815744,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:3:7:f130",
+        "gpuMs": 0.131072,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:0:f131",
+        "gpuMs": 0.065536,
+        "label": "other-scene",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "CubeRenderTarget",
+        "pass": "sky-cubemap"
+      },
+      {
+        "uid": "r:2:3:f131",
+        "gpuMs": 6.750208,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:3:4:f131",
+        "gpuMs": 0,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Shadow Map [ ID: 15 ]",
+        "sceneType": "Scene",
+        "cameraType": "OrthographicCamera",
+        "targetType": "RenderTarget",
+        "pass": "sun-shadow"
+      },
+      {
+        "uid": "r:4:7:f131",
+        "gpuMs": 0.065536,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:0:f132",
+        "gpuMs": 0.065536,
+        "label": "other-scene",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "CubeRenderTarget",
+        "pass": "sky-cubemap"
+      },
+      {
+        "uid": "r:2:3:f132",
+        "gpuMs": 6.619136,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:3:5:f132",
+        "gpuMs": 5.505024,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Scene [ Reflector ]",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "ocean-reflection"
+      },
+      {
+        "uid": "r:4:7:f132",
+        "gpuMs": 0.131072,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:0:f133",
+        "gpuMs": 0.065536,
+        "label": "other-scene",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "CubeRenderTarget",
+        "pass": "sky-cubemap"
+      },
+      {
+        "uid": "r:2:3:f133",
+        "gpuMs": 6.5536,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:3:7:f133",
+        "gpuMs": 0.065536,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:0:f134",
+        "gpuMs": 0.065536,
+        "label": "other-scene",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "CubeRenderTarget",
+        "pass": "sky-cubemap"
+      },
+      {
+        "uid": "r:2:3:f134",
+        "gpuMs": 6.88128,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:3:4:f134",
+        "gpuMs": 0.065536,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Shadow Map [ ID: 15 ]",
+        "sceneType": "Scene",
+        "cameraType": "OrthographicCamera",
+        "targetType": "RenderTarget",
+        "pass": "sun-shadow"
+      },
+      {
+        "uid": "r:4:7:f134",
+        "gpuMs": 0.065536,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:0:f135",
+        "gpuMs": 0.065536,
+        "label": "other-scene",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "CubeRenderTarget",
+        "pass": "sky-cubemap"
+      },
+      {
+        "uid": "r:2:3:f135",
+        "gpuMs": 6.5536,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:3:5:f135",
+        "gpuMs": 5.767168,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Scene [ Reflector ]",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "ocean-reflection"
+      },
+      {
+        "uid": "r:4:7:f135",
+        "gpuMs": 0.065536,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f136",
+        "gpuMs": 7.012352,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:7:f136",
+        "gpuMs": 0.065536,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f137",
+        "gpuMs": 6.619136,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:4:f137",
+        "gpuMs": 0.065536,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Shadow Map [ ID: 15 ]",
+        "sceneType": "Scene",
+        "cameraType": "OrthographicCamera",
+        "targetType": "RenderTarget",
+        "pass": "sun-shadow"
+      },
+      {
+        "uid": "r:3:7:f137",
+        "gpuMs": 0.131072,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f138",
+        "gpuMs": 6.488064,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:5:f138",
+        "gpuMs": 5.505024,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Scene [ Reflector ]",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "ocean-reflection"
+      },
+      {
+        "uid": "r:3:7:f138",
+        "gpuMs": 0.065536,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f139",
+        "gpuMs": 6.88128,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:7:f139",
+        "gpuMs": 0.131072,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f140",
+        "gpuMs": 6.5536,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:4:f140",
+        "gpuMs": 0.262144,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Shadow Map [ ID: 15 ]",
+        "sceneType": "Scene",
+        "cameraType": "OrthographicCamera",
+        "targetType": "RenderTarget",
+        "pass": "sun-shadow"
+      },
+      {
+        "uid": "r:3:7:f140",
+        "gpuMs": 0.131072,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f141",
+        "gpuMs": 6.619136,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:5:f141",
+        "gpuMs": 5.505024,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Scene [ Reflector ]",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "ocean-reflection"
+      },
+      {
+        "uid": "r:3:7:f141",
+        "gpuMs": 0.065536,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f142",
+        "gpuMs": 6.5536,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:7:f142",
+        "gpuMs": 0.065536,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f143",
+        "gpuMs": 6.684672,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:4:f143",
+        "gpuMs": 0,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Shadow Map [ ID: 15 ]",
+        "sceneType": "Scene",
+        "cameraType": "OrthographicCamera",
+        "targetType": "RenderTarget",
+        "pass": "sun-shadow"
+      },
+      {
+        "uid": "r:3:7:f143",
+        "gpuMs": 0.131072,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f144",
+        "gpuMs": 6.619136,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:5:f144",
+        "gpuMs": 5.505024,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Scene [ Reflector ]",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "ocean-reflection"
+      },
+      {
+        "uid": "r:3:7:f144",
+        "gpuMs": 0.065536,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f145",
+        "gpuMs": 6.619136,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:7:f145",
+        "gpuMs": 0.065536,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f146",
+        "gpuMs": 6.750208,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:4:f146",
+        "gpuMs": 0.065536,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Shadow Map [ ID: 15 ]",
+        "sceneType": "Scene",
+        "cameraType": "OrthographicCamera",
+        "targetType": "RenderTarget",
+        "pass": "sun-shadow"
+      },
+      {
+        "uid": "r:3:7:f146",
+        "gpuMs": 0.131072,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f147",
+        "gpuMs": 6.422528,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:5:f147",
+        "gpuMs": 5.439488,
+        "label": "reflection-or-offscreen",
+        "sceneName": "Scene [ Reflector ]",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "ocean-reflection"
+      },
+      {
+        "uid": "r:3:7:f147",
+        "gpuMs": 0.065536,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      },
+      {
+        "uid": "r:1:3:f148",
+        "gpuMs": 6.422528,
+        "label": "main",
+        "sceneName": "",
+        "sceneType": "Scene",
+        "cameraType": "PerspectiveCamera",
+        "targetType": "RenderTarget",
+        "pass": "main"
+      },
+      {
+        "uid": "r:2:7:f148",
+        "gpuMs": 0.131072,
+        "label": "other-scene",
+        "sceneName": "Output Color Transform",
+        "sceneType": "Mesh",
+        "cameraType": "OrthographicCamera",
+        "targetType": "",
+        "pass": "output-transform"
+      }
+    ],
+    "cpuByCall": {
+      "vegetation.update": {
+        "count": 42,
+        "meanMs": 0.09523809665725344,
+        "p95Ms": 0.20000001788139343,
+        "maxMs": 1.4000000059604645
+      },
+      "atmosphere.apply": {
+        "count": 42,
+        "meanMs": 0.7404761889151165,
+        "p95Ms": 1.9000000059604645,
+        "maxMs": 14.299999982118607
+      },
+      "city.update": {
+        "count": 42,
+        "meanMs": 0.44285714413438526,
+        "p95Ms": 1,
+        "maxMs": 9.899999976158142
+      },
+      "water.update": {
+        "count": 42,
+        "meanMs": 0.04047618948277973,
+        "p95Ms": 0.10000002384185791,
+        "maxMs": 0.20000001788139343
+      },
+      "renderer.render.main": {
+        "count": 42,
+        "meanMs": 56.00476190447807,
+        "p95Ms": 116.5,
+        "maxMs": 140.69999998807907
+      },
+      "renderer.render.scene-secondary": {
+        "count": 28,
+        "meanMs": 21.003571428358555,
+        "p95Ms": 67.09999999403954,
+        "maxMs": 68.30000001192093
+      },
+      "renderer.render.other": {
+        "count": 6,
+        "meanMs": 4.000000004967053,
+        "p95Ms": 13.900000005960464,
+        "maxMs": 13.900000005960464
+      }
+    },
+    "cpuFrameSubmission": {
+      "average": 65.173,
+      "p95": 138.5,
+      "samples": 180
+    },
+    "agentObservations": [
+      {
+        "index": 1,
+        "wallMs": 5298.800000011921,
+        "width": 256,
+        "height": 144,
+        "encodedBytesApprox": 7835,
+        "beforeAgentFps": {
+          "fps": 8.941544644213863,
+          "frameMs": 149.29999999999927,
+          "p95Ms": 169.60000610351562,
+          "samples": 8,
+          "paused": false
+        },
+        "afterAgentFps": {
+          "fps": null,
+          "frameMs": 6,
+          "p95Ms": null,
+          "samples": 0,
+          "paused": false
+        }
+      },
+      {
+        "index": 2,
+        "wallMs": 392.09999999403954,
+        "width": 256,
+        "height": 144,
+        "encodedBytesApprox": 7811,
+        "beforeAgentFps": {
+          "fps": 5.743825203823442,
+          "frameMs": 18.5,
+          "p95Ms": 2612.10009765625,
+          "samples": 18,
+          "paused": false
+        },
+        "afterAgentFps": {
+          "fps": 5.944066169326275,
+          "frameMs": 139.90000000000146,
+          "p95Ms": 2612.10009765625,
+          "samples": 20,
+          "paused": false
+        }
+      },
+      {
+        "index": 3,
+        "wallMs": 391.59999999403954,
+        "width": 256,
+        "height": 144,
+        "encodedBytesApprox": 7793,
+        "beforeAgentFps": {
+          "fps": 8.149129087164274,
+          "frameMs": 121.09999999999854,
+          "p95Ms": 212.10000610351562,
+          "samples": 8,
+          "paused": false
+        },
+        "afterAgentFps": {
+          "fps": 8.735804367888854,
+          "frameMs": 158.40000000000146,
+          "p95Ms": 158.39999389648438,
+          "samples": 7,
+          "paused": false
+        }
+      }
+    ],
+    "fps": {
+      "fps": 8.735804367888854,
+      "frameMs": 158.40000000000146,
+      "p95Ms": 158.39999389648438,
+      "samples": 7,
+      "paused": false
+    },
+    "state": {
+      "x": -1698.4007848403273,
+      "y": 217.04844472849456,
+      "z": -2114.4935385181534,
+      "heading": -1.5181818239188616,
+      "pitch": -0.013166125400531139,
+      "roll": 0.1562565406094796,
+      "speed": 85.61297739242517,
+      "throttle": 0.7648840290836322,
+      "time": 12.411400000000047,
+      "auto": true,
+      "paused": false,
+      "quality": "high",
+      "verticalSpeed": -1.1472167004824037,
+      "drawCount": 196,
+      "viewMode": "external",
+      "orbit": {
+        "azimuth": 0.8,
+        "elevation": 0.9,
+        "distance": 65,
+        "auto": false
+      },
+      "flightPlan": {
+        "targetAltitude": null,
+        "route": [],
+        "simulationSpeed": 1
+      },
+      "environment": {
+        "hour": 10,
+        "cycle": false,
+        "cycleSeconds": 240,
+        "weather": "sun",
+        "autoWeather": false,
+        "rain": 0,
+        "snow": 0,
+        "elapsed": 7.41139999999999,
+        "daylight": 1,
+        "fogDensity": 0.00003,
+        "wind": 0.7,
+        "reflectionUpdates": 6,
+        "pmremUpdates": 4,
+        "captureFace": -1
+      },
+      "ocean": {
+        "reflectionUpdates": 66,
+        "reflectionEvery": 3,
+        "resolutionScale": 0.42,
+        "baseResolutionScale": 0.42,
+        "turning": false,
+        "angularDelta": 4.2146848510894035e-8,
+        "turnHold": 0
+      },
+      "camera": [
+        -1724.9877166336064,
+        267.87911703592346,
+        -2084.0687027292724
+      ],
+      "triangles": 26512353
+    }
+  },
+  "errors": []
+}

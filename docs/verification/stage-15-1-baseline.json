@@ -1,0 +1,1534 @@
+{
+  "stage": "15.1",
+  "date": "2026-10-04T13:14:01.927Z",
+  "viewport": {
+    "width": 1920,
+    "height": 1080
+  },
+  "quality": "high",
+  "route": {
+    "block": {
+      "ix": 2,
+      "iz": 2,
+      "id": 12,
+      "center": [
+        -2088.4,
+        -2109.4
+      ]
+    },
+    "start": {
+      "x": -2320,
+      "y": 190,
+      "z": -2110,
+      "heading": -1.5707963267948966,
+      "pitch": 0,
+      "roll": 0
+    },
+    "waypoint": {
+      "x": -1800,
+      "y": 190,
+      "z": -2110
+    },
+    "view": {
+      "mode": "external",
+      "azimuth": 0.8,
+      "elevation": 0.9,
+      "distance": 65,
+      "auto": false
+    }
+  },
+  "environment": {
+    "hour": 10,
+    "cycle": false,
+    "weather": "sun",
+    "autoWeather": false,
+    "exposure": 1.05
+  },
+  "setup": {
+    "adapter": {
+      "vendor": "nvidia",
+      "architecture": "blackwell",
+      "device": "",
+      "description": ""
+    },
+    "timestampQuerySupported": true,
+    "timestampQueryEnabled": false,
+    "blockPolygon": [
+      [
+        -2178.563206476155,
+        -2227.285838201029
+      ],
+      [
+        -2045.9690260116022,
+        -2166.6070320787458
+      ],
+      [
+        -1992.6088769502958,
+        -1990.3788513415757
+      ],
+      [
+        -2136.4575673798795,
+        -2053.192570625752
+      ]
+    ],
+    "buildings": [
+      {
+        "x": -2130.5738014182803,
+        "z": -2163.7417431331855,
+        "height": 129.3289927393198
+      },
+      {
+        "x": -2109.807397296337,
+        "z": -2083.393683833851,
+        "height": 32.031761778052896
+      },
+      {
+        "x": -2068.182668266929,
+        "z": -2135.5643361022285,
+        "height": 131.17849929258227
+      },
+      {
+        "x": -2045.0348098363852,
+        "z": -2054.764529177837,
+        "height": 32.28663137787953
+      }
+    ],
+    "cityStats": {
+      "blocks": 30,
+      "buildings": 112,
+      "entrances": 112,
+      "benches": 163,
+      "palms": 481,
+      "cars": 92,
+      "crosswalks": 148,
+      "streetlights": 286,
+      "busStops": 46,
+      "planters": 240,
+      "bikeRacks": 80,
+      "bollards": 60,
+      "storefronts": 112,
+      "balconies": 140,
+      "landmarks": 1,
+      "runways": 1,
+      "gates": 4,
+      "architecture": {
+        "stepped": 18,
+        "terraced": 18,
+        "round": 19,
+        "gable": 19,
+        "courtyard": 19,
+        "twin": 19
+      }
+    },
+    "deviceMemoryGB": 16
+  },
+  "trials": [
+    {
+      "name": "baseline-1",
+      "sampleSeconds": 5,
+      "frames": 2,
+      "medianFrameMs": 1861,
+      "p95FrameMs": 1861,
+      "p99FrameMs": 1861,
+      "maxFrameMs": 1861,
+      "over33ms": 2,
+      "over50ms": 2,
+      "meanFps": 0.6168460660642131,
+      "liveFpsAtEnd": {
+        "fps": 0.7239556683201348,
+        "frameMs": 1381.300000000003,
+        "p95Ms": 1381.300048828125,
+        "samples": 1,
+        "paused": false
+      },
+      "hudTextAtEnd": "FPS 1 · 1381 мс",
+      "timeline": [
+        {
+          "elapsedMs": 2684,
+          "frameMs": 12909.5,
+          "instantaneousFps": 0.08
+        },
+        {
+          "elapsedMs": 4545,
+          "frameMs": 1861,
+          "instantaneousFps": 0.54
+        },
+        {
+          "elapsedMs": 5926,
+          "frameMs": 1381.3,
+          "instantaneousFps": 0.72
+        }
+      ],
+      "cpuSubmission": {
+        "average": 919.844,
+        "p95": 12582.6,
+        "samples": 16
+      },
+      "rendererInfo": {
+        "calls": 184,
+        "frameCalls": 4,
+        "drawCalls": 445,
+        "triangles": 26508065,
+        "points": 0,
+        "lines": 0,
+        "timestamp": 0
+      },
+      "rendererMemory": {
+        "attributes": 680,
+        "attributesSize": 90395232,
+        "geometries": 260,
+        "indexAttributes": 198,
+        "indexAttributesSize": 19093320,
+        "indirectStorageAttributes": 0,
+        "indirectStorageAttributesSize": 0,
+        "programs": 319,
+        "programsSize": 1669458,
+        "readbackBuffers": 0,
+        "readbackBuffersSize": 0,
+        "renderTargets": 6,
+        "storageAttributes": 0,
+        "storageAttributesSize": 0,
+        "textures": 16,
+        "texturesSize": 57272656,
+        "uniformBuffers": 1084,
+        "uniformBuffersSize": 2094832,
+        "total": 170525498
+      },
+      "jsHeapBytes": 120250843,
+      "reflectionUpdates": 1,
+      "skyCaptures": 0,
+      "stateStart": {
+        "x": -2320,
+        "y": 190,
+        "z": -2110,
+        "environment": {
+          "hour": 10,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 0,
+          "daylight": 1,
+          "fogDensity": 0.00003,
+          "wind": 0.7,
+          "reflectionUpdates": 5,
+          "pmremUpdates": 5,
+          "captureFace": 1
+        }
+      },
+      "stateEnd": {
+        "x": -2307.68495340625,
+        "y": 190,
+        "z": -2110,
+        "environment": {
+          "hour": 10,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 0.15000000000000002,
+          "daylight": 1,
+          "fogDensity": 0.00003,
+          "wind": 0.7,
+          "reflectionUpdates": 5,
+          "pmremUpdates": 5,
+          "captureFace": 4
+        }
+      },
+      "gpuMemoryUsedMiB": {
+        "start": 318,
+        "end": 490
+      }
+    },
+    {
+      "name": "city-hidden",
+      "sampleSeconds": 5,
+      "frames": 66,
+      "medianFrameMs": 73,
+      "p95FrameMs": 182.5,
+      "p99FrameMs": 230.39999999999418,
+      "maxFrameMs": 230.39999999999418,
+      "over33ms": 48,
+      "over50ms": 41,
+      "meanFps": 13.074225946395659,
+      "liveFpsAtEnd": {
+        "fps": 14.922403759457085,
+        "frameMs": 30.19999999999709,
+        "p95Ms": 230.39999389648438,
+        "samples": 15,
+        "paused": false
+      },
+      "hudTextAtEnd": "FPS 14 · 42 мс",
+      "timeline": [
+        {
+          "elapsedMs": 31,
+          "frameMs": 78.5,
+          "instantaneousFps": 12.74
+        },
+        {
+          "elapsedMs": 104,
+          "frameMs": 73.7,
+          "instantaneousFps": 13.57
+        },
+        {
+          "elapsedMs": 213,
+          "frameMs": 108.5,
+          "instantaneousFps": 9.22
+        },
+        {
+          "elapsedMs": 322,
+          "frameMs": 108.7,
+          "instantaneousFps": 9.2
+        },
+        {
+          "elapsedMs": 358,
+          "frameMs": 36.4,
+          "instantaneousFps": 27.47
+        },
+        {
+          "elapsedMs": 401,
+          "frameMs": 42.7,
+          "instantaneousFps": 23.42
+        },
+        {
+          "elapsedMs": 431,
+          "frameMs": 30.2,
+          "instantaneousFps": 33.11
+        },
+        {
+          "elapsedMs": 504,
+          "frameMs": 73.3,
+          "instantaneousFps": 13.64
+        },
+        {
+          "elapsedMs": 564,
+          "frameMs": 60,
+          "instantaneousFps": 16.67
+        },
+        {
+          "elapsedMs": 649,
+          "frameMs": 84.8,
+          "instantaneousFps": 11.79
+        },
+        {
+          "elapsedMs": 746,
+          "frameMs": 96.8,
+          "instantaneousFps": 10.33
+        },
+        {
+          "elapsedMs": 873,
+          "frameMs": 127.4,
+          "instantaneousFps": 7.85
+        },
+        {
+          "elapsedMs": 1056,
+          "frameMs": 182.5,
+          "instantaneousFps": 5.48
+        },
+        {
+          "elapsedMs": 1141,
+          "frameMs": 85.1,
+          "instantaneousFps": 11.75
+        },
+        {
+          "elapsedMs": 1176,
+          "frameMs": 35.4,
+          "instantaneousFps": 28.25
+        },
+        {
+          "elapsedMs": 1213,
+          "frameMs": 37,
+          "instantaneousFps": 27.03
+        },
+        {
+          "elapsedMs": 1346,
+          "frameMs": 133,
+          "instantaneousFps": 7.52
+        },
+        {
+          "elapsedMs": 1467,
+          "frameMs": 120.8,
+          "instantaneousFps": 8.28
+        },
+        {
+          "elapsedMs": 1656,
+          "frameMs": 188.7,
+          "instantaneousFps": 5.3
+        },
+        {
+          "elapsedMs": 1716,
+          "frameMs": 60.5,
+          "instantaneousFps": 16.53
+        },
+        {
+          "elapsedMs": 1813,
+          "frameMs": 96.9,
+          "instantaneousFps": 10.32
+        },
+        {
+          "elapsedMs": 1904,
+          "frameMs": 91,
+          "instantaneousFps": 10.99
+        },
+        {
+          "elapsedMs": 2007,
+          "frameMs": 103,
+          "instantaneousFps": 9.71
+        },
+        {
+          "elapsedMs": 2140,
+          "frameMs": 132.9,
+          "instantaneousFps": 7.52
+        },
+        {
+          "elapsedMs": 2280,
+          "frameMs": 139.6,
+          "instantaneousFps": 7.16
+        },
+        {
+          "elapsedMs": 2310,
+          "frameMs": 30,
+          "instantaneousFps": 33.33
+        },
+        {
+          "elapsedMs": 2340,
+          "frameMs": 30.7,
+          "instantaneousFps": 32.57
+        },
+        {
+          "elapsedMs": 2365,
+          "frameMs": 24.9,
+          "instantaneousFps": 40.16
+        },
+        {
+          "elapsedMs": 2394,
+          "frameMs": 29,
+          "instantaneousFps": 34.48
+        },
+        {
+          "elapsedMs": 2425,
+          "frameMs": 30.4,
+          "instantaneousFps": 32.89
+        },
+        {
+          "elapsedMs": 2455,
+          "frameMs": 30.8,
+          "instantaneousFps": 32.47
+        },
+        {
+          "elapsedMs": 2528,
+          "frameMs": 73,
+          "instantaneousFps": 13.7
+        },
+        {
+          "elapsedMs": 2601,
+          "frameMs": 73,
+          "instantaneousFps": 13.7
+        },
+        {
+          "elapsedMs": 2746,
+          "frameMs": 144.4,
+          "instantaneousFps": 6.93
+        },
+        {
+          "elapsedMs": 2782,
+          "frameMs": 36.4,
+          "instantaneousFps": 27.47
+        },
+        {
+          "elapsedMs": 2812,
+          "frameMs": 30.3,
+          "instantaneousFps": 33
+        },
+        {
+          "elapsedMs": 2831,
+          "frameMs": 18.3,
+          "instantaneousFps": 54.64
+        },
+        {
+          "elapsedMs": 2922,
+          "frameMs": 91.7,
+          "instantaneousFps": 10.91
+        },
+        {
+          "elapsedMs": 2988,
+          "frameMs": 65.8,
+          "instantaneousFps": 15.2
+        },
+        {
+          "elapsedMs": 3152,
+          "frameMs": 164,
+          "instantaneousFps": 6.1
+        },
+        {
+          "elapsedMs": 3358,
+          "frameMs": 206.1,
+          "instantaneousFps": 4.85
+        },
+        {
+          "elapsedMs": 3419,
+          "frameMs": 60.2,
+          "instantaneousFps": 16.61
+        },
+        {
+          "elapsedMs": 3509,
+          "frameMs": 90.8,
+          "instantaneousFps": 11.01
+        },
+        {
+          "elapsedMs": 3570,
+          "frameMs": 60.5,
+          "instantaneousFps": 16.53
+        },
+        {
+          "elapsedMs": 3582,
+          "frameMs": 12.3,
+          "instantaneousFps": 81.3
+        },
+        {
+          "elapsedMs": 3613,
+          "frameMs": 30.4,
+          "instantaneousFps": 32.89
+        },
+        {
+          "elapsedMs": 3643,
+          "frameMs": 30.3,
+          "instantaneousFps": 33
+        },
+        {
+          "elapsedMs": 3776,
+          "frameMs": 133.5,
+          "instantaneousFps": 7.49
+        },
+        {
+          "elapsedMs": 3898,
+          "frameMs": 121.3,
+          "instantaneousFps": 8.24
+        },
+        {
+          "elapsedMs": 3916,
+          "frameMs": 18.4,
+          "instantaneousFps": 54.35
+        },
+        {
+          "elapsedMs": 3995,
+          "frameMs": 79,
+          "instantaneousFps": 12.66
+        },
+        {
+          "elapsedMs": 4129,
+          "frameMs": 133.9,
+          "instantaneousFps": 7.47
+        },
+        {
+          "elapsedMs": 4141,
+          "frameMs": 12.5,
+          "instantaneousFps": 80
+        },
+        {
+          "elapsedMs": 4152,
+          "frameMs": 10.7,
+          "instantaneousFps": 93.46
+        },
+        {
+          "elapsedMs": 4166,
+          "frameMs": 13.9,
+          "instantaneousFps": 71.94
+        },
+        {
+          "elapsedMs": 4194,
+          "frameMs": 28.3,
+          "instantaneousFps": 35.34
+        },
+        {
+          "elapsedMs": 4425,
+          "frameMs": 230.4,
+          "instantaneousFps": 4.34
+        },
+        {
+          "elapsedMs": 4486,
+          "frameMs": 61,
+          "instantaneousFps": 16.39
+        },
+        {
+          "elapsedMs": 4546,
+          "frameMs": 60.6,
+          "instantaneousFps": 16.5
+        },
+        {
+          "elapsedMs": 4613,
+          "frameMs": 67.1,
+          "instantaneousFps": 14.9
+        },
+        {
+          "elapsedMs": 4716,
+          "frameMs": 102.2,
+          "instantaneousFps": 9.78
+        },
+        {
+          "elapsedMs": 4758,
+          "frameMs": 42.6,
+          "instantaneousFps": 23.47
+        },
+        {
+          "elapsedMs": 4843,
+          "frameMs": 84.9,
+          "instantaneousFps": 11.78
+        },
+        {
+          "elapsedMs": 4928,
+          "frameMs": 85,
+          "instantaneousFps": 11.76
+        },
+        {
+          "elapsedMs": 4970,
+          "frameMs": 41.9,
+          "instantaneousFps": 23.87
+        },
+        {
+          "elapsedMs": 5000,
+          "frameMs": 30.2,
+          "instantaneousFps": 33.11
+        }
+      ],
+      "cpuSubmission": {
+        "average": 57.48,
+        "p95": 134,
+        "samples": 180
+      },
+      "rendererInfo": {
+        "calls": 2001,
+        "frameCalls": 2,
+        "drawCalls": 85,
+        "triangles": 12756273,
+        "points": 0,
+        "lines": 0,
+        "timestamp": 0
+      },
+      "rendererMemory": {
+        "attributes": 680,
+        "attributesSize": 90395232,
+        "geometries": 260,
+        "indexAttributes": 198,
+        "indexAttributesSize": 19093320,
+        "indirectStorageAttributes": 0,
+        "indirectStorageAttributesSize": 0,
+        "programs": 319,
+        "programsSize": 1669458,
+        "readbackBuffers": 0,
+        "readbackBuffersSize": 0,
+        "renderTargets": 6,
+        "storageAttributes": 0,
+        "storageAttributesSize": 0,
+        "textures": 16,
+        "texturesSize": 57272656,
+        "uniformBuffers": 1109,
+        "uniformBuffersSize": 2101232,
+        "total": 170531898
+      },
+      "jsHeapBytes": 126416732,
+      "reflectionUpdates": 22,
+      "skyCaptures": 0,
+      "stateStart": {
+        "x": -425.29039088207537,
+        "y": 174.92985655616923,
+        "z": -2190.3540886994674,
+        "environment": {
+          "hour": 10,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 22.238800000000065,
+          "daylight": 1,
+          "fogDensity": 0.00003,
+          "wind": 0.7,
+          "reflectionUpdates": 14,
+          "pmremUpdates": 9,
+          "captureFace": -1
+        }
+      },
+      "stateEnd": {
+        "x": -188.67692319916435,
+        "y": 168.81480063846303,
+        "z": -2167.7286319618356,
+        "environment": {
+          "hour": 10,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 25.033200000000118,
+          "daylight": 1,
+          "fogDensity": 0.00003,
+          "wind": 0.7,
+          "reflectionUpdates": 14,
+          "pmremUpdates": 9,
+          "captureFace": -1
+        }
+      },
+      "gpuMemoryUsedMiB": {
+        "start": 525,
+        "end": 525
+      }
+    },
+    {
+      "name": "reflection-held",
+      "sampleSeconds": 5,
+      "frames": 62,
+      "medianFrameMs": 73.30000000001746,
+      "p95FrameMs": 151.19999999998254,
+      "p99FrameMs": 315,
+      "maxFrameMs": 315,
+      "over33ms": 46,
+      "over50ms": 42,
+      "meanFps": 12.38439566146651,
+      "liveFpsAtEnd": {
+        "fps": 12.853470326727285,
+        "frameMs": 41.89999999999418,
+        "p95Ms": 133.5,
+        "samples": 12,
+        "paused": false
+      },
+      "hudTextAtEnd": "FPS 12 · 31 мс",
+      "timeline": [
+        {
+          "elapsedMs": 104,
+          "frameMs": 108.9,
+          "instantaneousFps": 9.18
+        },
+        {
+          "elapsedMs": 202,
+          "frameMs": 97.2,
+          "instantaneousFps": 10.29
+        },
+        {
+          "elapsedMs": 305,
+          "frameMs": 103.1,
+          "instantaneousFps": 9.7
+        },
+        {
+          "elapsedMs": 408,
+          "frameMs": 103.4,
+          "instantaneousFps": 9.67
+        },
+        {
+          "elapsedMs": 432,
+          "frameMs": 23.6,
+          "instantaneousFps": 42.37
+        },
+        {
+          "elapsedMs": 474,
+          "frameMs": 42.7,
+          "instantaneousFps": 23.42
+        },
+        {
+          "elapsedMs": 613,
+          "frameMs": 138.9,
+          "instantaneousFps": 7.2
+        },
+        {
+          "elapsedMs": 686,
+          "frameMs": 72.9,
+          "instantaneousFps": 13.72
+        },
+        {
+          "elapsedMs": 760,
+          "frameMs": 73.9,
+          "instantaneousFps": 13.53
+        },
+        {
+          "elapsedMs": 778,
+          "frameMs": 17.7,
+          "instantaneousFps": 56.5
+        },
+        {
+          "elapsedMs": 923,
+          "frameMs": 145.2,
+          "instantaneousFps": 6.89
+        },
+        {
+          "elapsedMs": 1020,
+          "frameMs": 97.1,
+          "instantaneousFps": 10.3
+        },
+        {
+          "elapsedMs": 1092,
+          "frameMs": 72.3,
+          "instantaneousFps": 13.83
+        },
+        {
+          "elapsedMs": 1407,
+          "frameMs": 315,
+          "instantaneousFps": 3.17
+        },
+        {
+          "elapsedMs": 1426,
+          "frameMs": 18.2,
+          "instantaneousFps": 54.95
+        },
+        {
+          "elapsedMs": 1433,
+          "frameMs": 7.7,
+          "instantaneousFps": 129.87
+        },
+        {
+          "elapsedMs": 1559,
+          "frameMs": 125.7,
+          "instantaneousFps": 7.96
+        },
+        {
+          "elapsedMs": 1583,
+          "frameMs": 24.3,
+          "instantaneousFps": 41.15
+        },
+        {
+          "elapsedMs": 1614,
+          "frameMs": 30.5,
+          "instantaneousFps": 32.79
+        },
+        {
+          "elapsedMs": 1765,
+          "frameMs": 151.2,
+          "instantaneousFps": 6.61
+        },
+        {
+          "elapsedMs": 1899,
+          "frameMs": 134.5,
+          "instantaneousFps": 7.43
+        },
+        {
+          "elapsedMs": 1977,
+          "frameMs": 77.9,
+          "instantaneousFps": 12.84
+        },
+        {
+          "elapsedMs": 2001,
+          "frameMs": 24,
+          "instantaneousFps": 41.67
+        },
+        {
+          "elapsedMs": 2104,
+          "frameMs": 103,
+          "instantaneousFps": 9.71
+        },
+        {
+          "elapsedMs": 2159,
+          "frameMs": 54.7,
+          "instantaneousFps": 18.28
+        },
+        {
+          "elapsedMs": 2198,
+          "frameMs": 38.6,
+          "instantaneousFps": 25.91
+        },
+        {
+          "elapsedMs": 2335,
+          "frameMs": 137.6,
+          "instantaneousFps": 7.27
+        },
+        {
+          "elapsedMs": 2438,
+          "frameMs": 103,
+          "instantaneousFps": 9.71
+        },
+        {
+          "elapsedMs": 2444,
+          "frameMs": 5.3,
+          "instantaneousFps": 188.68
+        },
+        {
+          "elapsedMs": 2463,
+          "frameMs": 19.5,
+          "instantaneousFps": 51.28
+        },
+        {
+          "elapsedMs": 2613,
+          "frameMs": 150.4,
+          "instantaneousFps": 6.65
+        },
+        {
+          "elapsedMs": 2771,
+          "frameMs": 158,
+          "instantaneousFps": 6.33
+        },
+        {
+          "elapsedMs": 2844,
+          "frameMs": 72.7,
+          "instantaneousFps": 13.76
+        },
+        {
+          "elapsedMs": 2971,
+          "frameMs": 126.8,
+          "instantaneousFps": 7.89
+        },
+        {
+          "elapsedMs": 2984,
+          "frameMs": 13.5,
+          "instantaneousFps": 74.07
+        },
+        {
+          "elapsedMs": 3069,
+          "frameMs": 84.3,
+          "instantaneousFps": 11.86
+        },
+        {
+          "elapsedMs": 3088,
+          "frameMs": 19.4,
+          "instantaneousFps": 51.55
+        },
+        {
+          "elapsedMs": 3208,
+          "frameMs": 119.7,
+          "instantaneousFps": 8.35
+        },
+        {
+          "elapsedMs": 3268,
+          "frameMs": 60.3,
+          "instantaneousFps": 16.58
+        },
+        {
+          "elapsedMs": 3318,
+          "frameMs": 49.5,
+          "instantaneousFps": 20.2
+        },
+        {
+          "elapsedMs": 3474,
+          "frameMs": 156.5,
+          "instantaneousFps": 6.39
+        },
+        {
+          "elapsedMs": 3504,
+          "frameMs": 30.3,
+          "instantaneousFps": 33
+        },
+        {
+          "elapsedMs": 3529,
+          "frameMs": 24.1,
+          "instantaneousFps": 41.49
+        },
+        {
+          "elapsedMs": 3650,
+          "frameMs": 121.3,
+          "instantaneousFps": 8.24
+        },
+        {
+          "elapsedMs": 3705,
+          "frameMs": 55.5,
+          "instantaneousFps": 18.02
+        },
+        {
+          "elapsedMs": 3729,
+          "frameMs": 23.3,
+          "instantaneousFps": 42.92
+        },
+        {
+          "elapsedMs": 3780,
+          "frameMs": 51.6,
+          "instantaneousFps": 19.38
+        },
+        {
+          "elapsedMs": 3850,
+          "frameMs": 69.8,
+          "instantaneousFps": 14.33
+        },
+        {
+          "elapsedMs": 3923,
+          "frameMs": 73.3,
+          "instantaneousFps": 13.64
+        },
+        {
+          "elapsedMs": 4068,
+          "frameMs": 144.8,
+          "instantaneousFps": 6.91
+        },
+        {
+          "elapsedMs": 4184,
+          "frameMs": 115.5,
+          "instantaneousFps": 8.66
+        },
+        {
+          "elapsedMs": 4250,
+          "frameMs": 66.2,
+          "instantaneousFps": 15.11
+        },
+        {
+          "elapsedMs": 4317,
+          "frameMs": 67.6,
+          "instantaneousFps": 14.79
+        },
+        {
+          "elapsedMs": 4411,
+          "frameMs": 93.3,
+          "instantaneousFps": 10.72
+        },
+        {
+          "elapsedMs": 4432,
+          "frameMs": 21,
+          "instantaneousFps": 47.62
+        },
+        {
+          "elapsedMs": 4523,
+          "frameMs": 90.8,
+          "instantaneousFps": 11.01
+        },
+        {
+          "elapsedMs": 4589,
+          "frameMs": 66.8,
+          "instantaneousFps": 14.97
+        },
+        {
+          "elapsedMs": 4680,
+          "frameMs": 90.6,
+          "instantaneousFps": 11.04
+        },
+        {
+          "elapsedMs": 4813,
+          "frameMs": 133.5,
+          "instantaneousFps": 7.49
+        },
+        {
+          "elapsedMs": 4929,
+          "frameMs": 115.3,
+          "instantaneousFps": 8.67
+        },
+        {
+          "elapsedMs": 4960,
+          "frameMs": 31.1,
+          "instantaneousFps": 32.15
+        },
+        {
+          "elapsedMs": 5002,
+          "frameMs": 41.9,
+          "instantaneousFps": 23.87
+        }
+      ],
+      "cpuSubmission": {
+        "average": 77.247,
+        "p95": 148.1,
+        "samples": 180
+      },
+      "rendererInfo": {
+        "calls": 3881,
+        "frameCalls": 3,
+        "drawCalls": 280,
+        "triangles": 13384165,
+        "points": 0,
+        "lines": 0,
+        "timestamp": 0
+      },
+      "rendererMemory": {
+        "attributes": 698,
+        "attributesSize": 90774168,
+        "geometries": 265,
+        "indexAttributes": 199,
+        "indexAttributesSize": 19093752,
+        "indirectStorageAttributes": 0,
+        "indirectStorageAttributesSize": 0,
+        "programs": 330,
+        "programsSize": 1742748,
+        "readbackBuffers": 0,
+        "readbackBuffersSize": 0,
+        "renderTargets": 6,
+        "storageAttributes": 0,
+        "storageAttributesSize": 0,
+        "textures": 16,
+        "texturesSize": 57272656,
+        "uniformBuffers": 1133,
+        "uniformBuffersSize": 2311232,
+        "total": 171194556
+      },
+      "jsHeapBytes": 132644847,
+      "reflectionUpdates": 0,
+      "skyCaptures": 0,
+      "stateStart": {
+        "x": -1838.9990160464477,
+        "y": 219.13322356583126,
+        "z": -2110.215844982314,
+        "environment": {
+          "hour": 10,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 5.76189999999997,
+          "daylight": 1,
+          "fogDensity": 0.00003,
+          "wind": 0.7,
+          "reflectionUpdates": 23,
+          "pmremUpdates": 13,
+          "captureFace": -1
+        }
+      },
+      "stateEnd": {
+        "x": -1613.3954954603862,
+        "y": 215.8132454813572,
+        "z": -2120.31645950943,
+        "environment": {
+          "hour": 10,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 8.404499999999974,
+          "daylight": 1,
+          "fogDensity": 0.00003,
+          "wind": 0.7,
+          "reflectionUpdates": 23,
+          "pmremUpdates": 13,
+          "captureFace": -1
+        }
+      },
+      "gpuMemoryUsedMiB": {
+        "start": 529,
+        "end": 529
+      }
+    },
+    {
+      "name": "baseline-2",
+      "sampleSeconds": 5,
+      "frames": 56,
+      "medianFrameMs": 88,
+      "p95FrameMs": 170.5,
+      "p99FrameMs": 237.5,
+      "maxFrameMs": 237.5,
+      "over33ms": 47,
+      "over50ms": 44,
+      "meanFps": 10.986639461654716,
+      "liveFpsAtEnd": {
+        "fps": 12.429378638224444,
+        "frameMs": 103.09999999997672,
+        "p95Ms": 163.89999389648438,
+        "samples": 11,
+        "paused": false
+      },
+      "hudTextAtEnd": "FPS 12 · 103 мс",
+      "timeline": [
+        {
+          "elapsedMs": 29,
+          "frameMs": 30.2,
+          "instantaneousFps": 33.11
+        },
+        {
+          "elapsedMs": 211,
+          "frameMs": 182,
+          "instantaneousFps": 5.49
+        },
+        {
+          "elapsedMs": 296,
+          "frameMs": 85.1,
+          "instantaneousFps": 11.75
+        },
+        {
+          "elapsedMs": 368,
+          "frameMs": 72.5,
+          "instantaneousFps": 13.79
+        },
+        {
+          "elapsedMs": 453,
+          "frameMs": 84.9,
+          "instantaneousFps": 11.78
+        },
+        {
+          "elapsedMs": 519,
+          "frameMs": 66.4,
+          "instantaneousFps": 15.06
+        },
+        {
+          "elapsedMs": 563,
+          "frameMs": 43.6,
+          "instantaneousFps": 22.94
+        },
+        {
+          "elapsedMs": 586,
+          "frameMs": 23.1,
+          "instantaneousFps": 43.29
+        },
+        {
+          "elapsedMs": 756,
+          "frameMs": 170.1,
+          "instantaneousFps": 5.88
+        },
+        {
+          "elapsedMs": 835,
+          "frameMs": 78.9,
+          "instantaneousFps": 12.67
+        },
+        {
+          "elapsedMs": 956,
+          "frameMs": 120.7,
+          "instantaneousFps": 8.29
+        },
+        {
+          "elapsedMs": 1023,
+          "frameMs": 66.7,
+          "instantaneousFps": 14.99
+        },
+        {
+          "elapsedMs": 1041,
+          "frameMs": 18.6,
+          "instantaneousFps": 53.76
+        },
+        {
+          "elapsedMs": 1126,
+          "frameMs": 85,
+          "instantaneousFps": 11.76
+        },
+        {
+          "elapsedMs": 1364,
+          "frameMs": 237.5,
+          "instantaneousFps": 4.21
+        },
+        {
+          "elapsedMs": 1447,
+          "frameMs": 83.3,
+          "instantaneousFps": 12
+        },
+        {
+          "elapsedMs": 1544,
+          "frameMs": 96.7,
+          "instantaneousFps": 10.34
+        },
+        {
+          "elapsedMs": 1623,
+          "frameMs": 79.4,
+          "instantaneousFps": 12.59
+        },
+        {
+          "elapsedMs": 1628,
+          "frameMs": 5.3,
+          "instantaneousFps": 188.68
+        },
+        {
+          "elapsedMs": 1774,
+          "frameMs": 145.7,
+          "instantaneousFps": 6.86
+        },
+        {
+          "elapsedMs": 1945,
+          "frameMs": 170.5,
+          "instantaneousFps": 5.87
+        },
+        {
+          "elapsedMs": 1969,
+          "frameMs": 24,
+          "instantaneousFps": 41.67
+        },
+        {
+          "elapsedMs": 2071,
+          "frameMs": 102.9,
+          "instantaneousFps": 9.72
+        },
+        {
+          "elapsedMs": 2210,
+          "frameMs": 139,
+          "instantaneousFps": 7.19
+        },
+        {
+          "elapsedMs": 2338,
+          "frameMs": 127.4,
+          "instantaneousFps": 7.85
+        },
+        {
+          "elapsedMs": 2435,
+          "frameMs": 96.8,
+          "instantaneousFps": 10.33
+        },
+        {
+          "elapsedMs": 2544,
+          "frameMs": 109.5,
+          "instantaneousFps": 9.13
+        },
+        {
+          "elapsedMs": 2604,
+          "frameMs": 60.3,
+          "instantaneousFps": 16.58
+        },
+        {
+          "elapsedMs": 2713,
+          "frameMs": 108.8,
+          "instantaneousFps": 9.19
+        },
+        {
+          "elapsedMs": 2823,
+          "frameMs": 110,
+          "instantaneousFps": 9.09
+        },
+        {
+          "elapsedMs": 2853,
+          "frameMs": 29.3,
+          "instantaneousFps": 34.13
+        },
+        {
+          "elapsedMs": 2941,
+          "frameMs": 88,
+          "instantaneousFps": 11.36
+        },
+        {
+          "elapsedMs": 3038,
+          "frameMs": 97.3,
+          "instantaneousFps": 10.28
+        },
+        {
+          "elapsedMs": 3192,
+          "frameMs": 154.3,
+          "instantaneousFps": 6.48
+        },
+        {
+          "elapsedMs": 3313,
+          "frameMs": 121.3,
+          "instantaneousFps": 8.24
+        },
+        {
+          "elapsedMs": 3380,
+          "frameMs": 66.8,
+          "instantaneousFps": 14.97
+        },
+        {
+          "elapsedMs": 3466,
+          "frameMs": 85.7,
+          "instantaneousFps": 11.67
+        },
+        {
+          "elapsedMs": 3568,
+          "frameMs": 101.9,
+          "instantaneousFps": 9.81
+        },
+        {
+          "elapsedMs": 3714,
+          "frameMs": 145.8,
+          "instantaneousFps": 6.86
+        },
+        {
+          "elapsedMs": 3774,
+          "frameMs": 60.5,
+          "instantaneousFps": 16.53
+        },
+        {
+          "elapsedMs": 3913,
+          "frameMs": 139.1,
+          "instantaneousFps": 7.19
+        },
+        {
+          "elapsedMs": 3944,
+          "frameMs": 30.3,
+          "instantaneousFps": 33
+        },
+        {
+          "elapsedMs": 3980,
+          "frameMs": 36.9,
+          "instantaneousFps": 27.1
+        },
+        {
+          "elapsedMs": 4119,
+          "frameMs": 138.9,
+          "instantaneousFps": 7.2
+        },
+        {
+          "elapsedMs": 4210,
+          "frameMs": 91.1,
+          "instantaneousFps": 10.98
+        },
+        {
+          "elapsedMs": 4229,
+          "frameMs": 18.4,
+          "instantaneousFps": 54.35
+        },
+        {
+          "elapsedMs": 4247,
+          "frameMs": 18.1,
+          "instantaneousFps": 55.25
+        },
+        {
+          "elapsedMs": 4411,
+          "frameMs": 163.9,
+          "instantaneousFps": 6.1
+        },
+        {
+          "elapsedMs": 4526,
+          "frameMs": 115.3,
+          "instantaneousFps": 8.67
+        },
+        {
+          "elapsedMs": 4641,
+          "frameMs": 114.4,
+          "instantaneousFps": 8.74
+        },
+        {
+          "elapsedMs": 4757,
+          "frameMs": 116.2,
+          "instantaneousFps": 8.61
+        },
+        {
+          "elapsedMs": 4817,
+          "frameMs": 60.1,
+          "instantaneousFps": 16.64
+        },
+        {
+          "elapsedMs": 4859,
+          "frameMs": 42,
+          "instantaneousFps": 23.81
+        },
+        {
+          "elapsedMs": 4932,
+          "frameMs": 73.6,
+          "instantaneousFps": 13.59
+        },
+        {
+          "elapsedMs": 4992,
+          "frameMs": 59.9,
+          "instantaneousFps": 16.69
+        },
+        {
+          "elapsedMs": 5095,
+          "frameMs": 103.1,
+          "instantaneousFps": 9.7
+        }
+      ],
+      "cpuSubmission": {
+        "average": 82.253,
+        "p95": 166.3,
+        "samples": 180
+      },
+      "rendererInfo": {
+        "calls": 4583,
+        "frameCalls": 3,
+        "drawCalls": 374,
+        "triangles": 26512373,
+        "points": 0,
+        "lines": 0,
+        "timestamp": 0
+      },
+      "rendererMemory": {
+        "attributes": 714,
+        "attributesSize": 90780456,
+        "geometries": 273,
+        "indexAttributes": 207,
+        "indexAttributesSize": 19095576,
+        "indirectStorageAttributes": 0,
+        "indirectStorageAttributesSize": 0,
+        "programs": 332,
+        "programsSize": 1750451,
+        "readbackBuffers": 0,
+        "readbackBuffersSize": 0,
+        "renderTargets": 6,
+        "storageAttributes": 0,
+        "storageAttributesSize": 0,
+        "textures": 16,
+        "texturesSize": 57272656,
+        "uniformBuffers": 1146,
+        "uniformBuffersSize": 2324448,
+        "total": 171223587
+      },
+      "jsHeapBytes": 144482342,
+      "reflectionUpdates": 19,
+      "skyCaptures": 1,
+      "stateStart": {
+        "x": -1938.445812492373,
+        "y": 221.8774958610975,
+        "z": -2110,
+        "environment": {
+          "hour": 10,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 4.582700000000035,
+          "daylight": 1,
+          "fogDensity": 0.00003,
+          "wind": 0.7,
+          "reflectionUpdates": 28,
+          "pmremUpdates": 16,
+          "captureFace": -1
+        }
+      },
+      "stateEnd": {
+        "x": -1720.4842164561417,
+        "y": 217.12799749183603,
+        "z": -2113.3363122351975,
+        "environment": {
+          "hour": 10,
+          "cycle": false,
+          "cycleSeconds": 240,
+          "weather": "sun",
+          "autoWeather": false,
+          "rain": 0,
+          "snow": 0,
+          "elapsed": 7.152500000000014,
+          "daylight": 1,
+          "fogDensity": 0.00003,
+          "wind": 0.7,
+          "reflectionUpdates": 29,
+          "pmremUpdates": 16,
+          "captureFace": -1
+        }
+      },
+      "gpuMemoryUsedMiB": {
+        "start": 529,
+        "end": 529
+      }
+    }
+  ],
+  "hudCheck": {
+    "paused": {
+      "state": {
+        "fps": 0,
+        "frameMs": null,
+        "p95Ms": null,
+        "samples": 0,
+        "paused": true
+      },
+      "text": "FPS — · пауза"
+    },
+    "resumed": {
+      "state": {
+        "fps": 12.77139205062644,
+        "frameMs": 163.5,
+        "p95Ms": 301,
+        "samples": 12,
+        "paused": false
+      },
+      "text": "FPS 12 · 24 мс"
+    }
+  },
+  "finalEnvironment": {
+    "hour": 10,
+    "cycle": false,
+    "cycleSeconds": 240,
+    "weather": "sun",
+    "autoWeather": false,
+    "rain": 0,
+    "snow": 0,
+    "elapsed": 9.719200000000011,
+    "daylight": 1,
+    "fogDensity": 0.00003,
+    "wind": 0.7,
+    "reflectionUpdates": 29,
+    "pmremUpdates": 16,
+    "captureFace": -1
+  },
+  "gpuIdleMiB": 0,
+  "gpuMemoryNote": "nvidia-smi reports whole-adapter memory, not this browser process; use only as a coarse bound.",
+  "downloadedBytes": 3974861,
+  "resourceCount": 21,
+  "errors": [],
+  "limitations": [
+    "GPU timestamp is not enabled in the production renderer; per-pass GPU timing requires an isolated instrumented build.",
+    "Ablations alter the image and are diagnostic, not final quality comparisons.",
+    "nvidia-smi whole-adapter memory includes unrelated applications."
+  ]
+}

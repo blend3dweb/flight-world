@@ -40,7 +40,7 @@ const scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2('#b0d0d0', .000046);
 const camera = new THREE.PerspectiveCamera(66,1,.2,60000);
 camera.rotation.order='YXZ';
-const renderer = new THREE.WebGPURenderer({ antialias: true, alpha: false, logarithmicDepthBuffer:true, powerPreference:'high-performance' });
+const renderer = new THREE.WebGPURenderer({ antialias: true, alpha: false, logarithmicDepthBuffer:true, powerPreference:'high-performance', trackTimestamp:params.has('profile') });
 await renderer.init();
 if(!renderer.backend.isWebGPUBackend)throw new Error('WebGPU недоступен. Откройте сцену в браузере с поддержкой WebGPU.');
 renderer.domElement.id='world';canvas.before(renderer.domElement);
@@ -240,6 +240,47 @@ function update(dt){
 }
 let renderFrame=0;
 let agentBridge=null;
+const performanceHud=document.querySelector('#performance-hud');
+const frameTimes=new Float64Array(2048),frameIntervals=new Float32Array(2048);
+let frameSampleCount=0,frameSampleNext=0,lastRenderedAt=0,lastPerformanceHudAt=0,lastFrameMs=null;
+function recordRenderedFrame(now){
+  if(lastRenderedAt){
+    const interval=now-lastRenderedAt;
+    frameTimes[frameSampleNext]=now;frameIntervals[frameSampleNext]=interval;
+    frameSampleNext=(frameSampleNext+1)%frameTimes.length;
+    frameSampleCount=Math.min(frameSampleCount+1,frameTimes.length);
+    lastFrameMs=interval;
+  }
+  lastRenderedAt=now;
+}
+function performanceHistory(){
+  const samples=[];
+  for(let i=0;i<frameSampleCount;i++){
+    const index=(frameSampleNext-frameSampleCount+i+frameTimes.length)%frameTimes.length;
+    samples.push({timeMs:frameTimes[index],frameMs:frameIntervals[index]});
+  }
+  return samples;
+}
+function currentPerformance(now=performance.now()){
+  if(state.paused)return {fps:0,frameMs:null,p95Ms:null,samples:0,paused:true};
+  const window=[];
+  for(let i=0;i<frameSampleCount;i++){
+    const index=(frameSampleNext-1-i+frameTimes.length)%frameTimes.length;
+    if(frameTimes[index]<now-1000)break;
+    window.push(frameIntervals[index]);
+  }
+  if(!window.length)return {fps:null,frameMs:lastFrameMs,p95Ms:null,samples:0,paused:false};
+  const average=window.reduce((sum,value)=>sum+value,0)/window.length;
+  window.sort((a,b)=>a-b);
+  return {fps:1000/average,frameMs:lastFrameMs,p95Ms:window[Math.floor(window.length*.95)],samples:window.length,paused:false};
+}
+function updatePerformanceHud(now){
+  if(now-lastPerformanceHudAt<250)return;
+  lastPerformanceHudAt=now;
+  const stats=currentPerformance(now);
+  performanceHud.textContent=stats.paused?'FPS — · пауза':`FPS ${stats.fps===null?'—':stats.fps.toFixed(0)} · ${stats.frameMs===null?'—':stats.frameMs.toFixed(0)} мс`;
+  performanceHud.dataset.slow=stats.fps!==null&&stats.fps<30?'true':'false';
+}
 sunlight.shadow.autoUpdate=false;
 function draw(){
   const cpuStart=performance.now();
@@ -270,7 +311,7 @@ function draw(){
   renderer.render(scene,camera);ctx.clearRect(0,0,W,H);hud();if(recording)composeFrame();syncEnvironmentUI();drawCount++;
   agentBridge?.reportFrame(performance.now()-cpuStart);
 }
-function frame(now){const dt=Math.min((now-(rafLast||now))/1000,.05);rafLast=now;if(!state.paused){update(dt*simulationSpeed);draw();}if(!offlineRender)requestAnimationFrame(frame);}
+function frame(now){const dt=Math.min((now-(rafLast||now))/1000,.05);rafLast=now;if(!state.paused){update(dt*simulationSpeed);draw();recordRenderedFrame(performance.now());}else lastRenderedAt=0;updatePerformanceHud(performance.now());if(!offlineRender)requestAnimationFrame(frame);}
 let hintTimer;
 function toast(message){const el=document.querySelector('#hint');el.textContent=message;el.classList.add('show');clearTimeout(hintTimer);hintTimer=setTimeout(()=>el.classList.remove('show'),5000);}
 function syncButtons(){document.querySelector('#auto').setAttribute('aria-pressed',state.auto);document.querySelector('#pause').setAttribute('aria-pressed',state.paused);document.querySelector('#pause').textContent=state.paused?'Продолжить':'Пауза';document.querySelector('#cockpit').setAttribute('aria-pressed',showCockpit);document.querySelector('#cockpit').disabled=viewMode==='external';document.querySelector('#view').setAttribute('aria-pressed',viewMode==='external');document.querySelector('#orbit').hidden=viewMode!=='external';document.querySelector('#orbit').setAttribute('aria-pressed',orbit.auto);}
@@ -408,7 +449,7 @@ async function captureAgentObservation(observer,{width=512,height=288,quality=.7
   return result;
 }
 // Deterministic frame stepping lets the MP4 exporter include every HUD pixel.
-window.flight={revision:THREE.REVISION,setQuality,getState:()=>({...state,quality,verticalSpeed,drawCount,viewMode,orbit:{...orbit},flightPlan:flightPlan(),environment:atmosphere.getState(),ocean:water.getState(),camera:camera.position.toArray(),triangles:renderer.info.render.triangles}),reset,setView,setOrbit,setEnvironment,startFlight,setPaused,setFlightAltitude,setFlightRoute,setSimulationSpeed,step(dt){const paused=state.paused;state.paused=false;try{update(dt);}finally{state.paused=paused;}draw();},seek(t){reset();for(let i=0;i<Math.floor(t*30);i++)update(1/30);draw();},setSize(w,h){W=canvas.width=w;H=canvas.height=h;renderer.setSize(Math.round(w*qualities[quality].scale),Math.round(h*qualities[quality].scale),false);camera.aspect=w/h;camera.updateProjectionMatrix();draw();},getCanvas:composeFrame};
+window.flight={revision:THREE.REVISION,setQuality,getState:()=>({...state,quality,verticalSpeed,drawCount,viewMode,orbit:{...orbit},flightPlan:flightPlan(),environment:atmosphere.getState(),ocean:water.getState(),camera:camera.position.toArray(),triangles:renderer.info.render.triangles}),getPerformance:currentPerformance,getPerformanceHistory:performanceHistory,reset,setView,setOrbit,setEnvironment,startFlight,setPaused,setFlightAltitude,setFlightRoute,setSimulationSpeed,step(dt){const paused=state.paused;state.paused=false;try{update(dt);}finally{state.paused=paused;}draw();},seek(t){reset();for(let i=0;i<Math.floor(t*30);i++)update(1/30);draw();},setSize(w,h){W=canvas.width=w;H=canvas.height=h;renderer.setSize(Math.round(w*qualities[quality].scale),Math.round(h*qualities[quality].scale),false);camera.aspect=w/h;camera.updateProjectionMatrix();draw();},getCanvas:composeFrame};
 agentBridge=createAgentBridge({scene,renderer,getWorldState:window.flight.getState,setEnvironment,startFlight,setQuality,setPaused,setFlightAltitude,setFlightRoute,setSimulationSpeed,stepSimulation:window.flight.step,captureObservation:captureAgentObservation});
 window.flight.agent=agentBridge;
 window.flight.captureShot=async({eye,target})=>{cockpit.visible=aircraft.visible=false;camera.position.set(...eye);camera.lookAt(...target);vegetation.update(camera,state.time,atmosphere.wind);atmosphere.apply(camera,{immediate:true});sunlight.shadow.needsUpdate=sunlight.intensity>.08;infrastructure.update(atmosphere.daylight,atmosphere.getState().rain,camera);water.update?.(camera,{force:true,daylight:atmosphere.daylight});seaUniforms.eye.value.copy(camera.position);renderer.render(scene,camera);await renderer.backend.device.queue.onSubmittedWorkDone();return renderer.domElement.toDataURL();};
