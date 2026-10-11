@@ -495,6 +495,15 @@ if(!offlineRender){requestAnimationFrame(frame);toast('Полёт начался
 if(params.get('matrixcity')==='1'){
   const controls=document.querySelector('#matrixcity-controls');
   const toggle=document.querySelector('#matrixcity-toggle');
+  const focusControls=document.querySelector('#matrixcity-focus-controls');
+  const focusButton=document.querySelector('#matrixcity-focus');
+  function focusMatrixCity(){
+    setMatrixCityMode('hybrid');
+    Object.assign(state,{x:-2090,y:160,z:-1930,heading:0,pitch:-.18,roll:0,auto:false,paused:true});
+    routeWaypoints=[];routeIndex=0;targetAltitude=null;
+    setView('external');setOrbit({azimuth:0,elevation:.6,distance:65,auto:false});
+    syncButtons();draw();toast('Гибридный квартал MatrixCity впереди · Нажмите «Продолжить» для пролёта');
+  }
   controls.hidden=false;
   import('./matrixcity-trial.js').then(async module=>{
     const trial=await module.createMatrixCityTrial();
@@ -513,6 +522,8 @@ if(params.get('matrixcity')==='1'){
       const hybrid=document.querySelector('#matrixcity-hybrid');
       hybrid.hidden=false;hybrid.disabled=false;
       hybrid.onclick=()=>setMatrixCityMode(matrixCityMode==='hybrid'?'geometry':'hybrid');
+      focusControls.hidden=false;focusButton.disabled=false;focusButton.onclick=focusMatrixCity;
+      if(params.get('focus')==='hybrid'&&!params.has('test'))focusMatrixCity();
     }catch(error){console.error('MatrixCity Gaussian trial unavailable',error);}
   }).catch(error=>{
     console.error('MatrixCity local trial unavailable',error);
