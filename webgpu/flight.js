@@ -375,7 +375,7 @@ function flightPlan(){return {targetAltitude,route:routeWaypoints.slice(routeInd
 function setFlightAltitude(value){if(!Number.isFinite(value)||value<60||value>4500)throw new RangeError('Altitude must be 60–4500 metres');targetAltitude=value;state.auto=true;syncButtons();return flightPlan();}
 function setFlightRoute(waypoints){if(!Array.isArray(waypoints)||waypoints.length>16||waypoints.some(point=>!point||!Number.isFinite(point.x)||!Number.isFinite(point.z)||Math.hypot(point.x,point.z)>22000||point.y!==undefined&&(!Number.isFinite(point.y)||point.y<60||point.y>4500)))throw new TypeError('Route requires 0–16 finite waypoints within the world and optional altitude 60–4500 metres');routeWaypoints=waypoints.map(point=>({x:point.x,z:point.z,...(point.y===undefined?{}:{y:point.y})}));routeIndex=0;if(routeWaypoints.length)state.auto=true;syncButtons();return flightPlan();}
 function setSimulationSpeed(value){if(!Number.isFinite(value)||value<.25||value>2)throw new RangeError('Simulation speed must be 0.25–2');simulationSpeed=value;return flightPlan();}
-function reset(){document.querySelector('#flight-location').value='city';state={...initial};targetAltitude=null;routeWaypoints=[];routeIndex=0;simulationSpeed=1;atmosphere.reset();verticalSpeed=0;keys.clear();pointer.down=false;pointer.x=pointer.y=0;viewMode='cockpit';Object.assign(orbit,{azimuth:.8,elevation:.26,distance:21,auto:false});syncButtons();draw();}
+function reset(){document.querySelector('#flight-location').value='city';state={...initial};targetAltitude=null;routeWaypoints=[];routeIndex=0;simulationSpeed=1;const speedSlider=document.querySelector('#matrixcity-speed'),speedLabel=document.querySelector('#matrixcity-speed-label');if(speedSlider)speedSlider.value='1';if(speedLabel)speedLabel.textContent='1,00×';atmosphere.reset();verticalSpeed=0;keys.clear();pointer.down=false;pointer.x=pointer.y=0;viewMode='cockpit';Object.assign(orbit,{azimuth:.8,elevation:.26,distance:21,auto:false});syncButtons();draw();}
 function startFlight(location){
   const starts={city:initial,airport:{x:2730,y:200,z:-2030,heading:0},islands:{x:-120,y:490,z:2000,heading:0}};
   if(!starts[location])return;
@@ -519,6 +519,9 @@ if(params.get('matrixcity')==='1'){
   const toggle=document.querySelector('#matrixcity-toggle');
   const focusControls=document.querySelector('#matrixcity-focus-controls');
   const focusButton=document.querySelector('#matrixcity-focus');
+  const speedControls=document.querySelector('#matrixcity-speed-controls');
+  const speedSlider=document.querySelector('#matrixcity-speed');
+  const speedLabel=document.querySelector('#matrixcity-speed-label');
   const markerControls=document.querySelector('#matrixcity-marker-controls');
   const markerButton=document.querySelector('#matrixcity-marker');
   const isolationControls=document.querySelector('#matrixcity-isolation-controls');
@@ -535,10 +538,11 @@ if(params.get('matrixcity')==='1'){
   function focusMatrixCity(){
     setMatrixCityMode('hybrid');
     setMarkerVisible(!matrixCityIsolated);
-    Object.assign(state,{x:-2090,y:160,z:-1930,heading:0,pitch:-.18,roll:0,auto:false,paused:true});
-    routeWaypoints=[];routeIndex=0;targetAltitude=null;
+    Object.assign(state,{x:-2090,y:235,z:-1430,heading:0,pitch:-.10,roll:0,speed:65,throttle:.35,auto:false,paused:true});
+    routeWaypoints=[];routeIndex=0;targetAltitude=null;setSimulationSpeed(.35);
+    speedSlider.value='0.35';speedLabel.textContent='0,35×';
     setView(matrixCityIsolated?'cockpit':'external');setOrbit({azimuth:0,elevation:.6,distance:65,auto:false});
-    syncButtons();draw();toast('Гибридный квартал MatrixCity впереди · Нажмите «Продолжить» для пролёта');
+    syncButtons();draw();toast('Медленный подлёт к MatrixCity · Нажмите «Продолжить» и остановитесь у зданий');
   }
   function toggleIsolation(){
     const isolated=setMatrixCityIsolated(!matrixCityIsolated);
@@ -568,6 +572,8 @@ if(params.get('matrixcity')==='1'){
       hybrid.hidden=false;hybrid.disabled=false;
       hybrid.onclick=()=>setMatrixCityMode(matrixCityMode==='hybrid'?'geometry':'hybrid');
       focusControls.hidden=false;focusButton.disabled=false;focusButton.onclick=focusMatrixCity;
+      speedControls.hidden=false;
+      speedSlider.oninput=()=>{const speed=Number(speedSlider.value);setSimulationSpeed(speed);speedLabel.textContent=`${speed.toFixed(2).replace('.',',')}×`;};
       markerControls.hidden=false;markerButton.disabled=false;markerButton.onclick=()=>setMarkerVisible(!trial.marker.visible);
       isolationControls.hidden=false;isolationButton.disabled=false;isolationButton.onclick=toggleIsolation;
       document.querySelector('#matrixcity-isolation-restore').onclick=toggleIsolation;
