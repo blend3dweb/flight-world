@@ -10,8 +10,8 @@ async function main() {
     page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
     const results = [];
     for (const density of ['30k', 'full']) {
-      const suffix = density === 'full' ? '&density=full' : '';
-      await page.goto(`http://127.0.0.1:8765/webgpu/index.html?matrixcity=1&focus=hybrid&isolate=1${suffix}`);
+      const suffix = density === 'full' ? '&sh=0' : '&density=30k';
+      await page.goto(`http://127.0.0.1:8765/webgpu/index.html?matrixcity=1&depth=1${suffix}`);
       await page.waitForFunction(() => window.flightReady && flight.getState().matrixCityIsolated, {}, { timeout: 120000 });
       const rows = await page.evaluate(async () => {
         const target = [-2090, 42, -2109];

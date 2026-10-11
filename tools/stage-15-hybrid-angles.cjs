@@ -23,7 +23,7 @@ async function main() {
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
-    await page.goto(origin + '/webgpu/index.html?test=1&matrixcity=1');
+    await page.goto(origin + '/webgpu/index.html?test=1&matrixcity=1&density=30k&depth=1');
     await page.waitForFunction(() => window.flightReady && window.flight.matrixCityTrial?.splat, null, { timeout: 120000 });
     const result = await page.evaluate(async () => {
       flight.setPaused(true);

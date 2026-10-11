@@ -7,12 +7,16 @@ import { createAtmosphere } from './atmosphere.js';
 import { createCity } from './city.js';
 import { urbanHeight, reservedLand, PADS, URBAN_GLSL } from './city-layout.js';
 import { createAgentBridge } from './agent-bridge.js';
+import { OrbitControls } from './node_modules/three/examples/jsm/controls/OrbitControls.js';
 
 // Seeded procedural world. No remote assets or services are needed at runtime.
 const canvas = document.querySelector('#flight');
 const ctx = canvas.getContext('2d', { alpha: true });
 const params = new URLSearchParams(location.search);
 const offlineRender = params.has('render');
+const matrixCityOnly=params.get('matrixcity')==='1'&&!params.has('test')&&!offlineRender&&params.get('world')!=='1'&&params.get('isolate')!=='0';
+const matrixCityDepthPrepass=params.get('depth')==='1';
+if(matrixCityOnly)document.documentElement.classList.add('matrixcity-only');
 if (offlineRender) document.documentElement.classList.add('render');
 let seed = 418;
 const random = () => { seed = (Math.imul(1664525, seed) + 1013904223) >>> 0; return seed / 4294967296; };
@@ -34,12 +38,16 @@ function islandHeight(x,z,a) {
   const natural=edge<0?-3+edge*150:Math.pow(edge,1.65)*a[4]*(.8+.22*noise(x*.9,z*.9))+Math.min(edge*95,8)-3;
   return urbanHeight(x,z,natural,islands.indexOf(a));
 }
-function ground(x,z) { let h=-15; for(const a of islands) h=Math.max(h,islandHeight(x,z,a)); return h; }
+function ground(x,z) { if(matrixCityOnly)return -15;let h=-15; for(const a of islands) h=Math.max(h,islandHeight(x,z,a)); return h; }
 
 const scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2('#b0d0d0', .000046);
 const camera = new THREE.PerspectiveCamera(66,1,.2,60000);
 camera.rotation.order='YXZ';
+const inspectionControls=new OrbitControls(camera,canvas);
+inspectionControls.enabled=false;inspectionControls.enableDamping=false;inspectionControls.enablePan=true;
+inspectionControls.minDistance=5;inspectionControls.maxDistance=650;
+inspectionControls.minPolarAngle=.08;inspectionControls.maxPolarAngle=Math.PI*.92;
 const renderer = new THREE.WebGPURenderer({ antialias: true, alpha: false, logarithmicDepthBuffer:true, powerPreference:'high-performance', trackTimestamp:params.has('profile') });
 await renderer.init();
 if(!renderer.backend.isWebGPUBackend)throw new Error('WebGPU недоступен. Откройте сцену в браузере с поддержкой WebGPU.');
@@ -63,7 +71,7 @@ const {ocean,uniforms:seaUniforms}=water;scene.add(ocean);
 const terrainWetness=uniform(0),terrainMaterial = new THREE.MeshStandardNodeMaterial({roughness:1});
 terrainMaterial.colorNode=attribute('color','vec3').mul(sin(positionWorld.x.mul(.16)).mul(sin(positionWorld.z.mul(.18))).mul(.045).add(.95)).mul(terrainWetness.mul(-.18).add(1));
 terrainMaterial.roughnessNode=terrainWetness.mul(-.42).add(.98);
-for(const a of islands){
+if(!matrixCityOnly)for(const a of islands){
   // Keep shoreline sampling fine enough for the same height function used by water.
   const spacing=a===islands[0]?8:24,limit=a===islands[0]?640:384;
   const nx=clamp(Math.ceil(a[2]*2.35/spacing),64,limit),nz=clamp(Math.ceil(a[3]*2.35/spacing),64,limit);
@@ -85,12 +93,12 @@ for(const a of islands){
 
 // Canopies at several scales make the islands read as dense forest in motion.
 const forestPoints=[];
-for(let i=0;i<150000;i++){
+for(let i=0;!matrixCityOnly&&i<150000;i++){
   const a=islands[Math.floor(random()*islands.length)],x=a[0]+(random()*2-1)*a[2],z=a[1]+(random()*2-1)*a[3];
   const h=islandHeight(x,z,a);
   if(h>13&&!reservedLand(x,z))forestPoints.push([x,h,z,13+random()*18]);
 }
-const vegetation=createVegetation({points:forestPoints,ground,reservedLand});const forest=vegetation.group;scene.add(forest);
+const vegetation=matrixCityOnly?{group:new THREE.Group(),update(){}}:createVegetation({points:forestPoints,ground,reservedLand});const forest=vegetation.group;scene.add(forest);
 
 // City and airport share the terrain pads and the existing environment lighting.
 const infrastructure=createCity();scene.add(infrastructure.group);
@@ -127,7 +135,7 @@ function setMatrixCityMode(mode){
   if(matrixCityTrial){
     matrixCityTrial.group.visible=mode!=='original';
     matrixCityTrial.visual.visible=mode==='geometry'||mode==='hybrid';
-    matrixCityTrial.visual.material=mode==='hybrid'?matrixCityTrial.depthMaterial:matrixCityTrial.visualMaterial;
+    matrixCityTrial.visual.material=mode==='hybrid'?(matrixCityDepthPrepass?matrixCityTrial.depthMaterial:matrixCityTrial.sensorOnlyMaterial):matrixCityTrial.visualMaterial;
     if(matrixCityTrial.splat)matrixCityTrial.splat.visible=mode==='gaussian'||mode==='hybrid';
   }
   const toggle=document.querySelector('#matrixcity-toggle');
@@ -144,7 +152,7 @@ function setMatrixCityMode(mode){
 // The atmospheric skybox supplies world-oriented cloud layers.
 // A few anchored sailboats and wakes establish scale near the islands.
 const hullMat=new THREE.MeshStandardMaterial({color:'#f1eee0',roughness:.6});
-for(let i=0;i<32;i++){
+for(let i=0;!matrixCityOnly&&i<32;i++){
   const x=(random()-.5)*10000,z=1800-random()*15000;if(ground(x,z)>-4)continue;
   const boat=new THREE.Group();const hull=new THREE.Mesh(new THREE.BoxGeometry(5,3,17),hullMat);hull.position.y=2;boat.add(hull);
   const sailGeo=new THREE.BufferGeometry();sailGeo.setAttribute('position',new THREE.Float32BufferAttribute([0,4,6,0,28,-1,0,4,-7],3));sailGeo.computeVertexNormals();boat.add(new THREE.Mesh(sailGeo,new THREE.MeshStandardMaterial({color:'#fff9e6',side:THREE.DoubleSide})));
@@ -166,6 +174,7 @@ const flightRotation=new THREE.Euler(0,0,0,'YXZ');
 const orbitOffset=new THREE.Vector3();
 const orbit={azimuth:.8,elevation:.26,distance:21,auto:false};
 let viewMode='cockpit';
+let inspectionReturn=null;
 
 const initial={x:-1730,y:350,z:-1000,heading:.10,pitch:-.035,roll:0,speed:82,throttle:.73,time:0,auto:true,paused:false};
 let state={...initial}, prevAltitude=state.y,verticalSpeed=0,showCockpit=true,recording=false,rafLast=0,drawCount=0;
@@ -245,7 +254,7 @@ function hud(){
     text('ВЕТЕР  042° / 08 KTS',40,vh-24,10,white);text('C172  /  N–042',vw-40,vh-24,10,white,'right');
   });
   if(state.time<6){const a=clamp((state.time-.25)/1.2,0,1)*clamp((6-state.time)/1.5,0,1);ctx.globalAlpha=a;text('НАД ОСТРОВАМИ',vw/2,vh*.71,29,white,'center','sans');text('ПОЧУВСТВУЙТЕ ПОЛЁТ',vw/2,vh*.71+35,11,accent,'center','sans');ctx.globalAlpha=1;}
-  if(state.paused){panel(vw/2-77,vh/2-23,154,46,.8);text('ПАУЗА',vw/2,vh/2,16,accent,'center','sans');}
+  if(state.paused&&viewMode!=='inspection'){panel(vw/2-77,vh/2-23,154,46,.8);text('ПАУЗА',vw/2,vh/2,16,accent,'center','sans');}
   if(recording){ctx.fillStyle='#f58369';ctx.beginPath();ctx.arc(vw/2+265,44,4,0,Math.PI*2);ctx.fill();text('REC',vw/2+280,44,11,white);}
   ctx.restore();
 }
@@ -307,7 +316,7 @@ function performanceHistory(){
   return samples;
 }
 function currentPerformance(now=performance.now()){
-  if(state.paused)return {fps:0,frameMs:null,p95Ms:null,samples:0,paused:true};
+  if(state.paused&&viewMode!=='inspection')return {fps:0,frameMs:null,p95Ms:null,samples:0,paused:true};
   const window=[];
   for(let i=0;i<frameSampleCount;i++){
     const index=(frameSampleNext-1-i+frameTimes.length)%frameTimes.length;
@@ -335,7 +344,9 @@ function draw(){
   aircraft.position.set(state.x,state.y+Math.sin(state.time*1.8)*.25,state.z);
   flightRotation.set(state.pitch,state.heading,state.roll,'YXZ');aircraft.quaternion.setFromEuler(flightRotation);
   aircraft.visible=!matrixCityIsolated&&viewMode==='external';propeller.rotation.z=state.time*(90+state.throttle*90);
-  if(viewMode==='external'){
+  if(viewMode==='inspection'){
+    // OrbitControls owns the camera while the airplane stays at its saved position.
+  }else if(viewMode==='external'){
     const angle=orbit.azimuth+state.heading;
     orbitOffset.set(Math.sin(angle)*Math.cos(orbit.elevation),Math.sin(orbit.elevation),Math.cos(angle)*Math.cos(orbit.elevation)).multiplyScalar(orbit.distance);
     camera.position.copy(aircraft.position).add(orbitOffset);
@@ -358,11 +369,30 @@ function draw(){
   renderer.render(scene,camera);ctx.clearRect(0,0,W,H);if(!matrixCityIsolated)hud();if(recording)composeFrame();syncEnvironmentUI();drawCount++;
   agentBridge?.reportFrame(performance.now()-cpuStart);
 }
-function frame(now){const dt=Math.min((now-(rafLast||now))/1000,.05);rafLast=now;if(agentCaptureActive){if(!offlineRender)requestAnimationFrame(frame);return;}if(!state.paused){update(dt*simulationSpeed);draw();recordRenderedFrame(performance.now());}else lastRenderedAt=0;updatePerformanceHud(performance.now());if(!offlineRender)requestAnimationFrame(frame);}
+function frame(now){const dt=Math.min((now-(rafLast||now))/1000,.05);rafLast=now;if(agentCaptureActive){if(!offlineRender)requestAnimationFrame(frame);return;}if(!state.paused||viewMode==='inspection'){if(!state.paused)update(dt*simulationSpeed);draw();recordRenderedFrame(performance.now());}else lastRenderedAt=0;updatePerformanceHud(performance.now());if(!offlineRender)requestAnimationFrame(frame);}
 let hintTimer;
 function toast(message){const el=document.querySelector('#hint');el.textContent=message;el.classList.add('show');clearTimeout(hintTimer);hintTimer=setTimeout(()=>el.classList.remove('show'),5000);}
-function syncButtons(){document.querySelector('#auto').setAttribute('aria-pressed',state.auto);document.querySelector('#pause').setAttribute('aria-pressed',state.paused);document.querySelector('#pause').textContent=state.paused?'Продолжить':'Пауза';document.querySelector('#cockpit').setAttribute('aria-pressed',showCockpit);document.querySelector('#cockpit').disabled=viewMode==='external';document.querySelector('#view').setAttribute('aria-pressed',viewMode==='external');document.querySelector('#orbit').hidden=viewMode!=='external';document.querySelector('#orbit').setAttribute('aria-pressed',orbit.auto);}
-function setView(mode){viewMode=mode==='external'?'external':'cockpit';pointer.down=false;pointer.x=pointer.y=0;syncButtons();draw();}
+function syncButtons(){document.querySelector('#auto').setAttribute('aria-pressed',state.auto);document.querySelector('#pause').setAttribute('aria-pressed',state.paused);document.querySelector('#pause').textContent=viewMode==='inspection'?'Осмотр':state.paused?'Продолжить':'Пауза';document.querySelector('#pause').disabled=viewMode==='inspection';document.querySelector('#cockpit').setAttribute('aria-pressed',showCockpit);document.querySelector('#cockpit').disabled=viewMode==='external'||viewMode==='inspection';document.querySelector('#view').setAttribute('aria-pressed',viewMode==='external');document.querySelector('#view').disabled=viewMode==='inspection';document.querySelector('#orbit').hidden=viewMode!=='external';document.querySelector('#orbit').setAttribute('aria-pressed',orbit.auto);const inspect=document.querySelector('#matrixcity-inspect');inspect.setAttribute('aria-pressed',viewMode==='inspection');inspect.textContent=viewMode==='inspection'?'К самолёту':'Орбита квартала';}
+function setView(mode){if(viewMode==='inspection'){inspectionControls.enabled=false;inspectionReturn=null;}viewMode=mode==='external'?'external':'cockpit';pointer.down=false;pointer.x=pointer.y=0;syncButtons();draw();}
+function setMatrixCityInspection(enabled){
+  if(enabled){
+    if(!matrixCityTrial?.splat)throw new Error('MatrixCity sector has not loaded');
+    if(viewMode==='inspection')return true;
+    inspectionReturn={viewMode,paused:state.paused};
+    state.paused=true;keys.clear();pointer.down=false;viewMode='inspection';
+    const box=new THREE.Box3().setFromObject(matrixCityTrial.visual);
+    const size=box.getSize(new THREE.Vector3());box.getCenter(inspectionControls.target);
+    const center=inspectionControls.target;
+    camera.position.set(center.x+Math.max(size.x*.85,55),center.y+Math.max(size.y*.8,55),center.z+Math.max(size.z*1.4,105));
+    camera.up.set(0,1,0);inspectionControls.enabled=true;inspectionControls.update();
+    syncButtons();draw();toast('Орбита квартала · Потяните мышью · Колесо — зум · Правая кнопка — сдвиг · I — к самолёту');
+    return true;
+  }
+  if(viewMode!=='inspection')return false;
+  inspectionControls.enabled=false;viewMode=inspectionReturn?.viewMode??'cockpit';
+  state.paused=inspectionReturn?.paused??true;inspectionReturn=null;
+  syncButtons();draw();return false;
+}
 function setOrbit(values){
   if(Number.isFinite(values.azimuth))orbit.azimuth=values.azimuth;
   if(Number.isFinite(values.elevation))orbit.elevation=clamp(values.elevation,-.6,1.35);
@@ -375,7 +405,7 @@ function flightPlan(){return {targetAltitude,route:routeWaypoints.slice(routeInd
 function setFlightAltitude(value){if(!Number.isFinite(value)||value<60||value>4500)throw new RangeError('Altitude must be 60–4500 metres');targetAltitude=value;state.auto=true;syncButtons();return flightPlan();}
 function setFlightRoute(waypoints){if(!Array.isArray(waypoints)||waypoints.length>16||waypoints.some(point=>!point||!Number.isFinite(point.x)||!Number.isFinite(point.z)||Math.hypot(point.x,point.z)>22000||point.y!==undefined&&(!Number.isFinite(point.y)||point.y<60||point.y>4500)))throw new TypeError('Route requires 0–16 finite waypoints within the world and optional altitude 60–4500 metres');routeWaypoints=waypoints.map(point=>({x:point.x,z:point.z,...(point.y===undefined?{}:{y:point.y})}));routeIndex=0;if(routeWaypoints.length)state.auto=true;syncButtons();return flightPlan();}
 function setSimulationSpeed(value){if(!Number.isFinite(value)||value<.25||value>2)throw new RangeError('Simulation speed must be 0.25–2');simulationSpeed=value;return flightPlan();}
-function reset(){document.querySelector('#flight-location').value='city';state={...initial};targetAltitude=null;routeWaypoints=[];routeIndex=0;simulationSpeed=1;const speedSlider=document.querySelector('#matrixcity-speed'),speedLabel=document.querySelector('#matrixcity-speed-label');if(speedSlider)speedSlider.value='1';if(speedLabel)speedLabel.textContent='1,00×';atmosphere.reset();verticalSpeed=0;keys.clear();pointer.down=false;pointer.x=pointer.y=0;viewMode='cockpit';Object.assign(orbit,{azimuth:.8,elevation:.26,distance:21,auto:false});syncButtons();draw();}
+function reset(){document.querySelector('#flight-location').value='city';state={...initial};targetAltitude=null;routeWaypoints=[];routeIndex=0;simulationSpeed=1;const speedSlider=document.querySelector('#matrixcity-speed'),speedLabel=document.querySelector('#matrixcity-speed-label');if(speedSlider)speedSlider.value='1';if(speedLabel)speedLabel.textContent='1,00×';atmosphere.reset();verticalSpeed=0;keys.clear();pointer.down=false;pointer.x=pointer.y=0;inspectionControls.enabled=false;inspectionReturn=null;viewMode='cockpit';Object.assign(orbit,{azimuth:.8,elevation:.26,distance:21,auto:false});syncButtons();draw();}
 function startFlight(location){
   const starts={city:initial,airport:{x:2730,y:200,z:-2030,heading:0},islands:{x:-120,y:490,z:2000,heading:0}};
   if(!starts[location])return;
@@ -404,21 +434,26 @@ document.querySelector('#pause').onclick=()=>{state.paused=!state.paused;syncBut
 document.querySelector('#cockpit').onclick=()=>{showCockpit=!showCockpit;syncButtons();draw();};
 document.querySelector('#view').onclick=()=>{setView(viewMode==='external'?'cockpit':'external');toast(viewMode==='external'?'Потяните мышью — осмотр · Колёсико — расстояние · O — облёт · V — в кабину':'Вид из кабины · Стрелки / WASD — управление');};
 document.querySelector('#orbit').onclick=()=>setOrbit({auto:!orbit.auto});
-document.querySelector('#reset').onclick=reset;
+document.querySelector('#matrixcity-inspect').onclick=()=>setMatrixCityInspection(viewMode!=='inspection');
+document.querySelector('#reset').onclick=()=>{reset();if(matrixCityOnly&&matrixCityTrial?.splat)document.querySelector('#matrixcity-focus').click();};
 document.querySelector('#fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{toast('Полноэкранный режим недоступен в этом окне');}};
 document.addEventListener('keydown',e=>{
   if(e.target.closest?.('#environment-panel'))return;
   if(e.target instanceof HTMLButtonElement && ['Space','Enter'].includes(e.code))return;
   if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','ControlLeft','ControlRight'].includes(e.code))e.preventDefault();
-  if(e.repeat)return;keys.add(e.code);
+  if(e.repeat)return;
+  if(e.code==='KeyI'&&matrixCityTrial?.splat){setMatrixCityInspection(viewMode!=='inspection');return;}
+  if(viewMode==='inspection'){if(e.code==='Escape')setMatrixCityInspection(false);return;}
+  keys.add(e.code);
   if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','KeyW','KeyA','KeyS','KeyD'].includes(e.code))manual();
-  if(e.code==='KeyP')document.querySelector('#auto').click();if(e.code==='Space')document.querySelector('#pause').click();if(e.code==='KeyC')document.querySelector('#cockpit').click();if(e.code==='KeyR')reset();
+  if(e.code==='KeyP')document.querySelector('#auto').click();if(e.code==='Space')document.querySelector('#pause').click();if(e.code==='KeyC')document.querySelector('#cockpit').click();if(e.code==='KeyR')document.querySelector('#reset').click();
   if(e.code==='KeyV')document.querySelector('#view').click();
   if(e.code==='KeyO'){if(viewMode!=='external')setView('external');setOrbit({auto:!orbit.auto});}
   if(viewMode==='external'&&['Equal','NumpadAdd','Minus','NumpadSubtract'].includes(e.code))setOrbit({distance:orbit.distance*(e.code==='Equal'||e.code==='NumpadAdd'?.9:1.1)});
 });
 document.addEventListener('keyup',e=>keys.delete(e.code));window.addEventListener('blur',()=>{keys.clear();pointer.down=false;});
 canvas.addEventListener('pointerdown',e=>{
+  if(viewMode==='inspection')return;
   if(!e.isPrimary||e.button!==0)return;
   if(viewMode==='cockpit')manual();else orbit.auto=false;
   canvas.focus();pointer={down:true,x:0,y:0,startX:e.clientX,startY:e.clientY,azimuth:orbit.azimuth,elevation:orbit.elevation};canvas.setPointerCapture(e.pointerId);syncButtons();
@@ -505,16 +540,17 @@ async function captureAgentObservation(observer,{width=512,height=288,quality=.7
   return result;
 }
 // Deterministic frame stepping lets the MP4 exporter include every HUD pixel.
-window.flight={revision:THREE.REVISION,setQuality,getState:()=>({...state,quality,verticalSpeed,drawCount,viewMode,orbit:{...orbit},matrixCityMode,matrixCityIsolated,flightPlan:flightPlan(),environment:atmosphere.getState(),ocean:water.getState(),camera:camera.position.toArray(),triangles:renderer.info.render.triangles}),getPerformance:currentPerformance,getPerformanceHistory:performanceHistory,setMatrixCityMode,reset,setView,setOrbit,setEnvironment,startFlight,setPaused,setFlightAltitude,setFlightRoute,setSimulationSpeed,step(dt){const paused=state.paused;state.paused=false;try{update(dt);}finally{state.paused=paused;}draw();},seek(t){reset();for(let i=0;i<Math.floor(t*30);i++)update(1/30);draw();},setSize(w,h){W=canvas.width=w;H=canvas.height=h;renderer.setSize(Math.round(w*qualities[quality].scale),Math.round(h*qualities[quality].scale),false);camera.aspect=w/h;camera.updateProjectionMatrix();draw();},getCanvas:composeFrame};
+window.flight={revision:THREE.REVISION,setQuality,getState:()=>({...state,quality,verticalSpeed,drawCount,viewMode,orbit:{...orbit},inspection:viewMode==='inspection'?{target:inspectionControls.target.toArray(),distance:camera.position.distanceTo(inspectionControls.target)}:null,matrixCityMode,matrixCityDepthPrepass,matrixCityIsolated,flightPlan:flightPlan(),environment:atmosphere.getState(),ocean:water.getState(),camera:camera.position.toArray(),triangles:renderer.info.render.triangles}),getPerformance:currentPerformance,getPerformanceHistory:performanceHistory,setMatrixCityMode,setMatrixCityInspection,reset,setView,setOrbit,setEnvironment,startFlight,setPaused,setFlightAltitude,setFlightRoute,setSimulationSpeed,step(dt){const paused=state.paused;state.paused=false;try{update(dt);}finally{state.paused=paused;}draw();},seek(t){reset();for(let i=0;i<Math.floor(t*30);i++)update(1/30);draw();},setSize(w,h){W=canvas.width=w;H=canvas.height=h;renderer.setSize(Math.round(w*qualities[quality].scale),Math.round(h*qualities[quality].scale),false);camera.aspect=w/h;camera.updateProjectionMatrix();draw();},getCanvas:composeFrame};
 agentBridge=createAgentBridge({scene,renderer,getWorldState:window.flight.getState,setEnvironment,startFlight,setQuality,setPaused,setFlightAltitude,setFlightRoute,setSimulationSpeed,stepSimulation:window.flight.step,captureObservation:captureAgentObservation});
 window.flight.agent=agentBridge;
 window.flight.captureShot=async({eye,target})=>{cockpit.visible=aircraft.visible=false;camera.position.set(...eye);camera.lookAt(...target);vegetation.update(camera,state.time,atmosphere.wind);atmosphere.apply(camera,{immediate:true});sunlight.shadow.needsUpdate=sunlight.intensity>.08;infrastructure.update(atmosphere.daylight,atmosphere.getState().rain,camera);water.update?.(camera,{force:true,daylight:atmosphere.daylight});seaUniforms.eye.value.copy(camera.position);renderer.render(scene,camera);await renderer.backend.device.queue.onSubmittedWorkDone();return renderer.domElement.toDataURL();};
 if(offlineRender||params.has('test'))window.flight.place=values=>{for(const k of ['x','y','z','heading','pitch','roll'])if(Number.isFinite(values[k]))state[k]=values[k];draw();};
 if(offlineRender||params.has('test'))window.flight.inspect=()=>({scene,camera,renderer,aircraft,cockpit,atmosphere,terrainWetness,water,vegetation,city,roofMat,windowTex,ocean,ground,islandHeight,islands,infrastructure,forest,forestPoints,reservedLand,PADS});
-window.addEventListener('resize',resize);resize();document.querySelector('#loading').remove();window.flightReady=true;
+window.addEventListener('resize',resize);resize();if(!matrixCityOnly)document.querySelector('#loading').remove();window.flightReady=true;
 if(!offlineRender){requestAnimationFrame(frame);toast('Полёт начался · Стрелки / WASD — взять управление · P — автопилот');}
 if(params.get('matrixcity')==='1'){
-  const fullRoi=params.get('density')==='full';
+  const fullRoi=params.get('density')!=='30k';
+  const shDegree=fullRoi&&params.get('sh')!=='0'?3:0;
   const controls=document.querySelector('#matrixcity-controls');
   const toggle=document.querySelector('#matrixcity-toggle');
   const focusControls=document.querySelector('#matrixcity-focus-controls');
@@ -529,6 +565,8 @@ if(params.get('matrixcity')==='1'){
   const isolationBanner=document.querySelector('#matrixcity-isolation-banner');
   const densityControls=document.querySelector('#matrixcity-density-controls');
   const densityButton=document.querySelector('#matrixcity-density');
+  const shControls=document.querySelector('#matrixcity-sh-controls');
+  const shButton=document.querySelector('#matrixcity-sh');
   function setMarkerVisible(visible){
     matrixCityTrial.marker.visible=visible;
     markerButton.setAttribute('aria-pressed',String(visible));
@@ -545,6 +583,7 @@ if(params.get('matrixcity')==='1'){
     syncButtons();draw();toast('Медленный подлёт к MatrixCity · Нажмите «Продолжить» и остановитесь у зданий');
   }
   function toggleIsolation(){
+    if(matrixCityOnly&&matrixCityIsolated){const url=new URL(location.href);url.searchParams.set('world','1');location.href=url;return;}
     const isolated=setMatrixCityIsolated(!matrixCityIsolated);
     isolationButton.setAttribute('aria-pressed',String(isolated));
     isolationButton.textContent=isolated?'Вернуть мир Океании':'Только гибрид и сплаты';
@@ -555,7 +594,7 @@ if(params.get('matrixcity')==='1'){
   }
   controls.hidden=false;
   import('./matrixcity-trial.js').then(async module=>{
-    const trial=await module.createMatrixCityTrial({splatCountLabel:fullRoi?'67 915':'30 000'});
+    const trial=await module.createMatrixCityTrial({splatCountLabel:fullRoi?`67 915 · SH${shDegree}`:'30 000 · SH0'});
     matrixCityTrial=trial;scene.add(trial.group);
     toggle.disabled=false;toggle.textContent='Геометрия MatrixCity';
     toggle.onclick=()=>setMatrixCityMode(matrixCityMode==='original'?'geometry':'original');
@@ -563,7 +602,7 @@ if(params.get('matrixcity')==='1'){
     setEnvironment({hour:10,cycle:false,weather:'sun',autoWeather:false},{immediate:true});
     draw();
     try{
-      const splat=await module.addMatrixCitySplats(trial,{fullRoi});
+      const splat=await module.addMatrixCitySplats(trial,{fullRoi,shDegree});
       window.flight.matrixCityTrial.splat=splat;
       const appearance=document.querySelector('#matrixcity-appearance');
       appearance.hidden=false;appearance.disabled=false;
@@ -572,19 +611,27 @@ if(params.get('matrixcity')==='1'){
       hybrid.hidden=false;hybrid.disabled=false;
       hybrid.onclick=()=>setMatrixCityMode(matrixCityMode==='hybrid'?'geometry':'hybrid');
       focusControls.hidden=false;focusButton.disabled=false;focusButton.onclick=focusMatrixCity;
+      document.querySelector('#matrixcity-inspect').hidden=false;
       speedControls.hidden=false;
       speedSlider.oninput=()=>{const speed=Number(speedSlider.value);setSimulationSpeed(speed);speedLabel.textContent=`${speed.toFixed(2).replace('.',',')}×`;};
       markerControls.hidden=false;markerButton.disabled=false;markerButton.onclick=()=>setMarkerVisible(!trial.marker.visible);
       isolationControls.hidden=false;isolationButton.disabled=false;isolationButton.onclick=toggleIsolation;
       document.querySelector('#matrixcity-isolation-restore').onclick=toggleIsolation;
       densityControls.hidden=false;densityButton.disabled=false;
-      densityButton.textContent=fullRoi?'Сравнить с 30 000 сплатами':'Сравнить с 67 915 сплатами';
-      densityButton.onclick=()=>{const url=new URL(location.href);if(fullRoi)url.searchParams.delete('density');else url.searchParams.set('density','full');location.href=url;};
-      if(!params.has('test')&&(params.get('focus')==='hybrid'||params.get('isolate')==='1'))focusMatrixCity();
-      if(!params.has('test')&&params.get('isolate')==='1')toggleIsolation();
-    }catch(error){console.error('MatrixCity Gaussian trial unavailable',error);}
+      densityButton.textContent=fullRoi?'Сравнить с 30 000 · SH0':'Вернуть 67 915 · SH3';
+      densityButton.onclick=()=>{const url=new URL(location.href);if(fullRoi)url.searchParams.set('density','30k');else url.searchParams.delete('density');url.searchParams.delete('sh');location.href=url;};
+      shControls.hidden=!fullRoi;shButton.disabled=!fullRoi;
+      shButton.textContent=shDegree===3?'Сравнить цвет SH0':'Вернуть ракурсный цвет SH3';
+      shButton.onclick=()=>{const url=new URL(location.href);if(shDegree===3)url.searchParams.set('sh','0');else url.searchParams.delete('sh');location.href=url;};
+      if(!params.has('test')&&!offlineRender){
+        focusMatrixCity();
+        if(params.get('world')!=='1'&&params.get('isolate')!=='0')toggleIsolation();
+      }
+      if(matrixCityOnly)document.querySelector('#loading').remove();
+    }catch(error){console.error('MatrixCity Gaussian trial unavailable',error);if(matrixCityOnly)document.querySelector('#loading').textContent='Не удалось загрузить локальные сплаты MatrixCity';}
   }).catch(error=>{
     console.error('MatrixCity local trial unavailable',error);
     toggle.textContent='Локальные данные MatrixCity недоступны';
+    if(matrixCityOnly)document.querySelector('#loading').textContent='Не удалось загрузить локальные данные MatrixCity';
   });
 }

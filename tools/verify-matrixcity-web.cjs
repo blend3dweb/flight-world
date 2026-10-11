@@ -6,7 +6,9 @@ const { chromium } = require('C:/Users/sva/.cache/codex-runtimes/codex-primary-r
 
 const root = path.resolve(__dirname, '..');
 const origin = 'http://127.0.0.1:8765';
-const fullRoi = process.argv.includes('--full-roi');
+const sh3 = process.argv.includes('--sh3');
+const fullRoi = process.argv.includes('--full-roi') || sh3;
+const depthPrepass = process.argv.includes('--depth-prepass');
 
 async function main() {
   let server = null;
@@ -25,7 +27,7 @@ async function main() {
     const errors = [];
     page.on('pageerror', error => errors.push(error.stack || error.message));
     page.on('console', message => { if (message.type() === 'error') errors.push(`${message.text()} at ${JSON.stringify(message.location())}`); });
-    await page.goto(origin + `/webgpu/index.html?test=1&matrixcity=1${fullRoi ? '&density=full' : ''}`);
+    await page.goto(origin + `/webgpu/index.html?test=1&matrixcity=1${sh3 ? '' : fullRoi ? '&sh=0' : '&density=30k'}${depthPrepass ? '&depth=1' : ''}`);
     await page.waitForFunction(() => window.flightReady && window.flight.matrixCityTrial?.splat, null, { timeout: 120000 });
     const result = await page.evaluate(async () => {
       const { scene, infrastructure } = flight.inspect();
@@ -36,6 +38,7 @@ async function main() {
         collisionTriangles: collision.geometry.index.count / 3,
         stableId: collision.userData.agent.stableId,
         splats: splat.splatGeometry.attributes.position.count,
+        sh3: splat.splatGeometry.hasAttribute('sphericalHarmonics3'),
         replacedBlock: infrastructure.getBlockElementCounts(12),
       };
       flight.setMatrixCityMode('geometry');
@@ -72,6 +75,7 @@ async function main() {
         centerId, centerHits, identifiedId: identified.hit?.object.id ?? null };
       flight.setMatrixCityMode('hybrid');
       const hybrid = { mode: flight.getState().matrixCityMode, depthMaterial: visual.material.colorWrite === false && visual.material.depthWrite === true,
+        sensorOnly: visual.material.visible === false && visual.material.depthWrite === false,
         geometryVisible: visual.visible, splatVisible: splat.visible, blockVisible: infrastructure.getBlockVisibility(12) };
       const hybridObservation = await flight.agent.observe({ visual: true, sensors: ['rgb', 'depth', 'normal', 'objectId'], width: 128, height: 72 });
       hybrid.sensors = Object.keys(hybridObservation.visual.passes);
@@ -83,6 +87,7 @@ async function main() {
     assert.ok(result.loaded.vertices > 10000 && result.loaded.triangles > 10000);
     assert.equal(result.loaded.stableId, 'matrixcity-building-001');
     assert.equal(result.loaded.splats, fullRoi ? 67915 : 30000);
+    assert.equal(result.loaded.sh3, sh3);
     assert.ok(result.loaded.replacedBlock.instances > 0 && result.loaded.replacedBlock.surfaces > 0);
     assert.equal(result.active.mode, 'geometry');
     assert.equal(result.active.cityVisible, true);
@@ -97,7 +102,8 @@ async function main() {
     assert.equal(result.gaussian.sensors.geometryRestored, true);
     assert.equal(result.gaussian.sensors.identifiedId, result.gaussian.sensors.centerId);
     assert.equal(result.hybrid.mode, 'hybrid');
-    assert.equal(result.hybrid.depthMaterial, true);
+    assert.equal(result.hybrid.depthMaterial, depthPrepass);
+    assert.equal(result.hybrid.sensorOnly, !depthPrepass);
     assert.equal(result.hybrid.geometryVisible, true);
     assert.equal(result.hybrid.splatVisible, true);
     assert.equal(result.hybrid.blockVisible, false);

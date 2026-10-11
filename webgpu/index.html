@@ -12,8 +12,9 @@
     #performance-hud{position:fixed;right:24px;top:24px;z-index:2;padding:8px 11px;border:1px solid #d8ebd633;border-radius:8px;background:#0a202ee8;color:#d7efb5;font:12px Consolas,monospace;pointer-events:none;font-variant-numeric:tabular-nums}#performance-hud[data-slow=true]{color:#ffd39b}.render #performance-hud{display:none}
     #loading{position:fixed;inset:0;display:grid;place-content:center;text-align:center;letter-spacing:4px;background:#112b39;z-index:4}#loading small{letter-spacing:1px;margin-top:20px;color:#acc9ce;font-size:12px}.render #controls,.render #hint{display:none}
     #environment-panel{position:fixed;right:24px;top:94px;width:252px;padding:12px;background:#0a202ee8;border:1px solid #d8ebd633;border-radius:10px;backdrop-filter:blur(18px);font-size:12px;z-index:2}#environment-panel summary{cursor:pointer;color:#e0f0d5;user-select:none}#environment-panel summary span{float:right;font-family:Consolas,monospace}#environment-panel label{display:block;margin:15px 0 8px;color:#b9cdd0}#environment-panel input[type=range]{width:100%;accent-color:#d7efb5}#environment-panel select{background:#243b46;color:#ecf2e8;border:1px solid #58717a;border-radius:5px;padding:7px;width:100%}.weather-buttons{display:flex;gap:4px;margin-top:6px}.weather-buttons button{flex:1;padding:9px 5px}.environment-actions{display:flex;gap:4px;margin-top:10px}.environment-actions button{flex:1;padding:9px 5px;font-size:11px}#matrixcity-controls[hidden]{display:none}.render #environment-panel{display:none}
-    #matrixcity-focus-controls[hidden],#matrixcity-marker-controls[hidden],#matrixcity-isolation-controls[hidden],#matrixcity-density-controls[hidden],#matrixcity-speed-controls[hidden]{display:none}
+    #matrixcity-focus-controls[hidden],#matrixcity-marker-controls[hidden],#matrixcity-isolation-controls[hidden],#matrixcity-density-controls[hidden],#matrixcity-sh-controls[hidden],#matrixcity-speed-controls[hidden]{display:none}
     #matrixcity-isolation-banner{position:fixed;top:24px;left:24px;z-index:3;padding:7px 9px;background:#10232cee;border:1px solid #ffcc55;border-radius:8px;color:#ffde89;font-size:12px}#matrixcity-isolation-banner[hidden]{display:none}#matrixcity-isolation-banner button{margin-left:8px;background:#ffcc55;color:#18242b}
+    .matrixcity-only label[for=flight-location],.matrixcity-only #flight-location{display:none}
     @media(max-width:650px){#controls{bottom:12px;gap:0;padding:4px;width:calc(100vw - 16px);flex-wrap:wrap;justify-content:center}button{padding:10px 8px;font-size:11px}#record{display:none}}
     @media(max-width:650px){#environment-panel{right:10px;top:126px;width:220px;padding:10px}}
     @media(max-width:650px){#performance-hud{right:10px;top:10px}}
@@ -27,6 +28,7 @@
     <button id="cockpit" aria-pressed="true" title="C — кабина">Кабина</button>
     <button id="view" aria-pressed="false" title="V — вид снаружи / из кабины">Снаружи</button>
     <button id="orbit" aria-pressed="false" title="O — автоматический облёт самолёта" hidden>Облёт</button>
+    <button id="matrixcity-inspect" aria-pressed="false" title="I — орбита вокруг квартала, колесо — приближение" hidden>Орбита квартала</button>
     <button id="record" title="Записать 20 секунд полёта">● Запись</button>
     <button id="reset" title="R — начать заново">↺</button>
     <button id="fullscreen" title="Полный экран">⛶</button>
@@ -43,6 +45,7 @@
     <div class="environment-actions" id="matrixcity-marker-controls" hidden><button id="matrixcity-marker" style="width:100%" aria-pressed="false" disabled>Показать метку MatrixCity</button></div>
     <div class="environment-actions" id="matrixcity-isolation-controls" hidden><button id="matrixcity-isolation" style="width:100%" aria-pressed="false" disabled>Только гибрид и сплаты</button></div>
     <div class="environment-actions" id="matrixcity-density-controls" hidden><button id="matrixcity-density" style="width:100%" disabled>Сравнить плотность сплатов</button></div>
+    <div class="environment-actions" id="matrixcity-sh-controls" hidden><button id="matrixcity-sh" style="width:100%" disabled>Сравнить ракурсный цвет</button></div>
     <label for="time-of-day">Время суток</label>
     <input id="time-of-day" type="range" min="0" max="23.99" step="0.05" value="10" aria-label="Время суток">
     <label for="day-duration">Полные сутки за</label>
@@ -54,7 +57,7 @@
   </details>
   <div id="performance-hud" aria-label="Текущая частота кадров" title="FPS за последнюю секунду и время последнего кадра">FPS — · — мс</div>
   <div id="hint" role="status"></div>
-  <div id="loading">A E R O<small>Создаём острова. Готовим самолёт.</small></div>
+  <div id="loading">A E R O<small>Готовим сцену и самолёт.</small></div>
   <script type="importmap">{"imports":{"three/webgpu":"./node_modules/three/build/three.webgpu.js","three/tsl":"./node_modules/three/build/three.tsl.js","three":"./node_modules/three/build/three.webgpu.js"}}</script>
   <script type="module">
     try { await import('./flight.js'); }

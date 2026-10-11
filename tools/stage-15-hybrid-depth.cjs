@@ -44,7 +44,7 @@ async function main() {
     page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
     page.on('response', response => { if (response.url().startsWith(origin)) resources.set(response.url(), Number(response.headers()['content-length']) || 0); });
     page.on('crash', () => errors.push('Page crashed'));
-    await page.goto(origin + `/webgpu/index.html?test=1&matrixcity=1${fullRoi ? '&density=full' : ''}`);
+    await page.goto(origin + `/webgpu/index.html?test=1&matrixcity=1&depth=1${fullRoi ? '&sh=0' : '&density=30k'}`);
     await page.waitForFunction(() => window.flightReady && window.flight.matrixCityTrial?.splat, null, { timeout: 120000 });
     const adapter = await page.evaluate(() => flight.inspect().renderer.backend.device.adapterInfo);
     const report = { stage: '15.3 depth-prepass trial', date: new Date().toISOString(), adapter, viewport: { width: 1920, height: 1080 }, quality: 'high', environment: '10:00, sunny and dry, cycle off', route, modes, trials: [], errors, splatCount: fullRoi ? 67915 : 30000, note: 'Same route; Gaussian-only vs depth-only mesh plus Gaussian, followed by a Gaussian repeat. Frames only, no saved images or video.' };

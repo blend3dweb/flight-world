@@ -31,8 +31,10 @@ export async function createMatrixCityTrial({ splatCountLabel = '30 000' } = {})
   group.rotation.x = -Math.PI / 2;
 
   const visualMaterial = new THREE.MeshStandardMaterial({ color: '#b8bfc2', roughness: .9, side: THREE.DoubleSide });
-  // The local hybrid writes the source mesh depth before transparent splats.
+  // Historical depth-prepass diagnostic; the default hybrid keeps the mesh sensor-only.
   const depthMaterial = new THREE.MeshBasicMaterial({ colorWrite: false, depthWrite: true, side: THREE.DoubleSide });
+  // Keep the mesh queryable for raycasts while Gaussian supplies the visible colour.
+  const sensorOnlyMaterial = new THREE.MeshBasicMaterial({ visible: false, colorWrite: false, depthWrite: false, side: THREE.DoubleSide });
   const visual = new THREE.Mesh(surface, visualMaterial);
   visual.name = 'MatrixCity depth-derived visible surfaces';
   visual.userData.agent = { semantic: 'building', module: 'matrixcity-trial.js', stableId: 'matrixcity-sector-surface', source: 'MatrixCity aerial block_3' };
@@ -84,12 +86,14 @@ export async function createMatrixCityTrial({ splatCountLabel = '30 000' } = {})
   group.add(collision);
 
   group.visible = false;
-  return { group, visual, visualMaterial, depthMaterial, collision, marker, splat: null, origin: ORIGIN.toArray() };
+  return { group, visual, visualMaterial, depthMaterial, sensorOnlyMaterial, collision, marker, splat: null, origin: ORIGIN.toArray() };
 }
 
-export async function addMatrixCitySplats(trial, { fullRoi = false } = {}) {
+export async function addMatrixCitySplats(trial, { fullRoi = true, shDegree = 3 } = {}) {
+  if (shDegree !== 0 && shDegree !== 3) throw new RangeError('MatrixCity SH degree must be 0 or 3');
+  const effectiveDegree = fullRoi ? shDegree : 0;
   const [geometry, metadata] = await Promise.all([
-    new GaussianSplatPLYLoader().loadAsync(`${ASSET_ROOT}${fullRoi ? 'splats_roi_sh0_full.ply' : 'splats_roi_sh0_30k.ply'}`),
+    new GaussianSplatPLYLoader().loadAsync(`${ASSET_ROOT}splats_roi_sh${effectiveDegree}_${fullRoi ? 'full' : '30k'}.ply`),
     fetch(`${ASSET_ROOT}alignment_metadata.json`).then(response => {
       if (!response.ok) throw new Error(`MatrixCity alignment HTTP ${response.status}`);
       return response.json();
@@ -114,7 +118,7 @@ export async function addMatrixCitySplats(trial, { fullRoi = false } = {}) {
   inverse.setPosition(t);
   const splat = new GaussianSplat(geometry);
   splat.name = 'MatrixCity cropped Gaussian appearance';
-  splat.userData.agent = { semantic: 'building', module: 'matrixcity-trial.js', source: `MatrixCity Splatfacto SH0 ${fullRoi ? 'full ROI' : '30k'}` };
+  splat.userData.agent = { semantic: 'building', module: 'matrixcity-trial.js', source: `MatrixCity Splatfacto SH${effectiveDegree} ${fullRoi ? 'full ROI' : '30k'}` };
   splat.applyMatrix4(inverse);
   splat.visible = false;
   trial.group.add(splat);
