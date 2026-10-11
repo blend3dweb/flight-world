@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>МГУ · Gaussian WebGPU</title>
+<style>
+body{margin:0;overflow:hidden;background:#142832;color:#edf4e7;font:14px Segoe UI,sans-serif}canvas{display:block;width:100vw;height:100vh}#panel{position:fixed;top:16px;left:16px;background:#10232eee;padding:14px;border-radius:10px;max-width:310px}label{display:block;margin:12px 0 6px}button,select{background:#304952;color:#edf4e7;border:1px solid #78918e;border-radius:6px;padding:8px;cursor:pointer}button{margin-top:10px}#status{margin-top:12px;max-width:300px;overflow-wrap:anywhere}#fps{position:fixed;right:16px;top:16px;background:#10232eee;padding:10px;font:14px Consolas,monospace}a{color:#d7efb5}
+</style>
+<div id="panel"><b>МГУ · Gaussian SH3</b><label for="density">Количество сплатов</label><select id="density"><option value="250000">250 000 · быстрый просмотр</option><option value="750000">750 000 · сравнение</option><option value="3000000">3 000 000 · исходный ассет</option></select><br><button id="home">Общий вид</button> <button id="axis">Вверх: Y</button><br><button id="color">Цвет sRGB</button><p>Мышь — орбита · колесо — зум<br>Правая кнопка — сдвиг</p><a href="./index.html?matrixcity=1">Вернуться к MatrixCity</a><div id="status">Подготовка WebGPU…</div></div><div id="fps">FPS —</div>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.webgpu.js","three/webgpu":"./node_modules/three/build/three.webgpu.js","three/tsl":"./node_modules/three/build/three.tsl.js"}}</script>
+<script type="module" src="./mgu.js"></script>
+</html>

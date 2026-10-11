@@ -8,6 +8,7 @@ dist/
 exports/
 tmp/
 data/matrixcity/
+data/mgu/
 
 # Local browser profile and caches
 .chrome-webgpu/

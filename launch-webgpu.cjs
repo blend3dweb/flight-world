@@ -2,6 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { spawn } = require('node:child_process');
 const origin = 'http://127.0.0.1:8765';
+const sceneUrl = origin + (process.argv.includes('--mgu') ? '/webgpu/mgu.html' : '/webgpu/index.html');
 async function checkServer() {
   let response;
   try { response = await fetch(origin + '/webgpu/index.html', { signal: AbortSignal.timeout(1500) }); }
@@ -26,10 +27,10 @@ async function launch() {
   const roots = [process.env.PROGRAMFILES, process.env['PROGRAMFILES(X86)'], process.env.LOCALAPPDATA].filter(Boolean);
   const executables = ['Google/Chrome/Application/chrome.exe', 'Microsoft/Edge/Application/msedge.exe'];
   const browser = executables.flatMap(name => roots.map(root => path.join(root, name))).find(file => fs.existsSync(file));
-  if (!browser) throw new Error('Chrome or Edge is required. Open ' + origin + '/webgpu/index.html in a WebGPU browser.');
+  if (!browser) throw new Error('Chrome or Edge is required. Open ' + sceneUrl + ' in a WebGPU browser.');
   // A separate browser profile makes GPU selection independent of already open personal windows.
-  const child = spawn(browser, ['--user-data-dir=' + path.join(__dirname, '.chrome-webgpu'), '--no-first-run', '--no-default-browser-check', '--force-high-performance-gpu', '--use-webgpu-power-preference=high-performance', '--new-window', origin + '/webgpu/index.html'], { detached: true, stdio: 'ignore' });
+  const child = spawn(browser, ['--user-data-dir=' + path.join(__dirname, '.chrome-webgpu'), '--no-first-run', '--no-default-browser-check', '--force-high-performance-gpu', '--use-webgpu-power-preference=high-performance', '--new-window', sceneUrl], { detached: true, stdio: 'ignore' });
   child.unref();
-  console.log('AERO WebGPU: ' + origin + '/webgpu/index.html');
+  console.log('AERO WebGPU: ' + sceneUrl);
 }
 launch().catch(error => { console.error(error.message); process.exitCode = 1; });
