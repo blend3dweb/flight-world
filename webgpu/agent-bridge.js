@@ -103,6 +103,7 @@ export function createAgentBridge({
     const classification = classify(object);
     return {
       id: idFor(object),
+      stableId: object.userData?.agent?.stableId ?? undefined,
       uuid: object.uuid,
       name: object.name || object.type,
       type: object.type,

@@ -95,6 +95,20 @@ const vegetation=createVegetation({points:forestPoints,ground,reservedLand});con
 // City and airport share the terrain pads and the existing environment lighting.
 const infrastructure=createCity();scene.add(infrastructure.group);
 const city=infrastructure.towerMesh,roofMat=infrastructure.roofMat,windowTex=null;
+let matrixCityTrial=null;
+let matrixCityMode='original';
+function setMatrixCityMode(mode){
+  if(mode!=='original'&&mode!=='geometry')throw new TypeError('Unknown MatrixCity mode');
+  if(mode==='geometry'&&!matrixCityTrial)throw new Error('MatrixCity geometry has not loaded');
+  matrixCityMode=mode;
+  infrastructure.group.visible=mode==='original';
+  if(matrixCityTrial)matrixCityTrial.group.visible=mode==='geometry';
+  const toggle=document.querySelector('#matrixcity-toggle');
+  toggle?.setAttribute('aria-pressed',mode==='geometry');
+  if(toggle)toggle.textContent=mode==='geometry'?'Вернуть Океанию':'Показать геометрию MatrixCity';
+  draw();
+  return mode;
+}
 
 // The atmospheric skybox supplies world-oriented cloud layers.
 // A few anchored sailboats and wakes establish scale near the islands.
@@ -449,7 +463,7 @@ async function captureAgentObservation(observer,{width=512,height=288,quality=.7
   return result;
 }
 // Deterministic frame stepping lets the MP4 exporter include every HUD pixel.
-window.flight={revision:THREE.REVISION,setQuality,getState:()=>({...state,quality,verticalSpeed,drawCount,viewMode,orbit:{...orbit},flightPlan:flightPlan(),environment:atmosphere.getState(),ocean:water.getState(),camera:camera.position.toArray(),triangles:renderer.info.render.triangles}),getPerformance:currentPerformance,getPerformanceHistory:performanceHistory,reset,setView,setOrbit,setEnvironment,startFlight,setPaused,setFlightAltitude,setFlightRoute,setSimulationSpeed,step(dt){const paused=state.paused;state.paused=false;try{update(dt);}finally{state.paused=paused;}draw();},seek(t){reset();for(let i=0;i<Math.floor(t*30);i++)update(1/30);draw();},setSize(w,h){W=canvas.width=w;H=canvas.height=h;renderer.setSize(Math.round(w*qualities[quality].scale),Math.round(h*qualities[quality].scale),false);camera.aspect=w/h;camera.updateProjectionMatrix();draw();},getCanvas:composeFrame};
+window.flight={revision:THREE.REVISION,setQuality,getState:()=>({...state,quality,verticalSpeed,drawCount,viewMode,orbit:{...orbit},matrixCityMode,flightPlan:flightPlan(),environment:atmosphere.getState(),ocean:water.getState(),camera:camera.position.toArray(),triangles:renderer.info.render.triangles}),getPerformance:currentPerformance,getPerformanceHistory:performanceHistory,setMatrixCityMode,reset,setView,setOrbit,setEnvironment,startFlight,setPaused,setFlightAltitude,setFlightRoute,setSimulationSpeed,step(dt){const paused=state.paused;state.paused=false;try{update(dt);}finally{state.paused=paused;}draw();},seek(t){reset();for(let i=0;i<Math.floor(t*30);i++)update(1/30);draw();},setSize(w,h){W=canvas.width=w;H=canvas.height=h;renderer.setSize(Math.round(w*qualities[quality].scale),Math.round(h*qualities[quality].scale),false);camera.aspect=w/h;camera.updateProjectionMatrix();draw();},getCanvas:composeFrame};
 agentBridge=createAgentBridge({scene,renderer,getWorldState:window.flight.getState,setEnvironment,startFlight,setQuality,setPaused,setFlightAltitude,setFlightRoute,setSimulationSpeed,stepSimulation:window.flight.step,captureObservation:captureAgentObservation});
 window.flight.agent=agentBridge;
 window.flight.captureShot=async({eye,target})=>{cockpit.visible=aircraft.visible=false;camera.position.set(...eye);camera.lookAt(...target);vegetation.update(camera,state.time,atmosphere.wind);atmosphere.apply(camera,{immediate:true});sunlight.shadow.needsUpdate=sunlight.intensity>.08;infrastructure.update(atmosphere.daylight,atmosphere.getState().rain,camera);water.update?.(camera,{force:true,daylight:atmosphere.daylight});seaUniforms.eye.value.copy(camera.position);renderer.render(scene,camera);await renderer.backend.device.queue.onSubmittedWorkDone();return renderer.domElement.toDataURL();};
@@ -457,3 +471,19 @@ if(offlineRender||params.has('test'))window.flight.place=values=>{for(const k of
 if(offlineRender||params.has('test'))window.flight.inspect=()=>({scene,camera,renderer,aircraft,cockpit,atmosphere,terrainWetness,water,vegetation,city,roofMat,windowTex,ocean,ground,islandHeight,islands,infrastructure,forest,forestPoints,reservedLand,PADS});
 window.addEventListener('resize',resize);resize();document.querySelector('#loading').remove();window.flightReady=true;
 if(!offlineRender){requestAnimationFrame(frame);toast('Полёт начался · Стрелки / WASD — взять управление · P — автопилот');}
+if(params.get('matrixcity')==='1'){
+  const controls=document.querySelector('#matrixcity-controls');
+  const toggle=document.querySelector('#matrixcity-toggle');
+  controls.hidden=false;
+  import('./matrixcity-trial.js').then(module=>module.createMatrixCityTrial()).then(trial=>{
+    matrixCityTrial=trial;scene.add(trial.group);
+    toggle.disabled=false;toggle.textContent='Показать геометрию MatrixCity';
+    toggle.onclick=()=>setMatrixCityMode(matrixCityMode==='original'?'geometry':'original');
+    window.flight.matrixCityTrial={origin:trial.origin,visual:trial.visual,collision:trial.collision};
+    if(params.get('matrixcity')==='1')setEnvironment({hour:10,cycle:false,weather:'sun',autoWeather:false},{immediate:true});
+    draw();
+  }).catch(error=>{
+    console.error('MatrixCity local trial unavailable',error);
+    toggle.textContent='Локальные данные MatrixCity недоступны';
+  });
+}
