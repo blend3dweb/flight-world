@@ -98,14 +98,21 @@ const city=infrastructure.towerMesh,roofMat=infrastructure.roofMat,windowTex=nul
 let matrixCityTrial=null;
 let matrixCityMode='original';
 function setMatrixCityMode(mode){
-  if(mode!=='original'&&mode!=='geometry')throw new TypeError('Unknown MatrixCity mode');
-  if(mode==='geometry'&&!matrixCityTrial)throw new Error('MatrixCity geometry has not loaded');
+  if(!['original','geometry','gaussian'].includes(mode))throw new TypeError('Unknown MatrixCity mode');
+  if(mode!=='original'&&!matrixCityTrial)throw new Error('MatrixCity geometry has not loaded');
+  if(mode==='gaussian'&&!matrixCityTrial.splat)throw new Error('MatrixCity Gaussian appearance has not loaded');
   matrixCityMode=mode;
   infrastructure.group.visible=mode==='original';
-  if(matrixCityTrial)matrixCityTrial.group.visible=mode==='geometry';
+  if(matrixCityTrial){
+    matrixCityTrial.group.visible=mode!=='original';
+    matrixCityTrial.visual.visible=mode==='geometry';
+    if(matrixCityTrial.splat)matrixCityTrial.splat.visible=mode==='gaussian';
+  }
   const toggle=document.querySelector('#matrixcity-toggle');
-  toggle?.setAttribute('aria-pressed',mode==='geometry');
-  if(toggle)toggle.textContent=mode==='geometry'?'Вернуть Океанию':'Показать геометрию MatrixCity';
+  toggle?.setAttribute('aria-pressed',mode!=='original');
+  if(toggle)toggle.textContent=mode!=='original'?'Вернуть Океанию':'Геометрия MatrixCity';
+  const appearance=document.querySelector('#matrixcity-appearance');
+  appearance?.setAttribute('aria-pressed',mode==='gaussian');
   draw();
   return mode;
 }
@@ -475,13 +482,21 @@ if(params.get('matrixcity')==='1'){
   const controls=document.querySelector('#matrixcity-controls');
   const toggle=document.querySelector('#matrixcity-toggle');
   controls.hidden=false;
-  import('./matrixcity-trial.js').then(module=>module.createMatrixCityTrial()).then(trial=>{
+  import('./matrixcity-trial.js').then(async module=>{
+    const trial=await module.createMatrixCityTrial();
     matrixCityTrial=trial;scene.add(trial.group);
-    toggle.disabled=false;toggle.textContent='Показать геометрию MatrixCity';
+    toggle.disabled=false;toggle.textContent='Геометрия MatrixCity';
     toggle.onclick=()=>setMatrixCityMode(matrixCityMode==='original'?'geometry':'original');
     window.flight.matrixCityTrial={origin:trial.origin,visual:trial.visual,collision:trial.collision};
-    if(params.get('matrixcity')==='1')setEnvironment({hour:10,cycle:false,weather:'sun',autoWeather:false},{immediate:true});
+    setEnvironment({hour:10,cycle:false,weather:'sun',autoWeather:false},{immediate:true});
     draw();
+    try{
+      const splat=await module.addMatrixCitySplats(trial);
+      window.flight.matrixCityTrial.splat=splat;
+      const appearance=document.querySelector('#matrixcity-appearance');
+      appearance.hidden=false;appearance.disabled=false;
+      appearance.onclick=()=>setMatrixCityMode(matrixCityMode==='gaussian'?'geometry':'gaussian');
+    }catch(error){console.error('MatrixCity Gaussian trial unavailable',error);}
   }).catch(error=>{
     console.error('MatrixCity local trial unavailable',error);
     toggle.textContent='Локальные данные MatrixCity недоступны';

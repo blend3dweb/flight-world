@@ -1,5 +1,7 @@
 import * as THREE from './vendor/three.module.js';
 import { PLYLoader } from './node_modules/three/examples/jsm/loaders/PLYLoader.js';
+import { GaussianSplatPLYLoader } from './node_modules/three/examples/jsm/loaders/GaussianSplatPLYLoader.js';
+import { GaussianSplat } from './node_modules/three/examples/jsm/objects/GaussianSplat.js';
 
 // Local, non-distributable geometry trial. MatrixCity uses metres with Z up.
 // The pair of meshes shares one transform, so visual depth and collision agree.
@@ -40,5 +42,40 @@ export async function createMatrixCityTrial() {
   group.add(collision);
 
   group.visible = false;
-  return { group, visual, collision, origin: ORIGIN.toArray() };
+  return { group, visual, collision, splat: null, origin: ORIGIN.toArray() };
+}
+
+export async function addMatrixCitySplats(trial) {
+  const [geometry, metadata] = await Promise.all([
+    new GaussianSplatPLYLoader().loadAsync(`${ASSET_ROOT}splats_roi_sh0_30k.ply`),
+    fetch(`${ASSET_ROOT}alignment_metadata.json`).then(response => {
+      if (!response.ok) throw new Error(`MatrixCity alignment HTTP ${response.status}`);
+      return response.json();
+    }),
+  ]);
+  const rows = metadata.dataparser_transform;
+  const s = metadata.dataparser_scale;
+  if (!Array.isArray(rows) || rows.length !== 3 || !Number.isFinite(s) || s <= 0) throw new Error('Invalid MatrixCity alignment');
+  const t = new THREE.Vector3(rows[0][3], rows[1][3], rows[2][3]);
+  const inverse = new THREE.Matrix4().set(
+    rows[0][0] / s, rows[1][0] / s, rows[2][0] / s, 0,
+    rows[0][1] / s, rows[1][1] / s, rows[2][1] / s, 0,
+    rows[0][2] / s, rows[1][2] / s, rows[2][2] / s, 0,
+    0, 0, 0, 1,
+  );
+  t.applyMatrix4(new THREE.Matrix4().set(
+    rows[0][0], rows[1][0], rows[2][0], 0,
+    rows[0][1], rows[1][1], rows[2][1], 0,
+    rows[0][2], rows[1][2], rows[2][2], 0,
+    0, 0, 0, 1,
+  )).negate();
+  inverse.setPosition(t);
+  const splat = new GaussianSplat(geometry);
+  splat.name = 'MatrixCity cropped Gaussian appearance';
+  splat.userData.agent = { semantic: 'building', module: 'matrixcity-trial.js', source: 'MatrixCity Splatfacto SH0 30k' };
+  splat.applyMatrix4(inverse);
+  splat.visible = false;
+  trial.group.add(splat);
+  trial.splat = splat;
+  return splat;
 }

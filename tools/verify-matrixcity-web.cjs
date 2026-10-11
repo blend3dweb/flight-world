@@ -23,16 +23,18 @@ async function main() {
     const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
+    page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
     await page.goto(origin + '/webgpu/index.html?test=1&matrixcity=1');
-    await page.waitForFunction(() => window.flightReady && window.flight.matrixCityTrial, null, { timeout: 120000 });
-    const result = await page.evaluate(() => {
+    await page.waitForFunction(() => window.flightReady && window.flight.matrixCityTrial?.splat, null, { timeout: 120000 });
+    const result = await page.evaluate(async () => {
       const { scene, infrastructure } = flight.inspect();
-      const { visual, collision } = flight.matrixCityTrial;
+      const { visual, collision, splat } = flight.matrixCityTrial;
       const loaded = {
         vertices: visual.geometry.attributes.position.count,
         triangles: visual.geometry.index.count / 3,
         collisionTriangles: collision.geometry.index.count / 3,
         stableId: collision.userData.agent.stableId,
+        splats: splat.splatGeometry.attributes.position.count,
       };
       flight.setMatrixCityMode('geometry');
       const active = { mode: flight.getState().matrixCityMode, cityVisible: infrastructure.group.visible, trialVisible: visual.parent.visible };
@@ -40,15 +42,25 @@ async function main() {
       const catalog = flight.agent.queryObjects({ name: 'matrixcity-building-001', visible: false });
       const colliderHits = flight.agent.raycast({ origin: [-2022, 200, -1900], direction: [0, -1, 0], limit: 32 })
         .filter(hit => hit.object.stableId === 'matrixcity-building-001').length;
+      flight.setMatrixCityMode('gaussian');
+      flight.place({ x: -2020, y: 170, z: -1750, heading: 0, pitch: -0.35, roll: 0 });
+      const beforeDraws = flight.getState().drawCount;
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      const gaussian = { mode: flight.getState().matrixCityMode, splatVisible: splat.visible, geometryVisible: visual.visible, drawnFrames: flight.getState().drawCount - beforeDraws };
       flight.setMatrixCityMode('original');
       const restored = { mode: flight.getState().matrixCityMode, cityVisible: infrastructure.group.visible, trialVisible: visual.parent.visible };
-      return { loaded, active, restored, collisionFound: found === collision, catalog: catalog.map(item => item.stableId), colliderHits };
+      return { loaded, active, gaussian, restored, collisionFound: found === collision, catalog: catalog.map(item => item.stableId), colliderHits };
     });
     assert.ok(result.loaded.vertices > 10000 && result.loaded.triangles > 10000);
     assert.equal(result.loaded.stableId, 'matrixcity-building-001');
+    assert.equal(result.loaded.splats, 30000);
     assert.equal(result.active.mode, 'geometry');
     assert.equal(result.active.cityVisible, false);
     assert.equal(result.active.trialVisible, true);
+    assert.equal(result.gaussian.mode, 'gaussian');
+    assert.equal(result.gaussian.splatVisible, true);
+    assert.equal(result.gaussian.geometryVisible, false);
+    assert.ok(result.gaussian.drawnFrames > 0);
     assert.equal(result.restored.mode, 'original');
     assert.equal(result.restored.cityVisible, true);
     assert.equal(result.restored.trialVisible, false);
