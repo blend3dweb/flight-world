@@ -2,6 +2,7 @@ import * as THREE from './vendor/three.module.js';
 import { PLYLoader } from './node_modules/three/examples/jsm/loaders/PLYLoader.js';
 import { GaussianSplatPLYLoader } from './node_modules/three/examples/jsm/loaders/GaussianSplatPLYLoader.js';
 import { GaussianSplat } from './node_modules/three/examples/jsm/objects/GaussianSplat.js';
+import { sRGBTransferEOTF, vec4 } from 'three/tsl';
 
 // Local, non-distributable geometry trial. MatrixCity uses metres with Z up.
 // The pair of meshes shares one transform, so visual depth and collision agree.
@@ -89,7 +90,7 @@ export async function createMatrixCityTrial({ splatCountLabel = '30 000' } = {})
   return { group, visual, visualMaterial, depthMaterial, sensorOnlyMaterial, collision, marker, splat: null, origin: ORIGIN.toArray() };
 }
 
-export async function addMatrixCitySplats(trial, { fullRoi = true, shDegree = 3 } = {}) {
+export async function addMatrixCitySplats(trial, { fullRoi = true, shDegree = 3, colorCorrected = true } = {}) {
   if (shDegree !== 0 && shDegree !== 3) throw new RangeError('MatrixCity SH degree must be 0 or 3');
   const effectiveDegree = fullRoi ? shDegree : 0;
   const [geometry, metadata] = await Promise.all([
@@ -117,6 +118,19 @@ export async function addMatrixCitySplats(trial, { fullRoi = true, shDegree = 3 
   )).negate();
   inverse.setPosition(t);
   const splat = new GaussianSplat(geometry);
+  const rawColorNode = splat.material.colorNode;
+  const correctedColorNode = vec4(sRGBTransferEOTF(rawColorNode.rgb), rawColorNode.a);
+  trial.setColorCorrected = enabled => {
+    const corrected = Boolean(enabled);
+    if (trial.colorCorrected !== corrected) {
+      splat.material.colorNode = corrected ? correctedColorNode : rawColorNode;
+      splat.material.needsUpdate = true;
+    }
+    trial.colorCorrected = corrected;
+    splat.userData.colorCorrected = corrected;
+    return corrected;
+  };
+  trial.setColorCorrected(colorCorrected);
   splat.name = 'MatrixCity cropped Gaussian appearance';
   splat.userData.agent = { semantic: 'building', module: 'matrixcity-trial.js', source: `MatrixCity Splatfacto SH${effectiveDegree} ${fullRoi ? 'full ROI' : '30k'}` };
   splat.applyMatrix4(inverse);

@@ -32,6 +32,16 @@ async function main() {
     const result = await page.evaluate(async () => {
       const { scene, infrastructure } = flight.inspect();
       const { visual, collision, splat } = flight.matrixCityTrial;
+      const color = { initial: flight.getState().matrixCityColorCorrected };
+      flight.matrixCityTrial.setColorCorrected(false);
+      color.raw = flight.getState().matrixCityColorCorrected;
+      flight.matrixCityTrial.setColorCorrected(true);
+      color.restored = flight.getState().matrixCityColorCorrected;
+      flight.setMatrixCityInspection(true);
+      flight.matrixCityTrial.setColorCorrected(false);
+      color.orbit = flight.getState().viewMode === 'inspection' && flight.getState().matrixCityColorCorrected === false;
+      flight.matrixCityTrial.setColorCorrected(true);
+      flight.setMatrixCityInspection(false);
       const loaded = {
         vertices: visual.geometry.attributes.position.count,
         triangles: visual.geometry.index.count / 3,
@@ -82,12 +92,13 @@ async function main() {
       hybrid.materialRestored = visual.material.colorWrite === false && splat.visible;
       flight.setMatrixCityMode('original');
       const restored = { mode: flight.getState().matrixCityMode, cityVisible: infrastructure.group.visible, blockVisible: infrastructure.getBlockVisibility(12), trialVisible: visual.parent.visible };
-      return { loaded, active, gaussian, hybrid, restored, collisionFound: found === collision, catalog: catalog.map(item => item.stableId), colliderHits };
+      return { loaded, color, active, gaussian, hybrid, restored, collisionFound: found === collision, catalog: catalog.map(item => item.stableId), colliderHits };
     });
     assert.ok(result.loaded.vertices > 10000 && result.loaded.triangles > 10000);
     assert.equal(result.loaded.stableId, 'matrixcity-building-001');
     assert.equal(result.loaded.splats, fullRoi ? 67915 : 30000);
     assert.equal(result.loaded.sh3, sh3);
+    assert.deepEqual(result.color, { initial: true, raw: false, restored: true, orbit: true });
     assert.ok(result.loaded.replacedBlock.instances > 0 && result.loaded.replacedBlock.surfaces > 0);
     assert.equal(result.active.mode, 'geometry');
     assert.equal(result.active.cityVisible, true);

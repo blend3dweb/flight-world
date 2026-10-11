@@ -16,14 +16,13 @@ async function main() {
     const page = await browser.newPage({ viewport: { width: 960, height: 540 } });
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
-    await page.goto('http://127.0.0.1:8765/webgpu/index.html?test=1&matrixcity=1');
+    await page.goto('http://127.0.0.1:8765/webgpu/index.html?test=1&matrixcity=1&color=raw');
     await page.waitForFunction(() => window.flightReady && window.flight.matrixCityTrial?.splat, null, { timeout: 120000 });
     for (const name of frames) {
       const frame = transforms.frames.find(item => item.file_path.endsWith(`/${name}.png`));
       if (!frame) throw new Error(`Frame ${name} unavailable`);
       const captures = await page.evaluate(async ({ pose, width, height }) => {
         const THREE = await import('/webgpu/vendor/three.module.js');
-        const TSL = await import('/webgpu/node_modules/three/build/three.tsl.js');
         flight.setPaused(true);
         flight.setMatrixCityMode('gaussian');
         const { scene, renderer } = flight.inspect();
@@ -38,7 +37,6 @@ async function main() {
         const hidden = scene.children.filter(object => object !== group).map(object => [object, object.visible]);
         for (const [object] of hidden) object.visible = false;
         const oldBackground = scene.background, oldFog = scene.fog, oldTone = renderer.toneMapping, oldExposure = renderer.toneMappingExposure;
-        const originalColorNode = trial.splat.material.colorNode;
         scene.background = new THREE.Color(0, 0, 0);scene.fog = null;
         const target = new THREE.RenderTarget(width, height, { depthBuffer: true });
         target.texture.colorSpace = THREE.SRGBColorSpace;
@@ -48,8 +46,9 @@ async function main() {
           const result = {};
           for (const [mode, tone, exposure] of [['neutral', THREE.NoToneMapping, 1], ['app', THREE.ACESFilmicToneMapping, 1.05], ['srgb-fixed', THREE.NoToneMapping, 1]]) {
             if (mode === 'srgb-fixed') {
-              trial.splat.material.colorNode = TSL.vec4(TSL.sRGBTransferEOTF(originalColorNode.rgb), originalColorNode.a);
-              trial.splat.material.needsUpdate = true;
+              scene.background = oldBackground;scene.fog = oldFog;
+              trial.setColorCorrected(true);
+              scene.background = new THREE.Color(0, 0, 0);scene.fog = null;
             }
             renderer.toneMapping = tone;renderer.toneMappingExposure = exposure;
             renderer.setRenderTarget(target);
@@ -61,9 +60,9 @@ async function main() {
           return result;
         } finally {
           renderer.setRenderTarget(null);target.dispose();
-          trial.splat.material.colorNode = originalColorNode;trial.splat.material.needsUpdate = true;
           scene.background = oldBackground;scene.fog = oldFog;renderer.toneMapping = oldTone;renderer.toneMappingExposure = oldExposure;
           for (const [object, visible] of hidden) object.visible = visible;
+          trial.setColorCorrected(false);
         }
       }, { pose: frame.transform_matrix, width: transforms.w, height: transforms.h });
       for (const [mode, png] of Object.entries(captures)) fs.writeFileSync(path.join(out, `${name}-web-${mode}.png`), Buffer.from(png, 'base64'));
