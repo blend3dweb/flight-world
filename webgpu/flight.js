@@ -99,21 +99,24 @@ const matrixCityBlockId=12;
 let matrixCityTrial=null;
 let matrixCityMode='original';
 function setMatrixCityMode(mode){
-  if(!['original','geometry','gaussian'].includes(mode))throw new TypeError('Unknown MatrixCity mode');
+  if(!['original','geometry','gaussian','hybrid'].includes(mode))throw new TypeError('Unknown MatrixCity mode');
   if(mode!=='original'&&!matrixCityTrial)throw new Error('MatrixCity geometry has not loaded');
-  if(mode==='gaussian'&&!matrixCityTrial.splat)throw new Error('MatrixCity Gaussian appearance has not loaded');
+  if((mode==='gaussian'||mode==='hybrid')&&!matrixCityTrial.splat)throw new Error('MatrixCity Gaussian appearance has not loaded');
   matrixCityMode=mode;
   infrastructure.setBlockVisible(matrixCityBlockId,mode==='original');
   if(matrixCityTrial){
     matrixCityTrial.group.visible=mode!=='original';
-    matrixCityTrial.visual.visible=mode==='geometry';
-    if(matrixCityTrial.splat)matrixCityTrial.splat.visible=mode==='gaussian';
+    matrixCityTrial.visual.visible=mode==='geometry'||mode==='hybrid';
+    matrixCityTrial.visual.material=mode==='hybrid'?matrixCityTrial.depthMaterial:matrixCityTrial.visualMaterial;
+    if(matrixCityTrial.splat)matrixCityTrial.splat.visible=mode==='gaussian'||mode==='hybrid';
   }
   const toggle=document.querySelector('#matrixcity-toggle');
   toggle?.setAttribute('aria-pressed',mode!=='original');
   if(toggle)toggle.textContent=mode!=='original'?'Вернуть Океанию':'Геометрия MatrixCity';
   const appearance=document.querySelector('#matrixcity-appearance');
   appearance?.setAttribute('aria-pressed',mode==='gaussian');
+  const hybrid=document.querySelector('#matrixcity-hybrid');
+  hybrid?.setAttribute('aria-pressed',mode==='hybrid');
   draw();
   return mode;
 }
@@ -439,7 +442,7 @@ async function captureAgentObservation(observer,{width=512,height=288,quality=.7
   const cockpitVisible=cockpit.visible,aircraftVisible=aircraft.visible;
   cockpit.visible=false;aircraft.visible=true;
   const previousTarget=renderer.getRenderTarget(),previousOverride=scene.overrideMaterial,previousBackground=scene.background,previousToneMapping=renderer.toneMapping;
-  const trialVisualVisible=matrixCityTrial?.visual.visible,trialSplatVisible=matrixCityTrial?.splat?.visible;
+  const trialVisualVisible=matrixCityTrial?.visual.visible,trialSplatVisible=matrixCityTrial?.splat?.visible,trialVisualMaterial=matrixCityTrial?.visual.material;
   const target=new THREE.RenderTarget(captureWidth,captureHeight,{depthBuffer:true,stencilBuffer:false});
   target.texture.colorSpace=THREE.SRGBColorSpace;
   const dataTarget=new THREE.RenderTarget(captureWidth,captureHeight,{depthBuffer:true,stencilBuffer:false});dataTarget.texture.colorSpace=THREE.NoColorSpace;
@@ -452,7 +455,7 @@ async function captureAgentObservation(observer,{width=512,height=288,quality=.7
     const rgb=agentImage(await renderPixels(),captureWidth,captureHeight,'image/jpeg',clamp(Number(quality)||.72,.35,.92));Object.assign(result,rgb);result.passes.rgb=rgb;
     // Geometry remains the authoritative source for structural sensors while
     // the Gaussian appearance is visible in the regular RGB frame.
-    if(matrixCityMode==='gaussian'&&matrixCityTrial){matrixCityTrial.visual.visible=true;matrixCityTrial.splat.visible=false;}
+    if((matrixCityMode==='gaussian'||matrixCityMode==='hybrid')&&matrixCityTrial){matrixCityTrial.visual.visible=true;matrixCityTrial.visual.material=matrixCityTrial.visualMaterial;matrixCityTrial.splat.visible=false;}
     if(requested.has('depth')){
       captureTarget=dataTarget;scene.background=null;renderer.toneMapping=THREE.NoToneMapping;
       scene.overrideMaterial=new THREE.MeshBasicNodeMaterial();scene.overrideMaterial.fragmentNode=vec4(vec3(positionView.length().div(observer.far).saturate()),1);scene.overrideMaterial.toneMapped=false;scene.overrideMaterial.fog=false;
@@ -474,7 +477,7 @@ async function captureAgentObservation(observer,{width=512,height=288,quality=.7
   }finally{
     for(const [object,material,visible] of savedObjects){object.material=material;object.visible=visible;}for(const material of idMaterials)material.dispose();
     scene.overrideMaterial=previousOverride;scene.background=previousBackground;renderer.toneMapping=previousToneMapping;renderer.setRenderTarget(previousTarget);target.dispose();dataTarget.dispose();cockpit.visible=cockpitVisible;aircraft.visible=aircraftVisible;
-    if(matrixCityTrial){matrixCityTrial.visual.visible=trialVisualVisible;if(matrixCityTrial.splat)matrixCityTrial.splat.visible=trialSplatVisible;}
+    if(matrixCityTrial){matrixCityTrial.visual.visible=trialVisualVisible;matrixCityTrial.visual.material=trialVisualMaterial;if(matrixCityTrial.splat)matrixCityTrial.splat.visible=trialSplatVisible;}
     agentCaptureActive=false;
     draw();
   }
@@ -507,6 +510,9 @@ if(params.get('matrixcity')==='1'){
       const appearance=document.querySelector('#matrixcity-appearance');
       appearance.hidden=false;appearance.disabled=false;
       appearance.onclick=()=>setMatrixCityMode(matrixCityMode==='gaussian'?'geometry':'gaussian');
+      const hybrid=document.querySelector('#matrixcity-hybrid');
+      hybrid.hidden=false;hybrid.disabled=false;
+      hybrid.onclick=()=>setMatrixCityMode(matrixCityMode==='hybrid'?'geometry':'hybrid');
     }catch(error){console.error('MatrixCity Gaussian trial unavailable',error);}
   }).catch(error=>{
     console.error('MatrixCity local trial unavailable',error);

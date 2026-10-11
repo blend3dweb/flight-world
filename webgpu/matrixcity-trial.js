@@ -30,7 +30,10 @@ export async function createMatrixCityTrial() {
   group.position.copy(ORIGIN);
   group.rotation.x = -Math.PI / 2;
 
-  const visual = new THREE.Mesh(surface, new THREE.MeshStandardMaterial({ color: '#b8bfc2', roughness: .9, side: THREE.DoubleSide }));
+  const visualMaterial = new THREE.MeshStandardMaterial({ color: '#b8bfc2', roughness: .9, side: THREE.DoubleSide });
+  // The local hybrid writes the source mesh depth before transparent splats.
+  const depthMaterial = new THREE.MeshBasicMaterial({ colorWrite: false, depthWrite: true, side: THREE.DoubleSide });
+  const visual = new THREE.Mesh(surface, visualMaterial);
   visual.name = 'MatrixCity depth-derived visible surfaces';
   visual.userData.agent = { semantic: 'building', module: 'matrixcity-trial.js', stableId: 'matrixcity-sector-surface', source: 'MatrixCity aerial block_3' };
   visual.receiveShadow = true;
@@ -43,7 +46,7 @@ export async function createMatrixCityTrial() {
   group.add(collision);
 
   group.visible = false;
-  return { group, visual, collision, splat: null, origin: ORIGIN.toArray() };
+  return { group, visual, visualMaterial, depthMaterial, collision, splat: null, origin: ORIGIN.toArray() };
 }
 
 export async function addMatrixCitySplats(trial) {

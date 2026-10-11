@@ -69,9 +69,15 @@ async function main() {
       gaussian.sensors = { passes: Object.keys(observation.visual.passes), geometrySensorPasses,
         geometryRestored: !visual.visible && splat.visible, rgbBytes: observation.visual.passes.rgb.dataUrl.length,
         centerId, centerHits, identifiedId: identified.hit?.object.id ?? null };
+      flight.setMatrixCityMode('hybrid');
+      const hybrid = { mode: flight.getState().matrixCityMode, depthMaterial: visual.material.colorWrite === false && visual.material.depthWrite === true,
+        geometryVisible: visual.visible, splatVisible: splat.visible, blockVisible: infrastructure.getBlockVisibility(12) };
+      const hybridObservation = await flight.agent.observe({ visual: true, sensors: ['rgb', 'depth', 'normal', 'objectId'], width: 128, height: 72 });
+      hybrid.sensors = Object.keys(hybridObservation.visual.passes);
+      hybrid.materialRestored = visual.material.colorWrite === false && splat.visible;
       flight.setMatrixCityMode('original');
       const restored = { mode: flight.getState().matrixCityMode, cityVisible: infrastructure.group.visible, blockVisible: infrastructure.getBlockVisibility(12), trialVisible: visual.parent.visible };
-      return { loaded, active, gaussian, restored, collisionFound: found === collision, catalog: catalog.map(item => item.stableId), colliderHits };
+      return { loaded, active, gaussian, hybrid, restored, collisionFound: found === collision, catalog: catalog.map(item => item.stableId), colliderHits };
     });
     assert.ok(result.loaded.vertices > 10000 && result.loaded.triangles > 10000);
     assert.equal(result.loaded.stableId, 'matrixcity-building-001');
@@ -89,6 +95,13 @@ async function main() {
     assert.ok(result.gaussian.sensors.geometrySensorPasses >= 3);
     assert.equal(result.gaussian.sensors.geometryRestored, true);
     assert.equal(result.gaussian.sensors.identifiedId, result.gaussian.sensors.centerId);
+    assert.equal(result.hybrid.mode, 'hybrid');
+    assert.equal(result.hybrid.depthMaterial, true);
+    assert.equal(result.hybrid.geometryVisible, true);
+    assert.equal(result.hybrid.splatVisible, true);
+    assert.equal(result.hybrid.blockVisible, false);
+    assert.deepEqual(result.hybrid.sensors, ['rgb', 'depth', 'normal', 'objectId']);
+    assert.equal(result.hybrid.materialRestored, true);
     assert.equal(result.restored.mode, 'original');
     assert.equal(result.restored.cityVisible, true);
     assert.equal(result.restored.blockVisible, true);
