@@ -95,6 +95,7 @@ const vegetation=createVegetation({points:forestPoints,ground,reservedLand});con
 // City and airport share the terrain pads and the existing environment lighting.
 const infrastructure=createCity();scene.add(infrastructure.group);
 const city=infrastructure.towerMesh,roofMat=infrastructure.roofMat,windowTex=null;
+const matrixCityBlockId=12;
 let matrixCityTrial=null;
 let matrixCityMode='original';
 function setMatrixCityMode(mode){
@@ -102,7 +103,7 @@ function setMatrixCityMode(mode){
   if(mode!=='original'&&!matrixCityTrial)throw new Error('MatrixCity geometry has not loaded');
   if(mode==='gaussian'&&!matrixCityTrial.splat)throw new Error('MatrixCity Gaussian appearance has not loaded');
   matrixCityMode=mode;
-  infrastructure.group.visible=mode==='original';
+  infrastructure.setBlockVisible(matrixCityBlockId,mode==='original');
   if(matrixCityTrial){
     matrixCityTrial.group.visible=mode!=='original';
     matrixCityTrial.visual.visible=mode==='geometry';

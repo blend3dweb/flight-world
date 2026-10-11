@@ -1,0 +1,1078 @@
+{
+  "stage": "15.3 provisional",
+  "date": "2026-10-11T15:15:44.968Z",
+  "adapter": {},
+  "viewport": {
+    "width": 1920,
+    "height": 1080
+  },
+  "quality": "high",
+  "environment": "10:00, sunny and dry, cycle off",
+  "route": {
+    "start": {
+      "x": -2320,
+      "y": 190,
+      "z": -2110,
+      "heading": -1.5707963267948966,
+      "pitch": 0,
+      "roll": 0
+    },
+    "waypoint": {
+      "x": -1800,
+      "y": 190,
+      "z": -2110
+    },
+    "view": {
+      "mode": "external",
+      "azimuth": 0.8,
+      "elevation": 0.9,
+      "distance": 65,
+      "auto": false
+    }
+  },
+  "modes": [
+    "original",
+    "geometry",
+    "gaussian",
+    "original"
+  ],
+  "trials": [
+    {
+      "mode": "original",
+      "frames": 55,
+      "medianFrameMs": 92.5,
+      "p95FrameMs": 232.7,
+      "p99FrameMs": 724.5,
+      "maxFrameMs": 724.5,
+      "meanFps": 9.612695749440718,
+      "over50Ms": 37,
+      "timeline": [
+        {
+          "elapsedMs": 12,
+          "frameMs": 724.5
+        },
+        {
+          "elapsedMs": 30,
+          "frameMs": 18.7
+        },
+        {
+          "elapsedMs": 41,
+          "frameMs": 11.2
+        },
+        {
+          "elapsedMs": 232,
+          "frameMs": 190.7
+        },
+        {
+          "elapsedMs": 237,
+          "frameMs": 5
+        },
+        {
+          "elapsedMs": 243,
+          "frameMs": 5.7
+        },
+        {
+          "elapsedMs": 441,
+          "frameMs": 197.8
+        },
+        {
+          "elapsedMs": 499,
+          "frameMs": 58.3
+        },
+        {
+          "elapsedMs": 581,
+          "frameMs": 82
+        },
+        {
+          "elapsedMs": 806,
+          "frameMs": 224.7
+        },
+        {
+          "elapsedMs": 920,
+          "frameMs": 114.4
+        },
+        {
+          "elapsedMs": 1030,
+          "frameMs": 110.2
+        },
+        {
+          "elapsedMs": 1180,
+          "frameMs": 150.1
+        },
+        {
+          "elapsedMs": 1265,
+          "frameMs": 84.6
+        },
+        {
+          "elapsedMs": 1368,
+          "frameMs": 103.4
+        },
+        {
+          "elapsedMs": 1487,
+          "frameMs": 118.2
+        },
+        {
+          "elapsedMs": 1595,
+          "frameMs": 108.8
+        },
+        {
+          "elapsedMs": 1680,
+          "frameMs": 85
+        },
+        {
+          "elapsedMs": 1826,
+          "frameMs": 146.1
+        },
+        {
+          "elapsedMs": 1841,
+          "frameMs": 14.7
+        },
+        {
+          "elapsedMs": 1854,
+          "frameMs": 12.6
+        },
+        {
+          "elapsedMs": 1876,
+          "frameMs": 22.4
+        },
+        {
+          "elapsedMs": 1909,
+          "frameMs": 32.9
+        },
+        {
+          "elapsedMs": 2013,
+          "frameMs": 104.3
+        },
+        {
+          "elapsedMs": 2211,
+          "frameMs": 197.9
+        },
+        {
+          "elapsedMs": 2316,
+          "frameMs": 104.7
+        },
+        {
+          "elapsedMs": 2331,
+          "frameMs": 14.8
+        },
+        {
+          "elapsedMs": 2363,
+          "frameMs": 32.4
+        },
+        {
+          "elapsedMs": 2456,
+          "frameMs": 92.5
+        },
+        {
+          "elapsedMs": 2554,
+          "frameMs": 98.1
+        },
+        {
+          "elapsedMs": 2786,
+          "frameMs": 232.7
+        },
+        {
+          "elapsedMs": 2820,
+          "frameMs": 33.1
+        },
+        {
+          "elapsedMs": 2982,
+          "frameMs": 162.3
+        },
+        {
+          "elapsedMs": 3044,
+          "frameMs": 62.1
+        },
+        {
+          "elapsedMs": 3077,
+          "frameMs": 32.7
+        },
+        {
+          "elapsedMs": 3253,
+          "frameMs": 175.9
+        },
+        {
+          "elapsedMs": 3377,
+          "frameMs": 124.7
+        },
+        {
+          "elapsedMs": 3453,
+          "frameMs": 75.6
+        },
+        {
+          "elapsedMs": 3588,
+          "frameMs": 135.3
+        },
+        {
+          "elapsedMs": 3751,
+          "frameMs": 162.4
+        },
+        {
+          "elapsedMs": 3835,
+          "frameMs": 84.3
+        },
+        {
+          "elapsedMs": 3948,
+          "frameMs": 113.5
+        },
+        {
+          "elapsedMs": 4181,
+          "frameMs": 232.9
+        },
+        {
+          "elapsedMs": 4323,
+          "frameMs": 141.8
+        },
+        {
+          "elapsedMs": 4414,
+          "frameMs": 91.2
+        },
+        {
+          "elapsedMs": 4526,
+          "frameMs": 112.2
+        },
+        {
+          "elapsedMs": 4683,
+          "frameMs": 156.6
+        },
+        {
+          "elapsedMs": 4859,
+          "frameMs": 175.7
+        },
+        {
+          "elapsedMs": 4879,
+          "frameMs": 19.8
+        },
+        {
+          "elapsedMs": 4894,
+          "frameMs": 15.5
+        },
+        {
+          "elapsedMs": 4908,
+          "frameMs": 13.7
+        },
+        {
+          "elapsedMs": 4924,
+          "frameMs": 16.7
+        },
+        {
+          "elapsedMs": 4938,
+          "frameMs": 13.1
+        },
+        {
+          "elapsedMs": 4955,
+          "frameMs": 17.1
+        },
+        {
+          "elapsedMs": 5009,
+          "frameMs": 54
+        }
+      ],
+      "renderer": {
+        "calls": 723,
+        "frameCalls": 3,
+        "drawCalls": 439,
+        "triangles": 26508001,
+        "points": 0,
+        "lines": 0,
+        "timestamp": 0
+      },
+      "jsHeapBytes": 226452896,
+      "stateStart": {
+        "x": -2320,
+        "y": 190,
+        "z": -2110,
+        "matrixCityMode": "original"
+      },
+      "state": {
+        "x": -2134.327000286918,
+        "y": 190,
+        "z": -2110,
+        "matrixCityMode": "original"
+      },
+      "gpuMiB": {
+        "start": 495,
+        "end": 507
+      }
+    },
+    {
+      "mode": "geometry",
+      "frames": 54,
+      "medianFrameMs": 102.4,
+      "p95FrameMs": 160.2,
+      "p99FrameMs": 582.8,
+      "maxFrameMs": 582.8,
+      "meanFps": 9.662008624237327,
+      "over50Ms": 46,
+      "timeline": [
+        {
+          "elapsedMs": 69,
+          "frameMs": 582.8
+        },
+        {
+          "elapsedMs": 213,
+          "frameMs": 144
+        },
+        {
+          "elapsedMs": 374,
+          "frameMs": 160.2
+        },
+        {
+          "elapsedMs": 489,
+          "frameMs": 115.9
+        },
+        {
+          "elapsedMs": 540,
+          "frameMs": 50.9
+        },
+        {
+          "elapsedMs": 667,
+          "frameMs": 126.5
+        },
+        {
+          "elapsedMs": 739,
+          "frameMs": 71.8
+        },
+        {
+          "elapsedMs": 837,
+          "frameMs": 98.3
+        },
+        {
+          "elapsedMs": 992,
+          "frameMs": 154.7
+        },
+        {
+          "elapsedMs": 1050,
+          "frameMs": 58.7
+        },
+        {
+          "elapsedMs": 1191,
+          "frameMs": 141.1
+        },
+        {
+          "elapsedMs": 1295,
+          "frameMs": 103.4
+        },
+        {
+          "elapsedMs": 1442,
+          "frameMs": 147.6
+        },
+        {
+          "elapsedMs": 1545,
+          "frameMs": 102.4
+        },
+        {
+          "elapsedMs": 1644,
+          "frameMs": 99.4
+        },
+        {
+          "elapsedMs": 1764,
+          "frameMs": 119.7
+        },
+        {
+          "elapsedMs": 1857,
+          "frameMs": 93
+        },
+        {
+          "elapsedMs": 2008,
+          "frameMs": 150.8
+        },
+        {
+          "elapsedMs": 2069,
+          "frameMs": 61.3
+        },
+        {
+          "elapsedMs": 2154,
+          "frameMs": 84.5
+        },
+        {
+          "elapsedMs": 2199,
+          "frameMs": 45.5
+        },
+        {
+          "elapsedMs": 2235,
+          "frameMs": 36.1
+        },
+        {
+          "elapsedMs": 2382,
+          "frameMs": 146.4
+        },
+        {
+          "elapsedMs": 2515,
+          "frameMs": 133.4
+        },
+        {
+          "elapsedMs": 2527,
+          "frameMs": 11.9
+        },
+        {
+          "elapsedMs": 2593,
+          "frameMs": 66.2
+        },
+        {
+          "elapsedMs": 2786,
+          "frameMs": 193.2
+        },
+        {
+          "elapsedMs": 2869,
+          "frameMs": 83.1
+        },
+        {
+          "elapsedMs": 2967,
+          "frameMs": 97.5
+        },
+        {
+          "elapsedMs": 3110,
+          "frameMs": 143.4
+        },
+        {
+          "elapsedMs": 3162,
+          "frameMs": 51.8
+        },
+        {
+          "elapsedMs": 3287,
+          "frameMs": 125
+        },
+        {
+          "elapsedMs": 3379,
+          "frameMs": 91.8
+        },
+        {
+          "elapsedMs": 3392,
+          "frameMs": 12.9
+        },
+        {
+          "elapsedMs": 3405,
+          "frameMs": 13.3
+        },
+        {
+          "elapsedMs": 3435,
+          "frameMs": 29.8
+        },
+        {
+          "elapsedMs": 3551,
+          "frameMs": 116.4
+        },
+        {
+          "elapsedMs": 3621,
+          "frameMs": 70.1
+        },
+        {
+          "elapsedMs": 3736,
+          "frameMs": 115.1
+        },
+        {
+          "elapsedMs": 3760,
+          "frameMs": 24
+        },
+        {
+          "elapsedMs": 3775,
+          "frameMs": 14.3
+        },
+        {
+          "elapsedMs": 3830,
+          "frameMs": 55.3
+        },
+        {
+          "elapsedMs": 3903,
+          "frameMs": 72.8
+        },
+        {
+          "elapsedMs": 4020,
+          "frameMs": 117.3
+        },
+        {
+          "elapsedMs": 4171,
+          "frameMs": 150.6
+        },
+        {
+          "elapsedMs": 4230,
+          "frameMs": 59.6
+        },
+        {
+          "elapsedMs": 4366,
+          "frameMs": 135.6
+        },
+        {
+          "elapsedMs": 4489,
+          "frameMs": 123.5
+        },
+        {
+          "elapsedMs": 4562,
+          "frameMs": 72.1
+        },
+        {
+          "elapsedMs": 4669,
+          "frameMs": 107.5
+        },
+        {
+          "elapsedMs": 4792,
+          "frameMs": 122.7
+        },
+        {
+          "elapsedMs": 4842,
+          "frameMs": 50.7
+        },
+        {
+          "elapsedMs": 4951,
+          "frameMs": 108.9
+        },
+        {
+          "elapsedMs": 5075,
+          "frameMs": 124.1
+        }
+      ],
+      "renderer": {
+        "calls": 1537,
+        "frameCalls": 3,
+        "drawCalls": 437,
+        "triangles": 26772007,
+        "points": 0,
+        "lines": 0,
+        "timestamp": 0
+      },
+      "jsHeapBytes": 133359704,
+      "stateStart": {
+        "x": -2320,
+        "y": 190,
+        "z": -2110,
+        "matrixCityMode": "geometry"
+      },
+      "state": {
+        "x": -2113.1328677853994,
+        "y": 190,
+        "z": -2110,
+        "matrixCityMode": "geometry"
+      },
+      "gpuMiB": {
+        "start": 512,
+        "end": 512
+      }
+    },
+    {
+      "mode": "gaussian",
+      "frames": 55,
+      "medianFrameMs": 104.7,
+      "p95FrameMs": 199.5,
+      "p99FrameMs": 739.6,
+      "maxFrameMs": 739.6,
+      "meanFps": 9.378303720628859,
+      "over50Ms": 42,
+      "timeline": [
+        {
+          "elapsedMs": 121,
+          "frameMs": 739.6
+        },
+        {
+          "elapsedMs": 276,
+          "frameMs": 155.3
+        },
+        {
+          "elapsedMs": 374,
+          "frameMs": 97.4
+        },
+        {
+          "elapsedMs": 553,
+          "frameMs": 179.4
+        },
+        {
+          "elapsedMs": 677,
+          "frameMs": 123.6
+        },
+        {
+          "elapsedMs": 750,
+          "frameMs": 72.8
+        },
+        {
+          "elapsedMs": 890,
+          "frameMs": 140
+        },
+        {
+          "elapsedMs": 1016,
+          "frameMs": 126
+        },
+        {
+          "elapsedMs": 1120,
+          "frameMs": 104.7
+        },
+        {
+          "elapsedMs": 1295,
+          "frameMs": 175
+        },
+        {
+          "elapsedMs": 1410,
+          "frameMs": 115.1
+        },
+        {
+          "elapsedMs": 1487,
+          "frameMs": 76.9
+        },
+        {
+          "elapsedMs": 1708,
+          "frameMs": 221.2
+        },
+        {
+          "elapsedMs": 1785,
+          "frameMs": 76.9
+        },
+        {
+          "elapsedMs": 1937,
+          "frameMs": 151.4
+        },
+        {
+          "elapsedMs": 1956,
+          "frameMs": 19.7
+        },
+        {
+          "elapsedMs": 1963,
+          "frameMs": 6.1
+        },
+        {
+          "elapsedMs": 1993,
+          "frameMs": 30
+        },
+        {
+          "elapsedMs": 2054,
+          "frameMs": 61.4
+        },
+        {
+          "elapsedMs": 2211,
+          "frameMs": 157.3
+        },
+        {
+          "elapsedMs": 2346,
+          "frameMs": 135
+        },
+        {
+          "elapsedMs": 2369,
+          "frameMs": 22.4
+        },
+        {
+          "elapsedMs": 2382,
+          "frameMs": 13
+        },
+        {
+          "elapsedMs": 2393,
+          "frameMs": 11.4
+        },
+        {
+          "elapsedMs": 2415,
+          "frameMs": 22.2
+        },
+        {
+          "elapsedMs": 2537,
+          "frameMs": 121.8
+        },
+        {
+          "elapsedMs": 2672,
+          "frameMs": 134.9
+        },
+        {
+          "elapsedMs": 2769,
+          "frameMs": 96.7
+        },
+        {
+          "elapsedMs": 2819,
+          "frameMs": 50.5
+        },
+        {
+          "elapsedMs": 2958,
+          "frameMs": 138.7
+        },
+        {
+          "elapsedMs": 3127,
+          "frameMs": 169.4
+        },
+        {
+          "elapsedMs": 3250,
+          "frameMs": 123.1
+        },
+        {
+          "elapsedMs": 3305,
+          "frameMs": 54.7
+        },
+        {
+          "elapsedMs": 3444,
+          "frameMs": 139.2
+        },
+        {
+          "elapsedMs": 3551,
+          "frameMs": 106.8
+        },
+        {
+          "elapsedMs": 3682,
+          "frameMs": 131.3
+        },
+        {
+          "elapsedMs": 3710,
+          "frameMs": 28
+        },
+        {
+          "elapsedMs": 3728,
+          "frameMs": 18.1
+        },
+        {
+          "elapsedMs": 3798,
+          "frameMs": 69.4
+        },
+        {
+          "elapsedMs": 3915,
+          "frameMs": 117
+        },
+        {
+          "elapsedMs": 3980,
+          "frameMs": 65.4
+        },
+        {
+          "elapsedMs": 4051,
+          "frameMs": 70.7
+        },
+        {
+          "elapsedMs": 4162,
+          "frameMs": 111.1
+        },
+        {
+          "elapsedMs": 4187,
+          "frameMs": 25
+        },
+        {
+          "elapsedMs": 4204,
+          "frameMs": 16.7
+        },
+        {
+          "elapsedMs": 4233,
+          "frameMs": 29.3
+        },
+        {
+          "elapsedMs": 4277,
+          "frameMs": 43.9
+        },
+        {
+          "elapsedMs": 4379,
+          "frameMs": 101.8
+        },
+        {
+          "elapsedMs": 4519,
+          "frameMs": 140.1
+        },
+        {
+          "elapsedMs": 4614,
+          "frameMs": 94.8
+        },
+        {
+          "elapsedMs": 4740,
+          "frameMs": 126.4
+        },
+        {
+          "elapsedMs": 4850,
+          "frameMs": 109.7
+        },
+        {
+          "elapsedMs": 4959,
+          "frameMs": 109
+        },
+        {
+          "elapsedMs": 5047,
+          "frameMs": 87.8
+        },
+        {
+          "elapsedMs": 5246,
+          "frameMs": 199.5
+        }
+      ],
+      "renderer": {
+        "calls": 2361,
+        "frameCalls": 3,
+        "drawCalls": 438,
+        "triangles": 26627965,
+        "points": 0,
+        "lines": 0,
+        "timestamp": 0
+      },
+      "jsHeapBytes": 134672957,
+      "stateStart": {
+        "x": -2320,
+        "y": 190,
+        "z": -2110,
+        "matrixCityMode": "gaussian"
+      },
+      "state": {
+        "x": -2121.8557938704553,
+        "y": 190,
+        "z": -2110,
+        "matrixCityMode": "gaussian"
+      },
+      "gpuMiB": {
+        "start": 512,
+        "end": 516
+      }
+    },
+    {
+      "mode": "original",
+      "frames": 56,
+      "medianFrameMs": 101.3,
+      "p95FrameMs": 203.5,
+      "p99FrameMs": 277.7,
+      "maxFrameMs": 277.7,
+      "meanFps": 10.486498633009997,
+      "over50Ms": 39,
+      "timeline": [
+        {
+          "elapsedMs": 63,
+          "frameMs": 277.7
+        },
+        {
+          "elapsedMs": 267,
+          "frameMs": 203.5
+        },
+        {
+          "elapsedMs": 401,
+          "frameMs": 134.8
+        },
+        {
+          "elapsedMs": 423,
+          "frameMs": 21.4
+        },
+        {
+          "elapsedMs": 455,
+          "frameMs": 31.7
+        },
+        {
+          "elapsedMs": 599,
+          "frameMs": 144.3
+        },
+        {
+          "elapsedMs": 704,
+          "frameMs": 105
+        },
+        {
+          "elapsedMs": 809,
+          "frameMs": 105.6
+        },
+        {
+          "elapsedMs": 913,
+          "frameMs": 103.1
+        },
+        {
+          "elapsedMs": 975,
+          "frameMs": 62.3
+        },
+        {
+          "elapsedMs": 1118,
+          "frameMs": 142.9
+        },
+        {
+          "elapsedMs": 1328,
+          "frameMs": 210.6
+        },
+        {
+          "elapsedMs": 1430,
+          "frameMs": 101.3
+        },
+        {
+          "elapsedMs": 1524,
+          "frameMs": 94.2
+        },
+        {
+          "elapsedMs": 1600,
+          "frameMs": 75.7
+        },
+        {
+          "elapsedMs": 1694,
+          "frameMs": 94.4
+        },
+        {
+          "elapsedMs": 1816,
+          "frameMs": 122.2
+        },
+        {
+          "elapsedMs": 1836,
+          "frameMs": 20
+        },
+        {
+          "elapsedMs": 1869,
+          "frameMs": 33
+        },
+        {
+          "elapsedMs": 1906,
+          "frameMs": 36.6
+        },
+        {
+          "elapsedMs": 2035,
+          "frameMs": 129.1
+        },
+        {
+          "elapsedMs": 2042,
+          "frameMs": 7.6
+        },
+        {
+          "elapsedMs": 2156,
+          "frameMs": 113.2
+        },
+        {
+          "elapsedMs": 2307,
+          "frameMs": 151.3
+        },
+        {
+          "elapsedMs": 2322,
+          "frameMs": 14.8
+        },
+        {
+          "elapsedMs": 2333,
+          "frameMs": 11.7
+        },
+        {
+          "elapsedMs": 2454,
+          "frameMs": 120.5
+        },
+        {
+          "elapsedMs": 2499,
+          "frameMs": 44.7
+        },
+        {
+          "elapsedMs": 2579,
+          "frameMs": 80.8
+        },
+        {
+          "elapsedMs": 2699,
+          "frameMs": 119.5
+        },
+        {
+          "elapsedMs": 2793,
+          "frameMs": 93.8
+        },
+        {
+          "elapsedMs": 2903,
+          "frameMs": 110.4
+        },
+        {
+          "elapsedMs": 3040,
+          "frameMs": 137.3
+        },
+        {
+          "elapsedMs": 3223,
+          "frameMs": 182.3
+        },
+        {
+          "elapsedMs": 3318,
+          "frameMs": 95.2
+        },
+        {
+          "elapsedMs": 3470,
+          "frameMs": 152
+        },
+        {
+          "elapsedMs": 3601,
+          "frameMs": 131.5
+        },
+        {
+          "elapsedMs": 3712,
+          "frameMs": 110.4
+        },
+        {
+          "elapsedMs": 3826,
+          "frameMs": 114.1
+        },
+        {
+          "elapsedMs": 3947,
+          "frameMs": 121.3
+        },
+        {
+          "elapsedMs": 4017,
+          "frameMs": 69.6
+        },
+        {
+          "elapsedMs": 4152,
+          "frameMs": 134.7
+        },
+        {
+          "elapsedMs": 4173,
+          "frameMs": 21.4
+        },
+        {
+          "elapsedMs": 4202,
+          "frameMs": 28.9
+        },
+        {
+          "elapsedMs": 4339,
+          "frameMs": 136.7
+        },
+        {
+          "elapsedMs": 4345,
+          "frameMs": 6.5
+        },
+        {
+          "elapsedMs": 4518,
+          "frameMs": 172.5
+        },
+        {
+          "elapsedMs": 4546,
+          "frameMs": 28.8
+        },
+        {
+          "elapsedMs": 4645,
+          "frameMs": 98.7
+        },
+        {
+          "elapsedMs": 4675,
+          "frameMs": 29.5
+        },
+        {
+          "elapsedMs": 4696,
+          "frameMs": 21.2
+        },
+        {
+          "elapsedMs": 4726,
+          "frameMs": 29.8
+        },
+        {
+          "elapsedMs": 4822,
+          "frameMs": 96.3
+        },
+        {
+          "elapsedMs": 4917,
+          "frameMs": 95.4
+        },
+        {
+          "elapsedMs": 4963,
+          "frameMs": 45.4
+        },
+        {
+          "elapsedMs": 5126,
+          "frameMs": 163
+        }
+      ],
+      "renderer": {
+        "calls": 3132,
+        "frameCalls": 3,
+        "drawCalls": 297,
+        "triangles": 13380609,
+        "points": 0,
+        "lines": 0,
+        "timestamp": 0
+      },
+      "jsHeapBytes": 137147311,
+      "stateStart": {
+        "x": -2320,
+        "y": 190,
+        "z": -2110,
+        "matrixCityMode": "original"
+      },
+      "state": {
+        "x": -2119.9203567873965,
+        "y": 190,
+        "z": -2110,
+        "matrixCityMode": "original"
+      },
+      "gpuMiB": {
+        "start": 507,
+        "end": 507
+      }
+    }
+  ],
+  "errors": [],
+  "note": "Oceania block #12 switches with local MatrixCity sector; the data sources depict different buildings and visual quality is not yet assessed.",
+  "resourceCount": 31,
+  "downloadedBytes": 10799005,
+  "gpuMemoryNote": "nvidia-smi reports whole-adapter memory, including other applications."
+}

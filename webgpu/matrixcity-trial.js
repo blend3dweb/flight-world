@@ -6,7 +6,8 @@ import { GaussianSplat } from './node_modules/three/examples/jsm/objects/Gaussia
 // Local, non-distributable geometry trial. MatrixCity uses metres with Z up.
 // The pair of meshes shares one transform, so visual depth and collision agree.
 const ASSET_ROOT = '../data/matrixcity/geometry/block_3_roi/';
-const ORIGIN = new THREE.Vector3(-1940, 12, -2460);
+// Center the 120 m source sector over Oceania's replaceable block #12.
+const ORIGIN = new THREE.Vector3(-2028, 12, -2669);
 
 export async function createMatrixCityTrial() {
   const loader = new PLYLoader();

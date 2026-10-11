@@ -12,7 +12,8 @@ export function createCity(){
  const group=new THREE.Group();group.name='Oceania — city, airport and harbour';
  group.userData.agent={semantic:'city',module:'city.js'};
  let seed=94;const rand=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
- const batches=new Map(),obj=new THREE.Object3D(),col=new THREE.Color();let placement=null;
+ const batches=new Map(),obj=new THREE.Object3D(),col=new THREE.Color();let placement=null,activeBlockId=null;
+ const blockSurfaces=new Map(),blockInstances=new Map(),blockVisibility=new Map();
  const windowDensity=uniform(.275); // Previously .55: halve occupancy, retain lamp brightness.
  const frond=new THREE.BufferGeometry(),fp=[],fi=[];
  for(let i=0;i<=10;i++){const t=i/10,w=.55*Math.sin(Math.PI*t);fp.push(-w,.6*Math.sin(t*Math.PI)-t*t*1.4,t,w,.6*Math.sin(t*Math.PI)-t*t*1.4,t);if(i<10){const v=i*2;fi.push(v,v+2,v+1,v+1,v+2,v+3);}}
@@ -31,7 +32,7 @@ export function createCity(){
  function put(name,geometry,material,x,y,z,w,h,d,rot=0,color){
    if(placement){[x,z]=rotatePlacement(x,z);rot+=placement.angle;}
    let b=batches.get(name);if(!b){b={geometry,material,items:[]};batches.set(name,b);}
-   b.items.push({x,y,z,w,h,d,rot,color});
+   b.items.push({x,y,z,w,h,d,rot,color,blockId:activeBlockId});
  }
  function b(name,material,x,y,z,w,h,d,rot=0,color){put(name,box,material,x,y,z,w,h,d,rot,color);if(Array.isArray(material)&&h>10&&rot===0)details.facade(x,y,z,w,h,d);}
  const details=createDetailBuilders({b,put,box,cylinder,m});
@@ -93,6 +94,7 @@ export function createCity(){
    const shape=new THREE.Shape(points.map(([x,z])=>new THREE.Vector2(x,-z)));
    const geo=new THREE.ExtrudeGeometry(shape,{depth:top,bevelEnabled:false});geo.rotateX(-Math.PI/2);geo.translate(0,Y,0);
    const mesh=new THREE.Mesh(geo,material);mesh.name=name;group.add(mesh);
+   if(activeBlockId!==null){if(!blockSurfaces.has(activeBlockId))blockSurfaces.set(activeBlockId,[]);blockSurfaces.get(activeBlockId).push(mesh);}
  }
  for(let i=0;i<7;i++)for(let j=0;j<6;j++){
    const p=junctions[i][j];if(i<6)road(p,junctions[i+1][j]);if(j<5)road(p,junctions[i][j+1]);
@@ -151,7 +153,7 @@ export function createCity(){
    placement=null;
  }
  for(let ix=0;ix<6;ix++)for(let iz=0;iz<5;iz++){
-   stats.blocks++;const poly=inset([junctions[ix][iz],junctions[ix+1][iz],junctions[ix+1][iz+1],junctions[ix][iz+1]],16),id=blocks.length;blocks.push(poly);polygon('Irregular sidewalk block',m.concrete,poly);
+   stats.blocks++;const poly=inset([junctions[ix][iz],junctions[ix+1][iz],junctions[ix+1][iz+1],junctions[ix][iz+1]],16),id=blocks.length;blocks.push(poly);activeBlockId=id;polygon('Irregular sidewalk block',m.concrete,poly);
    const park=(ix===2&&iz===3)||(ix===4&&iz===1),[x,z]=mixQuad(poly,.5,.5);
    if(park){polygon('Park lawn',m.grass,inset(poly,9),.44);const a=mixQuad(poly,.5,0),c=mixQuad(poly,.5,1);strip('Park paths',m.sand,a,c,6,.49,.04);put('Fountain basin',cylinder,m.concrete,x,Y+.8,z,12,.8,12);put('Fountain water',cylinder,m.water,x,Y+1.23,z,10.8,.06,10.8);}
    else for(let sx=0;sx<2;sx++)for(let sz=0;sz<2;sz++){
@@ -170,6 +172,7 @@ export function createCity(){
      if((ix+iz+e)%3===0)busStop(mx+dx*.17,Y+.4,mz+dz*.17,angle-Math.PI/2);else bikeRack(mx-dx*.16,Y+.4,mz-dz*.16,angle-Math.PI/2);
      for(const t of [.28,.72])planter(a[0]+dx*t+nx*3,Y+.4,a[1]+dz*t+nz*3,angle-Math.PI/2);
    }
+   activeBlockId=null;
  }
  // A low civic building gives the park a public use and a distinct silhouette.
  stats.landmarks++;const civicX=-2025,civicZ=-1535;
@@ -282,12 +285,25 @@ export function createCity(){
    const mesh=new THREE.InstancedMesh(data.geometry.clone(),data.material,data.items.length);mesh.name=name;
    mesh.geometry.setAttribute('facadeSize',new THREE.InstancedBufferAttribute(new Float32Array(data.items.flatMap(v=>[v.w,v.h,v.d])),3));
    mesh.geometry.setAttribute('facadeSeed',new THREE.InstancedBufferAttribute(new Float32Array(data.items.flatMap(v=>[v.x,v.z])),2));
-   data.items.forEach((v,i)=>{obj.position.set(v.x,v.y,v.z);obj.rotation.set(0,v.rot,0);obj.scale.set(v.w,v.h,v.d);obj.updateMatrix();mesh.setMatrixAt(i,obj.matrix);if(v.color)mesh.setColorAt(i,col.set(v.color));});
+   data.items.forEach((v,i)=>{obj.position.set(v.x,v.y,v.z);obj.rotation.set(0,v.rot,0);obj.scale.set(v.w,v.h,v.d);obj.updateMatrix();mesh.setMatrixAt(i,obj.matrix);if(v.color)mesh.setColorAt(i,col.set(v.color));if(v.blockId!==null){if(!blockInstances.has(v.blockId))blockInstances.set(v.blockId,[]);blockInstances.get(v.blockId).push({mesh,index:i,matrix:obj.matrix.clone()});}});
    mesh.computeBoundingSphere();mesh.castShadow=data.items.some(v=>v.h>3);mesh.receiveShadow=true;group.add(mesh);data.mesh=mesh;
  }
  const towerMesh=batches.get('Towers 0').mesh;
+ const hiddenMatrix=new THREE.Matrix4().makeScale(0,0,0);
+ function setBlockVisible(id,visible){
+   if(!Number.isInteger(id)||!blocks[id])throw new RangeError('Unknown city block');
+   visible=Boolean(visible);
+   if(blockVisibility.get(id)===visible)return;
+   blockVisibility.set(id,visible);
+   for(const mesh of blockSurfaces.get(id)??[])mesh.visible=visible;
+   const changed=new Set();
+   for(const record of blockInstances.get(id)??[]){record.mesh.setMatrixAt(record.index,visible?record.matrix:hiddenMatrix);changed.add(record.mesh);}
+   for(const mesh of changed)mesh.instanceMatrix.needsUpdate=true;
+ }
+ function getBlockVisibility(id){return blockVisibility.get(id)!==false;}
+ function getBlockElementCounts(id){return {surfaces:blockSurfaces.get(id)?.length??0,instances:blockInstances.get(id)?.length??0};}
  const closeDetail=/People|Bench|Litter|Planter|Bike rack|Bus stop|Bollard|Door handle|Storefront mullion|Parking bay/;
  function update(daylight,rain,camera){if(camera)for(const [name,data] of batches){const mesh=data.mesh,bounds=mesh.boundingSphere,range=closeDetail.test(name)?1800:6000;mesh.visible=!bounds||bounds.center.distanceTo(camera.position)<range+bounds.radius;}for(const f of facades)f.emissiveIntensity=(1-daylight)*1.8;glow.emissiveIntensity=(1-daylight)*3;runwayLight.emissiveIntensity=(1-daylight)*4;airportApron.emissiveIntensity=(1-daylight)*.55;airportTerminal.emissiveIntensity=(1-daylight)*.7;airportRoof.emissiveIntensity=(1-daylight)*.3;m.asphalt.roughness=.92-rain*.63;m.concrete.roughness=.88-rain*.33;}
  function clearance(x,z){let y=-Infinity;for(const v of buildings)if(inside([x,z],v.footprint))y=Math.max(y,v.y+v.h+12);if(x>=bridge.x0&&x<=bridge.x1&&Math.abs(z-bridge.z)<22){y=Math.max(y,bridgeY(x)+2);for(const tx of [-430,780])if(Math.abs(x-tx)<14)y=Math.max(y,bridgeY(tx)+80);}return y;}
- return {group,stats,buildings,roads,blocks,entrances,benchPositions,windowDensity,towerMesh,roofMat:m.roof,update,clearance,bridge,bridgeY};
+ return {group,stats,buildings,roads,blocks,entrances,benchPositions,windowDensity,towerMesh,roofMat:m.roof,update,clearance,bridge,bridgeY,setBlockVisible,getBlockVisibility,getBlockElementCounts};
 }

@@ -71,7 +71,7 @@ def main() -> None:
     header = "\n".join(["ply", "format binary_little_endian 1.0",
                         "comment MatrixCity local trial; source dataset CC BY-NC 4.0",
                         f"element vertex {len(selected)}",
-                        *(f"property float {name}" for name in PROPERTIES), "end_header", ""]) 
+                        *(f"property float {name}" for name in PROPERTIES), "end_header", ""])
     with output.open("wb") as stream:
         stream.write(header.encode("ascii"))
         columns = [names.index(name) for name in PROPERTIES]
