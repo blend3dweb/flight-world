@@ -39,6 +39,44 @@ export async function createMatrixCityTrial() {
   visual.receiveShadow = true;
   group.add(visual);
 
+  // A local inspection aid, kept out of benchmark frames unless explicitly enabled.
+  surface.computeBoundingBox();
+  const bounds = surface.boundingBox;
+  const x0 = bounds.min.x - 4, x1 = bounds.max.x + 4;
+  const y0 = bounds.min.y - 4, y1 = bounds.max.y + 4;
+  const floor = bounds.min.z + 3, top = bounds.max.z + 14;
+  const edges = [];
+  for (const z of [floor, top]) {
+    for (const [ax, ay, bx, by] of [[x0, y0, x1, y0], [x1, y0, x1, y1], [x1, y1, x0, y1], [x0, y1, x0, y0]]) {
+      edges.push(ax, ay, z, bx, by, z);
+    }
+  }
+  for (const [x, y] of [[x0, y0], [x1, y0], [x1, y1], [x0, y1]]) edges.push(x, y, floor, x, y, top);
+  const outlineGeometry = new THREE.BufferGeometry();
+  outlineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(edges, 3));
+  const marker = new THREE.Group();
+  marker.name = 'MatrixCity inspection marker';
+  const outline = new THREE.LineSegments(outlineGeometry, new THREE.LineBasicMaterial({ color: 0xffcc55, depthTest: false, depthWrite: false, toneMapped: false }));
+  outline.renderOrder = 999;
+  outline.raycast = () => {};
+  marker.add(outline);
+  const labelCanvas = document.createElement('canvas');
+  labelCanvas.width = 512;labelCanvas.height = 128;
+  const label = labelCanvas.getContext('2d');
+  label.fillStyle = 'rgba(12, 29, 39, 0.9)';label.fillRect(0, 0, 512, 128);
+  label.strokeStyle = '#ffcc55';label.lineWidth = 8;label.strokeRect(4, 4, 504, 120);
+  label.textAlign = 'center';label.fillStyle = '#ffffff';label.font = 'bold 39px Segoe UI, sans-serif';label.fillText('MATRIXCITY', 256, 55);
+  label.font = '26px Segoe UI, sans-serif';label.fillText('ГИБРИД · 30 000 СПЛАТОВ', 256, 98);
+  const labelTexture = new THREE.CanvasTexture(labelCanvas);
+  labelTexture.colorSpace = THREE.SRGBColorSpace;
+  const labelSprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: labelTexture, transparent: true, depthTest: false, depthWrite: false, toneMapped: false, fog: false }));
+  labelSprite.position.set((x0 + x1) / 2, (y0 + y1) / 2, Math.min(top + 18, floor + 125));
+  labelSprite.scale.set(85, 21, 1);labelSprite.renderOrder = 1000;
+  labelSprite.raycast = () => {};
+  marker.add(labelSprite);
+  marker.visible = false;
+  group.add(marker);
+
   const collision = new THREE.Mesh(collider, new THREE.MeshBasicMaterial({ visible: false, colorWrite: false, depthWrite: false }));
   collision.name = 'matrixcity-building-001';
   collision.userData.agent = { semantic: 'building', module: 'matrixcity-trial.js', stableId: 'matrixcity-building-001', role: 'collision-proxy' };
@@ -46,7 +84,7 @@ export async function createMatrixCityTrial() {
   group.add(collision);
 
   group.visible = false;
-  return { group, visual, visualMaterial, depthMaterial, collision, splat: null, origin: ORIGIN.toArray() };
+  return { group, visual, visualMaterial, depthMaterial, collision, marker, splat: null, origin: ORIGIN.toArray() };
 }
 
 export async function addMatrixCitySplats(trial) {

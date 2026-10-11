@@ -98,6 +98,26 @@ const city=infrastructure.towerMesh,roofMat=infrastructure.roofMat,windowTex=nul
 const matrixCityBlockId=12;
 let matrixCityTrial=null;
 let matrixCityMode='original';
+let matrixCityIsolated=false,isolationRestore=null;
+function setMatrixCityIsolated(enabled){
+  enabled=Boolean(enabled);
+  if(enabled===matrixCityIsolated)return enabled;
+  if(enabled){
+    if(!matrixCityTrial?.splat)throw new Error('MatrixCity Gaussian appearance has not loaded');
+    const keep=new Set([matrixCityTrial.group,camera,aircraft]);
+    const hidden=scene.children.filter(object=>!object.isLight&&!keep.has(object)).map(object=>[object,object.visible]);
+    for(const [object] of hidden)object.visible=false;
+    isolationRestore={hidden,background:scene.background,fog:scene.fog};
+    scene.background=new THREE.Color('#26323c');scene.fog=null;
+  }else{
+    for(const [object,visible] of isolationRestore.hidden)object.visible=visible;
+    scene.background=isolationRestore.background;scene.fog=isolationRestore.fog;
+    isolationRestore=null;
+  }
+  matrixCityIsolated=enabled;
+  draw();
+  return enabled;
+}
 function setMatrixCityMode(mode){
   if(!['original','geometry','gaussian','hybrid'].includes(mode))throw new TypeError('Unknown MatrixCity mode');
   if(mode!=='original'&&!matrixCityTrial)throw new Error('MatrixCity geometry has not loaded');
@@ -314,7 +334,7 @@ function draw(){
   renderFrame++;
   aircraft.position.set(state.x,state.y+Math.sin(state.time*1.8)*.25,state.z);
   flightRotation.set(state.pitch,state.heading,state.roll,'YXZ');aircraft.quaternion.setFromEuler(flightRotation);
-  aircraft.visible=viewMode==='external';propeller.rotation.z=state.time*(90+state.throttle*90);
+  aircraft.visible=!matrixCityIsolated&&viewMode==='external';propeller.rotation.z=state.time*(90+state.throttle*90);
   if(viewMode==='external'){
     const angle=orbit.azimuth+state.heading;
     orbitOffset.set(Math.sin(angle)*Math.cos(orbit.elevation),Math.sin(orbit.elevation),Math.cos(angle)*Math.cos(orbit.elevation)).multiplyScalar(orbit.distance);
@@ -324,17 +344,18 @@ function draw(){
   }else{
     camera.position.copy(aircraft.position);camera.rotation.copy(flightRotation);
   }
-  vegetation.update(camera,state.time,atmosphere.wind);
-  atmosphere.apply(camera);
-  sunlight.shadow.needsUpdate=sunlight.intensity>.08&&(renderFrame===1||renderFrame%qualities[quality].shadowEvery===0);
+  if(!matrixCityIsolated){vegetation.update(camera,state.time,atmosphere.wind);atmosphere.apply(camera);}
+  sunlight.shadow.needsUpdate=!matrixCityIsolated&&sunlight.intensity>.08&&(renderFrame===1||renderFrame%qualities[quality].shadowEvery===0);
   const weather=atmosphere.getState();
   terrainWetness.value=weather.rain;
   seaUniforms.daylight.value=atmosphere.daylight;seaUniforms.fogDensity.value=atmosphere.fogDensity;seaUniforms.rainAmount.value=weather.rain;seaUniforms.snowAmount.value=weather.snow;seaUniforms.wind.value=atmosphere.wind;
-  infrastructure.update(atmosphere.daylight,weather.rain,camera);
-  water.configure({interval:qualities[quality].reflectionEvery+(viewMode==='external'&&orbit.auto?1:0)});
-  water.update?.(camera,{daylight:atmosphere.daylight,adaptiveRotation:viewMode==='cockpit'});
-  cockpit.visible=viewMode==='cockpit'&&showCockpit;seaUniforms.time.value=state.time;seaUniforms.eye.value.copy(camera.position);
-  renderer.render(scene,camera);ctx.clearRect(0,0,W,H);hud();if(recording)composeFrame();syncEnvironmentUI();drawCount++;
+  if(!matrixCityIsolated){
+    infrastructure.update(atmosphere.daylight,weather.rain,camera);
+    water.configure({interval:qualities[quality].reflectionEvery+(viewMode==='external'&&orbit.auto?1:0)});
+    water.update?.(camera,{daylight:atmosphere.daylight,adaptiveRotation:viewMode==='cockpit'});
+  }
+  cockpit.visible=!matrixCityIsolated&&viewMode==='cockpit'&&showCockpit;seaUniforms.time.value=state.time;seaUniforms.eye.value.copy(camera.position);
+  renderer.render(scene,camera);ctx.clearRect(0,0,W,H);if(!matrixCityIsolated)hud();if(recording)composeFrame();syncEnvironmentUI();drawCount++;
   agentBridge?.reportFrame(performance.now()-cpuStart);
 }
 function frame(now){const dt=Math.min((now-(rafLast||now))/1000,.05);rafLast=now;if(agentCaptureActive){if(!offlineRender)requestAnimationFrame(frame);return;}if(!state.paused){update(dt*simulationSpeed);draw();recordRenderedFrame(performance.now());}else lastRenderedAt=0;updatePerformanceHud(performance.now());if(!offlineRender)requestAnimationFrame(frame);}
@@ -484,7 +505,7 @@ async function captureAgentObservation(observer,{width=512,height=288,quality=.7
   return result;
 }
 // Deterministic frame stepping lets the MP4 exporter include every HUD pixel.
-window.flight={revision:THREE.REVISION,setQuality,getState:()=>({...state,quality,verticalSpeed,drawCount,viewMode,orbit:{...orbit},matrixCityMode,flightPlan:flightPlan(),environment:atmosphere.getState(),ocean:water.getState(),camera:camera.position.toArray(),triangles:renderer.info.render.triangles}),getPerformance:currentPerformance,getPerformanceHistory:performanceHistory,setMatrixCityMode,reset,setView,setOrbit,setEnvironment,startFlight,setPaused,setFlightAltitude,setFlightRoute,setSimulationSpeed,step(dt){const paused=state.paused;state.paused=false;try{update(dt);}finally{state.paused=paused;}draw();},seek(t){reset();for(let i=0;i<Math.floor(t*30);i++)update(1/30);draw();},setSize(w,h){W=canvas.width=w;H=canvas.height=h;renderer.setSize(Math.round(w*qualities[quality].scale),Math.round(h*qualities[quality].scale),false);camera.aspect=w/h;camera.updateProjectionMatrix();draw();},getCanvas:composeFrame};
+window.flight={revision:THREE.REVISION,setQuality,getState:()=>({...state,quality,verticalSpeed,drawCount,viewMode,orbit:{...orbit},matrixCityMode,matrixCityIsolated,flightPlan:flightPlan(),environment:atmosphere.getState(),ocean:water.getState(),camera:camera.position.toArray(),triangles:renderer.info.render.triangles}),getPerformance:currentPerformance,getPerformanceHistory:performanceHistory,setMatrixCityMode,reset,setView,setOrbit,setEnvironment,startFlight,setPaused,setFlightAltitude,setFlightRoute,setSimulationSpeed,step(dt){const paused=state.paused;state.paused=false;try{update(dt);}finally{state.paused=paused;}draw();},seek(t){reset();for(let i=0;i<Math.floor(t*30);i++)update(1/30);draw();},setSize(w,h){W=canvas.width=w;H=canvas.height=h;renderer.setSize(Math.round(w*qualities[quality].scale),Math.round(h*qualities[quality].scale),false);camera.aspect=w/h;camera.updateProjectionMatrix();draw();},getCanvas:composeFrame};
 agentBridge=createAgentBridge({scene,renderer,getWorldState:window.flight.getState,setEnvironment,startFlight,setQuality,setPaused,setFlightAltitude,setFlightRoute,setSimulationSpeed,stepSimulation:window.flight.step,captureObservation:captureAgentObservation});
 window.flight.agent=agentBridge;
 window.flight.captureShot=async({eye,target})=>{cockpit.visible=aircraft.visible=false;camera.position.set(...eye);camera.lookAt(...target);vegetation.update(camera,state.time,atmosphere.wind);atmosphere.apply(camera,{immediate:true});sunlight.shadow.needsUpdate=sunlight.intensity>.08;infrastructure.update(atmosphere.daylight,atmosphere.getState().rain,camera);water.update?.(camera,{force:true,daylight:atmosphere.daylight});seaUniforms.eye.value.copy(camera.position);renderer.render(scene,camera);await renderer.backend.device.queue.onSubmittedWorkDone();return renderer.domElement.toDataURL();};
@@ -497,12 +518,33 @@ if(params.get('matrixcity')==='1'){
   const toggle=document.querySelector('#matrixcity-toggle');
   const focusControls=document.querySelector('#matrixcity-focus-controls');
   const focusButton=document.querySelector('#matrixcity-focus');
+  const markerControls=document.querySelector('#matrixcity-marker-controls');
+  const markerButton=document.querySelector('#matrixcity-marker');
+  const isolationControls=document.querySelector('#matrixcity-isolation-controls');
+  const isolationButton=document.querySelector('#matrixcity-isolation');
+  const isolationBanner=document.querySelector('#matrixcity-isolation-banner');
+  function setMarkerVisible(visible){
+    matrixCityTrial.marker.visible=visible;
+    markerButton.setAttribute('aria-pressed',String(visible));
+    markerButton.textContent=visible?'Скрыть метку MatrixCity':'Показать метку MatrixCity';
+    draw();
+  }
   function focusMatrixCity(){
     setMatrixCityMode('hybrid');
+    setMarkerVisible(!matrixCityIsolated);
     Object.assign(state,{x:-2090,y:160,z:-1930,heading:0,pitch:-.18,roll:0,auto:false,paused:true});
     routeWaypoints=[];routeIndex=0;targetAltitude=null;
-    setView('external');setOrbit({azimuth:0,elevation:.6,distance:65,auto:false});
+    setView(matrixCityIsolated?'cockpit':'external');setOrbit({azimuth:0,elevation:.6,distance:65,auto:false});
     syncButtons();draw();toast('Гибридный квартал MatrixCity впереди · Нажмите «Продолжить» для пролёта');
+  }
+  function toggleIsolation(){
+    const isolated=setMatrixCityIsolated(!matrixCityIsolated);
+    isolationButton.setAttribute('aria-pressed',String(isolated));
+    isolationButton.textContent=isolated?'Вернуть мир Океании':'Только гибрид и сплаты';
+    isolationBanner.hidden=!isolated;
+    markerControls.hidden=isolated;
+    if(isolated){setMatrixCityMode('hybrid');setMarkerVisible(false);setView('cockpit');}
+    else setView('external');
   }
   controls.hidden=false;
   import('./matrixcity-trial.js').then(async module=>{
@@ -510,7 +552,7 @@ if(params.get('matrixcity')==='1'){
     matrixCityTrial=trial;scene.add(trial.group);
     toggle.disabled=false;toggle.textContent='Геометрия MatrixCity';
     toggle.onclick=()=>setMatrixCityMode(matrixCityMode==='original'?'geometry':'original');
-    window.flight.matrixCityTrial={origin:trial.origin,visual:trial.visual,collision:trial.collision};
+    window.flight.matrixCityTrial={origin:trial.origin,visual:trial.visual,collision:trial.collision,marker:trial.marker};
     setEnvironment({hour:10,cycle:false,weather:'sun',autoWeather:false},{immediate:true});
     draw();
     try{
@@ -523,7 +565,11 @@ if(params.get('matrixcity')==='1'){
       hybrid.hidden=false;hybrid.disabled=false;
       hybrid.onclick=()=>setMatrixCityMode(matrixCityMode==='hybrid'?'geometry':'hybrid');
       focusControls.hidden=false;focusButton.disabled=false;focusButton.onclick=focusMatrixCity;
-      if(params.get('focus')==='hybrid'&&!params.has('test'))focusMatrixCity();
+      markerControls.hidden=false;markerButton.disabled=false;markerButton.onclick=()=>setMarkerVisible(!trial.marker.visible);
+      isolationControls.hidden=false;isolationButton.disabled=false;isolationButton.onclick=toggleIsolation;
+      document.querySelector('#matrixcity-isolation-restore').onclick=toggleIsolation;
+      if(!params.has('test')&&(params.get('focus')==='hybrid'||params.get('isolate')==='1'))focusMatrixCity();
+      if(!params.has('test')&&params.get('isolate')==='1')toggleIsolation();
     }catch(error){console.error('MatrixCity Gaussian trial unavailable',error);}
   }).catch(error=>{
     console.error('MatrixCity local trial unavailable',error);
