@@ -9,7 +9,7 @@ const ASSET_ROOT = '../data/matrixcity/geometry/block_3_roi/';
 // Center the 120 m source sector over Oceania's replaceable block #12.
 const ORIGIN = new THREE.Vector3(-2028, 12, -2669);
 
-export async function createMatrixCityTrial() {
+export async function createMatrixCityTrial({ splatCountLabel = '30 000' } = {}) {
   const loader = new PLYLoader();
   const [surface, collider] = await Promise.all([
     loader.loadAsync(`${ASSET_ROOT}visible_surfaces_source.ply`),
@@ -66,7 +66,7 @@ export async function createMatrixCityTrial() {
   label.fillStyle = 'rgba(12, 29, 39, 0.9)';label.fillRect(0, 0, 512, 128);
   label.strokeStyle = '#ffcc55';label.lineWidth = 8;label.strokeRect(4, 4, 504, 120);
   label.textAlign = 'center';label.fillStyle = '#ffffff';label.font = 'bold 39px Segoe UI, sans-serif';label.fillText('MATRIXCITY', 256, 55);
-  label.font = '26px Segoe UI, sans-serif';label.fillText('ГИБРИД · 30 000 СПЛАТОВ', 256, 98);
+  label.font = '26px Segoe UI, sans-serif';label.fillText(`ГИБРИД · ${splatCountLabel} СПЛАТОВ`, 256, 98);
   const labelTexture = new THREE.CanvasTexture(labelCanvas);
   labelTexture.colorSpace = THREE.SRGBColorSpace;
   const labelSprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: labelTexture, transparent: true, depthTest: false, depthWrite: false, toneMapped: false, fog: false }));
@@ -87,9 +87,9 @@ export async function createMatrixCityTrial() {
   return { group, visual, visualMaterial, depthMaterial, collision, marker, splat: null, origin: ORIGIN.toArray() };
 }
 
-export async function addMatrixCitySplats(trial) {
+export async function addMatrixCitySplats(trial, { fullRoi = false } = {}) {
   const [geometry, metadata] = await Promise.all([
-    new GaussianSplatPLYLoader().loadAsync(`${ASSET_ROOT}splats_roi_sh0_30k.ply`),
+    new GaussianSplatPLYLoader().loadAsync(`${ASSET_ROOT}${fullRoi ? 'splats_roi_sh0_full.ply' : 'splats_roi_sh0_30k.ply'}`),
     fetch(`${ASSET_ROOT}alignment_metadata.json`).then(response => {
       if (!response.ok) throw new Error(`MatrixCity alignment HTTP ${response.status}`);
       return response.json();
@@ -114,7 +114,7 @@ export async function addMatrixCitySplats(trial) {
   inverse.setPosition(t);
   const splat = new GaussianSplat(geometry);
   splat.name = 'MatrixCity cropped Gaussian appearance';
-  splat.userData.agent = { semantic: 'building', module: 'matrixcity-trial.js', source: 'MatrixCity Splatfacto SH0 30k' };
+  splat.userData.agent = { semantic: 'building', module: 'matrixcity-trial.js', source: `MatrixCity Splatfacto SH0 ${fullRoi ? 'full ROI' : '30k'}` };
   splat.applyMatrix4(inverse);
   splat.visible = false;
   trial.group.add(splat);

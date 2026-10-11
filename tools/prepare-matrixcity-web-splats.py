@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 from pathlib import Path
 
@@ -36,7 +37,7 @@ def ply_data(path: Path) -> tuple[np.memmap, list[str]]:
     return np.memmap(path, mode="r", dtype="<f4", offset=offset, shape=(count, len(names))), names
 
 
-def main() -> None:
+def main(full_roi: bool = False) -> None:
     splats, names = ply_data(SOURCE)
     parser = json.loads(PARSER.read_text(encoding="utf-8"))
     transform = np.asarray(parser["transform"], dtype=np.float64)
@@ -49,7 +50,7 @@ def main() -> None:
     inside = np.all((source_centers >= ROI_MIN) & (source_centers <= ROI_MAX), axis=1)
     candidates = np.flatnonzero(inside)
     # A fixed, spatially dispersed subset is reproducible and avoids a camera-order bias.
-    if len(candidates) > MAX_SPLATS:
+    if not full_roi and len(candidates) > MAX_SPLATS:
         xyz = source_centers[candidates]
         cell = np.floor((xyz - ROI_MIN) / 2.0).astype(np.int32)
         key = cell[:, 0] * 73856093 ^ cell[:, 1] * 19349663 ^ cell[:, 2] * 83492791
@@ -67,7 +68,7 @@ def main() -> None:
     else:
         selected = candidates
     selected = np.sort(selected)
-    output = GEOMETRY / "splats_roi_sh0_30k.ply"
+    output = GEOMETRY / ("splats_roi_sh0_full.ply" if full_roi else "splats_roi_sh0_30k.ply")
     header = "\n".join(["ply", "format binary_little_endian 1.0",
                         "comment MatrixCity local trial; source dataset CC BY-NC 4.0",
                         f"element vertex {len(selected)}",
@@ -79,13 +80,17 @@ def main() -> None:
     metadata = {
         "source_count": len(splats), "crop_count": len(candidates), "export_count": len(selected),
         "roi_source_m": {"min": ROI_MIN.tolist(), "max": ROI_MAX.tolist()},
-        "selection": "2 m spatial cells, highest logit opacity per cell, capped at 30000; SH degree 0",
+        "selection": ("all centres in ROI; SH degree 0" if full_roi else
+                      "2 m spatial cells, highest logit opacity per cell, capped at 30000; SH degree 0"),
         "output": str(output.relative_to(ROOT)), "bytes": output.stat().st_size,
         "license": "MatrixCity CC BY-NC 4.0; local evaluation only",
     }
-    (GEOMETRY / "splat_web_metadata.json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
+    metadata_name = "splat_web_metadata_full.json" if full_roi else "splat_web_metadata.json"
+    (GEOMETRY / metadata_name).write_text(json.dumps(metadata, indent=2), encoding="utf-8")
     print(json.dumps(metadata, indent=2))
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--full-roi", action="store_true", help="Keep every trained Gaussian centre in the trial sector")
+    main(parser.parse_args().full_roi)

@@ -461,7 +461,7 @@ async function captureAgentObservation(observer,{width=512,height=288,quality=.7
   const requested=new Set(Array.isArray(sensors)&&sensors.length?sensors:['rgb']);requested.add('rgb');
   observer.aspect=captureWidth/captureHeight;observer.updateProjectionMatrix();observer.updateMatrixWorld(true);
   const cockpitVisible=cockpit.visible,aircraftVisible=aircraft.visible;
-  cockpit.visible=false;aircraft.visible=true;
+  cockpit.visible=false;aircraft.visible=!matrixCityIsolated;
   const previousTarget=renderer.getRenderTarget(),previousOverride=scene.overrideMaterial,previousBackground=scene.background,previousToneMapping=renderer.toneMapping;
   const trialVisualVisible=matrixCityTrial?.visual.visible,trialSplatVisible=matrixCityTrial?.splat?.visible,trialVisualMaterial=matrixCityTrial?.visual.material;
   const target=new THREE.RenderTarget(captureWidth,captureHeight,{depthBuffer:true,stencilBuffer:false});
@@ -514,6 +514,7 @@ if(offlineRender||params.has('test'))window.flight.inspect=()=>({scene,camera,re
 window.addEventListener('resize',resize);resize();document.querySelector('#loading').remove();window.flightReady=true;
 if(!offlineRender){requestAnimationFrame(frame);toast('Полёт начался · Стрелки / WASD — взять управление · P — автопилот');}
 if(params.get('matrixcity')==='1'){
+  const fullRoi=params.get('density')==='full';
   const controls=document.querySelector('#matrixcity-controls');
   const toggle=document.querySelector('#matrixcity-toggle');
   const focusControls=document.querySelector('#matrixcity-focus-controls');
@@ -523,6 +524,8 @@ if(params.get('matrixcity')==='1'){
   const isolationControls=document.querySelector('#matrixcity-isolation-controls');
   const isolationButton=document.querySelector('#matrixcity-isolation');
   const isolationBanner=document.querySelector('#matrixcity-isolation-banner');
+  const densityControls=document.querySelector('#matrixcity-density-controls');
+  const densityButton=document.querySelector('#matrixcity-density');
   function setMarkerVisible(visible){
     matrixCityTrial.marker.visible=visible;
     markerButton.setAttribute('aria-pressed',String(visible));
@@ -548,7 +551,7 @@ if(params.get('matrixcity')==='1'){
   }
   controls.hidden=false;
   import('./matrixcity-trial.js').then(async module=>{
-    const trial=await module.createMatrixCityTrial();
+    const trial=await module.createMatrixCityTrial({splatCountLabel:fullRoi?'67 915':'30 000'});
     matrixCityTrial=trial;scene.add(trial.group);
     toggle.disabled=false;toggle.textContent='Геометрия MatrixCity';
     toggle.onclick=()=>setMatrixCityMode(matrixCityMode==='original'?'geometry':'original');
@@ -556,7 +559,7 @@ if(params.get('matrixcity')==='1'){
     setEnvironment({hour:10,cycle:false,weather:'sun',autoWeather:false},{immediate:true});
     draw();
     try{
-      const splat=await module.addMatrixCitySplats(trial);
+      const splat=await module.addMatrixCitySplats(trial,{fullRoi});
       window.flight.matrixCityTrial.splat=splat;
       const appearance=document.querySelector('#matrixcity-appearance');
       appearance.hidden=false;appearance.disabled=false;
@@ -568,6 +571,9 @@ if(params.get('matrixcity')==='1'){
       markerControls.hidden=false;markerButton.disabled=false;markerButton.onclick=()=>setMarkerVisible(!trial.marker.visible);
       isolationControls.hidden=false;isolationButton.disabled=false;isolationButton.onclick=toggleIsolation;
       document.querySelector('#matrixcity-isolation-restore').onclick=toggleIsolation;
+      densityControls.hidden=false;densityButton.disabled=false;
+      densityButton.textContent=fullRoi?'Сравнить с 30 000 сплатами':'Сравнить с 67 915 сплатами';
+      densityButton.onclick=()=>{const url=new URL(location.href);if(fullRoi)url.searchParams.delete('density');else url.searchParams.set('density','full');location.href=url;};
       if(!params.has('test')&&(params.get('focus')==='hybrid'||params.get('isolate')==='1'))focusMatrixCity();
       if(!params.has('test')&&params.get('isolate')==='1')toggleIsolation();
     }catch(error){console.error('MatrixCity Gaussian trial unavailable',error);}

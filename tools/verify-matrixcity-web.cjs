@@ -6,6 +6,7 @@ const { chromium } = require('C:/Users/sva/.cache/codex-runtimes/codex-primary-r
 
 const root = path.resolve(__dirname, '..');
 const origin = 'http://127.0.0.1:8765';
+const fullRoi = process.argv.includes('--full-roi');
 
 async function main() {
   let server = null;
@@ -24,7 +25,7 @@ async function main() {
     const errors = [];
     page.on('pageerror', error => errors.push(error.stack || error.message));
     page.on('console', message => { if (message.type() === 'error') errors.push(`${message.text()} at ${JSON.stringify(message.location())}`); });
-    await page.goto(origin + '/webgpu/index.html?test=1&matrixcity=1');
+    await page.goto(origin + `/webgpu/index.html?test=1&matrixcity=1${fullRoi ? '&density=full' : ''}`);
     await page.waitForFunction(() => window.flightReady && window.flight.matrixCityTrial?.splat, null, { timeout: 120000 });
     const result = await page.evaluate(async () => {
       const { scene, infrastructure } = flight.inspect();
@@ -81,7 +82,7 @@ async function main() {
     });
     assert.ok(result.loaded.vertices > 10000 && result.loaded.triangles > 10000);
     assert.equal(result.loaded.stableId, 'matrixcity-building-001');
-    assert.equal(result.loaded.splats, 30000);
+    assert.equal(result.loaded.splats, fullRoi ? 67915 : 30000);
     assert.ok(result.loaded.replacedBlock.instances > 0 && result.loaded.replacedBlock.surfaces > 0);
     assert.equal(result.active.mode, 'geometry');
     assert.equal(result.active.cityVisible, true);

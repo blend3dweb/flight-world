@@ -6,7 +6,8 @@ const path = require('node:path');
 
 const root = path.resolve(__dirname, '..');
 const origin = 'http://127.0.0.1:8765';
-const output = path.join(root, 'docs/verification/stage-15-hybrid-depth.json');
+const fullRoi = process.argv.includes('--full-roi');
+const output = path.join(root, `docs/verification/stage-15-hybrid-depth${fullRoi ? '-full' : ''}.json`);
 const route = {
   start: { x: -2320, y: 190, z: -2110, heading: -Math.PI / 2, pitch: 0, roll: 0 },
   waypoint: { x: -1800, y: 190, z: -2110 },
@@ -43,10 +44,10 @@ async function main() {
     page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
     page.on('response', response => { if (response.url().startsWith(origin)) resources.set(response.url(), Number(response.headers()['content-length']) || 0); });
     page.on('crash', () => errors.push('Page crashed'));
-    await page.goto(origin + '/webgpu/index.html?test=1&matrixcity=1');
+    await page.goto(origin + `/webgpu/index.html?test=1&matrixcity=1${fullRoi ? '&density=full' : ''}`);
     await page.waitForFunction(() => window.flightReady && window.flight.matrixCityTrial?.splat, null, { timeout: 120000 });
     const adapter = await page.evaluate(() => flight.inspect().renderer.backend.device.adapterInfo);
-    const report = { stage: '15.3 depth-prepass trial', date: new Date().toISOString(), adapter, viewport: { width: 1920, height: 1080 }, quality: 'high', environment: '10:00, sunny and dry, cycle off', route, modes, trials: [], errors, note: 'Same route; Gaussian-only vs depth-only mesh plus Gaussian, followed by a Gaussian repeat. Frames only, no saved images or video.' };
+    const report = { stage: '15.3 depth-prepass trial', date: new Date().toISOString(), adapter, viewport: { width: 1920, height: 1080 }, quality: 'high', environment: '10:00, sunny and dry, cycle off', route, modes, trials: [], errors, splatCount: fullRoi ? 67915 : 30000, note: 'Same route; Gaussian-only vs depth-only mesh plus Gaussian, followed by a Gaussian repeat. Frames only, no saved images or video.' };
     for (const mode of modes) {
       await page.evaluate(({ mode, route }) => {
         flight.startFlight('city');
