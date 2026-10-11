@@ -261,7 +261,7 @@ function update(dt){
   if(Math.hypot(state.x,state.z)>23000){state.x=initial.x;state.z=initial.z;state.heading=0;toast('Возвращаемся к архипелагу');}
 }
 let renderFrame=0;
-let agentBridge=null;
+let agentBridge=null,agentCaptureActive=false;
 const performanceHud=document.querySelector('#performance-hud');
 const frameTimes=new Float64Array(2048),frameIntervals=new Float32Array(2048);
 let frameSampleCount=0,frameSampleNext=0,lastRenderedAt=0,lastPerformanceHudAt=0,lastFrameMs=null;
@@ -305,6 +305,7 @@ function updatePerformanceHud(now){
 }
 sunlight.shadow.autoUpdate=false;
 function draw(){
+  if(agentCaptureActive)return;
   const cpuStart=performance.now();
   renderer.info.reset();
   renderFrame++;
@@ -333,7 +334,7 @@ function draw(){
   renderer.render(scene,camera);ctx.clearRect(0,0,W,H);hud();if(recording)composeFrame();syncEnvironmentUI();drawCount++;
   agentBridge?.reportFrame(performance.now()-cpuStart);
 }
-function frame(now){const dt=Math.min((now-(rafLast||now))/1000,.05);rafLast=now;if(!state.paused){update(dt*simulationSpeed);draw();recordRenderedFrame(performance.now());}else lastRenderedAt=0;updatePerformanceHud(performance.now());if(!offlineRender)requestAnimationFrame(frame);}
+function frame(now){const dt=Math.min((now-(rafLast||now))/1000,.05);rafLast=now;if(agentCaptureActive){if(!offlineRender)requestAnimationFrame(frame);return;}if(!state.paused){update(dt*simulationSpeed);draw();recordRenderedFrame(performance.now());}else lastRenderedAt=0;updatePerformanceHud(performance.now());if(!offlineRender)requestAnimationFrame(frame);}
 let hintTimer;
 function toast(message){const el=document.querySelector('#hint');el.textContent=message;el.classList.add('show');clearTimeout(hintTimer);hintTimer=setTimeout(()=>el.classList.remove('show'),5000);}
 function syncButtons(){document.querySelector('#auto').setAttribute('aria-pressed',state.auto);document.querySelector('#pause').setAttribute('aria-pressed',state.paused);document.querySelector('#pause').textContent=state.paused?'Продолжить':'Пауза';document.querySelector('#cockpit').setAttribute('aria-pressed',showCockpit);document.querySelector('#cockpit').disabled=viewMode==='external';document.querySelector('#view').setAttribute('aria-pressed',viewMode==='external');document.querySelector('#orbit').hidden=viewMode!=='external';document.querySelector('#orbit').setAttribute('aria-pressed',orbit.auto);}
@@ -431,21 +432,27 @@ function agentImage(pixels,width,height,mimeType='image/png',quality=.72){
   return {mimeType,width,height,dataUrl:agentCanvas.toDataURL(mimeType,quality),meanLuminance:Math.round(mean*100)/100,luminanceStdDev:Math.round(standardDeviation*100)/100};
 }
 async function captureAgentObservation(observer,{width=512,height=288,quality=.72,sensors}={},objectIdFor){
+  if(agentCaptureActive)throw new Error('Agent capture is already running');
   const captureWidth=clamp(Math.round(width),64,1280),captureHeight=clamp(Math.round(height),64,720);
   const requested=new Set(Array.isArray(sensors)&&sensors.length?sensors:['rgb']);requested.add('rgb');
   observer.aspect=captureWidth/captureHeight;observer.updateProjectionMatrix();observer.updateMatrixWorld(true);
   const cockpitVisible=cockpit.visible,aircraftVisible=aircraft.visible;
   cockpit.visible=false;aircraft.visible=true;
   const previousTarget=renderer.getRenderTarget(),previousOverride=scene.overrideMaterial,previousBackground=scene.background,previousToneMapping=renderer.toneMapping;
+  const trialVisualVisible=matrixCityTrial?.visual.visible,trialSplatVisible=matrixCityTrial?.splat?.visible;
   const target=new THREE.RenderTarget(captureWidth,captureHeight,{depthBuffer:true,stencilBuffer:false});
   target.texture.colorSpace=THREE.SRGBColorSpace;
   const dataTarget=new THREE.RenderTarget(captureWidth,captureHeight,{depthBuffer:true,stencilBuffer:false});dataTarget.texture.colorSpace=THREE.NoColorSpace;
   let captureTarget=target;
   const renderPixels=async()=>{renderer.setRenderTarget(captureTarget);renderer.render(scene,observer);return renderer.readRenderTargetPixelsAsync(captureTarget,0,0,captureWidth,captureHeight);};
   const result={passes:{},near:observer.near,far:observer.far};let savedObjects=[],idMaterials=[];
+  agentCaptureActive=true;
   try{
     captureTarget=target;scene.overrideMaterial=null;scene.background=previousBackground;renderer.toneMapping=previousToneMapping;
     const rgb=agentImage(await renderPixels(),captureWidth,captureHeight,'image/jpeg',clamp(Number(quality)||.72,.35,.92));Object.assign(result,rgb);result.passes.rgb=rgb;
+    // Geometry remains the authoritative source for structural sensors while
+    // the Gaussian appearance is visible in the regular RGB frame.
+    if(matrixCityMode==='gaussian'&&matrixCityTrial){matrixCityTrial.visual.visible=true;matrixCityTrial.splat.visible=false;}
     if(requested.has('depth')){
       captureTarget=dataTarget;scene.background=null;renderer.toneMapping=THREE.NoToneMapping;
       scene.overrideMaterial=new THREE.MeshBasicNodeMaterial();scene.overrideMaterial.fragmentNode=vec4(vec3(positionView.length().div(observer.far).saturate()),1);scene.overrideMaterial.toneMapped=false;scene.overrideMaterial.fog=false;
@@ -466,7 +473,10 @@ async function captureAgentObservation(observer,{width=512,height=288,quality=.7
     }
   }finally{
     for(const [object,material,visible] of savedObjects){object.material=material;object.visible=visible;}for(const material of idMaterials)material.dispose();
-    scene.overrideMaterial=previousOverride;scene.background=previousBackground;renderer.toneMapping=previousToneMapping;renderer.setRenderTarget(previousTarget);target.dispose();dataTarget.dispose();cockpit.visible=cockpitVisible;aircraft.visible=aircraftVisible;draw();
+    scene.overrideMaterial=previousOverride;scene.background=previousBackground;renderer.toneMapping=previousToneMapping;renderer.setRenderTarget(previousTarget);target.dispose();dataTarget.dispose();cockpit.visible=cockpitVisible;aircraft.visible=aircraftVisible;
+    if(matrixCityTrial){matrixCityTrial.visual.visible=trialVisualVisible;if(matrixCityTrial.splat)matrixCityTrial.splat.visible=trialSplatVisible;}
+    agentCaptureActive=false;
+    draw();
   }
   return result;
 }

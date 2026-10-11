@@ -22,8 +22,8 @@ async function main() {
     browser = await chromium.launch({ channel: 'chrome', headless: true, args: ['--force-high-performance-gpu', '--use-webgpu-power-preference=high-performance'] });
     const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
     const errors = [];
-    page.on('pageerror', error => errors.push(error.message));
-    page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+    page.on('pageerror', error => errors.push(error.stack || error.message));
+    page.on('console', message => { if (message.type() === 'error') errors.push(`${message.text()} at ${JSON.stringify(message.location())}`); });
     await page.goto(origin + '/webgpu/index.html?test=1&matrixcity=1');
     await page.waitForFunction(() => window.flightReady && window.flight.matrixCityTrial?.splat, null, { timeout: 120000 });
     const result = await page.evaluate(async () => {
@@ -48,6 +48,27 @@ async function main() {
       const beforeDraws = flight.getState().drawCount;
       await new Promise(resolve => setTimeout(resolve, 1500));
       const gaussian = { mode: flight.getState().matrixCityMode, splatVisible: splat.visible, geometryVisible: visual.visible, drawnFrames: flight.getState().drawCount - beforeDraws };
+      let geometrySensorPasses = 0;
+      const previousBeforeRender = visual.onBeforeRender;
+      visual.onBeforeRender = () => { geometrySensorPasses++; };
+      flight.agent.setObserver({ position: [-2090, 115, -1930], target: [-2090, 42, -2109], fov: 58 });
+      const observation = await flight.agent.observe({ visual: true, sensors: ['rgb', 'depth', 'normal', 'objectId'], width: 128, height: 72 });
+      visual.onBeforeRender = previousBeforeRender;
+      const centerId = await new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => {
+          const canvas = document.createElement('canvas');canvas.width = image.width;canvas.height = image.height;
+          const context = canvas.getContext('2d');context.drawImage(image, 0, 0);
+          const pixel = context.getImageData(64, 36, 1, 1).data;
+          resolve(pixel[0] + (pixel[1] << 8) + (pixel[2] << 16));
+        };
+        image.onerror = reject;image.src = observation.visual.passes.objectId.dataUrl;
+      });
+      const centerHits = flight.agent.raycast({ ndc: [0, 0], limit: 4 }).map(hit => ({ id: hit.object.id, stableId: hit.object.stableId, name: hit.object.name }));
+      const identified = flight.agent.identifyPixel({ x: 64, y: 36, width: 128, height: 72 });
+      gaussian.sensors = { passes: Object.keys(observation.visual.passes), geometrySensorPasses,
+        geometryRestored: !visual.visible && splat.visible, rgbBytes: observation.visual.passes.rgb.dataUrl.length,
+        centerId, centerHits, identifiedId: identified.hit?.object.id ?? null };
       flight.setMatrixCityMode('original');
       const restored = { mode: flight.getState().matrixCityMode, cityVisible: infrastructure.group.visible, blockVisible: infrastructure.getBlockVisibility(12), trialVisible: visual.parent.visible };
       return { loaded, active, gaussian, restored, collisionFound: found === collision, catalog: catalog.map(item => item.stableId), colliderHits };
@@ -64,6 +85,10 @@ async function main() {
     assert.equal(result.gaussian.splatVisible, true);
     assert.equal(result.gaussian.geometryVisible, false);
     assert.ok(result.gaussian.drawnFrames > 0);
+    assert.deepEqual(result.gaussian.sensors.passes, ['rgb', 'depth', 'normal', 'objectId']);
+    assert.ok(result.gaussian.sensors.geometrySensorPasses >= 3);
+    assert.equal(result.gaussian.sensors.geometryRestored, true);
+    assert.equal(result.gaussian.sensors.identifiedId, result.gaussian.sensors.centerId);
     assert.equal(result.restored.mode, 'original');
     assert.equal(result.restored.cityVisible, true);
     assert.equal(result.restored.blockVisible, true);
@@ -71,6 +96,7 @@ async function main() {
     assert.equal(result.collisionFound, true);
     assert.ok(result.catalog.includes('matrixcity-building-001'));
     assert.ok(result.colliderHits > 0);
+    if(errors.length)console.error(errors.join('\n'));
     assert.deepEqual(errors, []);
     console.log(JSON.stringify(result, null, 2));
   } finally {

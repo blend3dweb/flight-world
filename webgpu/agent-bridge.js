@@ -301,7 +301,7 @@ export function createAgentBridge({
     return { following: false, target };
   }
 
-  function raycast({ ndc = [0, 0], origin, direction, limit = 8 } = {}) {
+  function raycast({ ndc = [0, 0], origin, direction, limit = 8, includeCollisionProxies = true } = {}) {
     const raycaster = new THREE.Raycaster();
     if (origin || direction) {
       const start = new THREE.Vector3().fromArray(finiteVector(origin, 'origin'));
@@ -313,7 +313,9 @@ export function createAgentBridge({
       raycaster.setFromCamera(new THREE.Vector2(ndc[0], ndc[1]), observer);
     }
     const maximum = THREE.MathUtils.clamp(Math.floor(Number(limit) || 8), 1, 32);
-    return raycaster.intersectObjects(scene.children, true).slice(0, maximum).map(hit => ({
+    return raycaster.intersectObjects(scene.children, true)
+      .filter(hit => !hit.object.isGaussianSplat && (includeCollisionProxies || hit.object.userData?.agent?.role !== 'collision-proxy'))
+      .slice(0, maximum).map(hit => ({
       distance: round(hit.distance),
       point: vector(hit.point),
       instanceId: hit.instanceId,
@@ -324,7 +326,7 @@ export function createAgentBridge({
   function identifyPixel({ x, y, width, height } = {}) {
     if (![x, y, width, height].every(Number.isFinite) || width <= 0 || height <= 0) throw new TypeError('Pixel identification requires x, y, width and height');
     const ndc = [x / width * 2 - 1, 1 - y / height * 2];
-    const hit = raycast({ ndc, limit: 1 })[0] ?? null;
+    const hit = raycast({ ndc, limit: 1, includeCollisionProxies: false })[0] ?? null;
     return { pixel: [x, y], viewport: [width, height], ndc: ndc.map(value => round(value)), hit };
   }
 

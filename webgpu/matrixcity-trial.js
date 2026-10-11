@@ -32,7 +32,7 @@ export async function createMatrixCityTrial() {
 
   const visual = new THREE.Mesh(surface, new THREE.MeshStandardMaterial({ color: '#b8bfc2', roughness: .9, side: THREE.DoubleSide }));
   visual.name = 'MatrixCity depth-derived visible surfaces';
-  visual.userData.agent = { semantic: 'building', module: 'matrixcity-trial.js', source: 'MatrixCity aerial block_3' };
+  visual.userData.agent = { semantic: 'building', module: 'matrixcity-trial.js', stableId: 'matrixcity-sector-surface', source: 'MatrixCity aerial block_3' };
   visual.receiveShadow = true;
   group.add(visual);
 
